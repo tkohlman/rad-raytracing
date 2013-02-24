@@ -47,10 +47,9 @@ int lflag = 0;      /* specify lmax value for tone reproduction */
 int oflag = 0;      /* specify output file */
 int sflag = 0;      /* scecify a sence.obj file to render */
 
-int lmax =  0;
+int lmax = 0;
 int algo = 0;
-
-#define DEPTH 3
+int depth = 1;
 
 void display( void ) {
 
@@ -121,7 +120,7 @@ void display( void ) {
     Point camera = CAMERA_POSITION;
 
     // Create the raytracer
-    Raytracer raytracer(DEPTH, BACKGROUND_COLOR, shader, shapes);
+    Raytracer raytracer(depth, BACKGROUND_COLOR, shader, shapes);
 
     // Create the pixels array.
     vector< vector<Color*>* > *pixels =
@@ -206,7 +205,7 @@ int main( int argc, char** argv )
 
         case 'b':
             ++bflag;
-            cout << "Warning: b flag not yet implemented" << endl;
+            depth = atoi(optarg);
             break;
 
 		case 'f':
