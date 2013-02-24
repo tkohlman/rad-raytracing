@@ -25,8 +25,8 @@
 using namespace Raytracer_n;
 #include "scene.h"
 
-
 #include <vector>
+#include <unistd.h>
 using namespace std;
 
 #define WINDOW_TITLE "Ray Tracer - Checkpoint 7"
@@ -39,6 +39,13 @@ using namespace std;
 
 #define LMAX    1000
 #define LDMAX   100
+
+int aflag = 0;      /* specify tone reproduction algorithm */
+int bflag = 0;      /* specify the number of bounces */
+int fflag = 0;      /* specify output file format */
+int lflag = 0;      /* specify lmax value for tone reproduction */
+int oflag = 0;      /* specify output file */
+int sflag = 0;      /* scecify a sence.obj file to render */
 
 int lmax =  0;
 int algo = 0;
@@ -139,9 +146,12 @@ void display( void ) {
         }
     }
 
-    // Tone Reproduction Steps
-    ToneReproducer tr(lmax, LDMAX, scene.getHeight(), scene.getWidth());
-    tr.Run(pixels, algo);
+    if (aflag && lflag)
+    {
+        // Tone Reproduction Steps
+        ToneReproducer tr(lmax, LDMAX, scene.getHeight(), scene.getWidth());
+        tr.Run(pixels, algo);
+    }
 
     // Iterate over the pixels and render them.
     for (int j = dy/2; j < scene.getHeight(); ++j) {
@@ -165,30 +175,67 @@ void display( void ) {
     glutSwapBuffers();
 }
 
-///
-/// @name main
-///
-/// @description
-/// 	Checkpoint 2 main program.
-///
-/// @param argc - number of command line arguments
-/// @param argv - array of command line arguments
-/// @return - program exit status
-///
-int main( int argc, char** argv ) {
+void usage()
+{
+    cout << "Usage: raytrace "      << endl;
+    cout << "\t-a <0 (Ward) | 1 (Reinhard)>" << endl;
+    cout << "\t-f <format: PNG>"    << endl;
+    cout << "\t-l <lmax>"           << endl;
+    cout << "\t-o <output file>"    << endl;
+    cout << "\t-s <scene.obj>"      << endl;
 
-    if (argc != 3) {
-        cout << "Usage: cp7 <Lmax> <0(Ward)| 1(Reinhard)>" << endl;
-        exit(1);
+    exit(1);
+}
+
+int main( int argc, char** argv )
+{
+    int op;
+    opterr = 0;
+	while ((op = getopt(argc, argv, "a:b:f:l:o:s:")) != -1)
+    {
+		switch (op) {
+
+        case 'a':
+            ++aflag;
+            algo = strtof(optarg, NULL);
+            if (algo == 0)
+                algo = WARDS;
+            else
+                algo = REINHARDS;
+            break;
+
+        case 'b':
+            ++bflag;
+            cout << "Warning: b flag not yet implemented" << endl;
+            break;
+
+		case 'f':
+			++fflag;
+			cout << "Warning: f flag not yet implemented" << endl;
+			break;
+
+		case 'l':
+			++lflag;
+			lmax = atoi(optarg);
+			break;
+
+		case 'o':
+			++oflag;
+			cout << "Warning: o flag not yet implemented" << endl;
+			break;
+
+		case 's':
+			++sflag;
+			cout << "Warning: s flag not yet implemented" << endl;
+			break;
+
+		default:
+			usage();
+			/* NOTREACHED */
+		}
     }
 
-    lmax = strtol(argv[1], NULL, 0);
-
-    algo = strtof(argv[2], NULL);
-    if (algo == 0)
-        algo = WARDS;
-    else
-        algo = REINHARDS;
+    // OpenGL Dependency:
 
    	glutInit( &argc, argv );
    	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
