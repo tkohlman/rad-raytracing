@@ -1,6 +1,6 @@
 ///
 /// @file Sphere.cpp
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 28 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Sphere.cpp,v 1.5 2012/01/21 17:39:32 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Sphere.cpp,v $
 ///		Revision 1.5  2012/01/21 17:39:32  thomas
@@ -44,7 +44,7 @@ Sphere::Sphere( Point center, float radius,
                 float specularConstant, float specularExponent,
                 float reflectionValue, float transmissionValue,
                 float refractionIndex ) :
-                
+
     Shape(ambientColor, diffuseColor, specularColor, ambientConstant,
         diffuseConstant, specularConstant, specularExponent,
         reflectionValue, transmissionValue, refractionIndex),
@@ -63,42 +63,42 @@ Point* Sphere::Intersect(Vector v, Point o) {
     // A is v*v
     // B is 2(o-_center) * d
     // C is (o-c)(0-c) * _radius^2
-    
-    float A = v * v;
-    float B = (o - _center) * v * 2.0;
-    float C = (o - _center) * (o - _center) - _radius * _radius;
+
+    float A = dotProduct(v, v);
+    float B = dotProduct(o - _center, v) * 2.0;
+    float C = dotProduct(o - _center, o - _center) - _radius * _radius;
 
     // The quadratic roots are found using:
     // roots = (-B +- sqrt(B^2 - 4*A*C))/ (2*A)
     //
     // Test the discriminant: B^2 - 4*A*C
-    
+
     float discriminant = B * B - 4 * A * C;
-    
+
     if (discriminant < 0) {
         // no real roots (no intersection)
         return NULL;
-        
-    } 
+
+    }
 
     float distance1 = ( -B + sqrt(discriminant) ) / (2 * A);
     float distance2 = ( -B - sqrt(discriminant) ) / (2 * A);
-    
+
     float t;
-    
+
     float epsilon = 0.2;
-    
+
     // Choose the minimum, positive distance
     if ((distance1 > epsilon) && ( (distance1 < distance2) ||
          (distance2 < epsilon) )) {
-    
+
         t = distance1;
 
     } else if ((distance2 > epsilon) && ( (distance2 < distance1) ||
                 (distance1 < epsilon) )) {
-    
+
         t = distance2;
-    
+
     } else {
         return NULL;
     }
@@ -107,9 +107,9 @@ Point* Sphere::Intersect(Vector v, Point o) {
     float x = o.X() + t * v.X();
     float y = o.Y() + t * v.Y();
     float z = o.Z() + t * v.Z();
-    
+
     Point *intersect = new Point(x, y, z);
-    
+
     return intersect;
 }
 
@@ -118,7 +118,7 @@ Point* Sphere::Intersect(Vector v, Point o) {
 //
 Vector Sphere::GetSurfaceNormal(Point surface) {
     Vector rv = surface - _center;
-    rv.Normalize();
+    normalize(rv);
     return rv;
 }
 

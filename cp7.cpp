@@ -135,7 +135,7 @@ void display( void ) {
 
             // Generate the ray
             Vector ray( (dx * i + xc), (dy * j + yc), -1);
-            ray.Normalize();
+            normalize(ray);
 
 
             Color pixel = raytracer.Trace(ray, camera, 0);

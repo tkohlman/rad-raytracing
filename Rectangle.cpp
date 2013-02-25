@@ -1,6 +1,6 @@
 ///
 /// @file Rectangle.cpp
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 27 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Rectangle.cpp,v 1.5 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Rectangle.cpp,v $
 ///		Revision 1.5  2012/01/21 17:39:00  thomas
@@ -40,17 +40,17 @@ Rectangle::Rectangle( Point a, Point b, Point c, Point d,
         float specularConstant, float specularExponent,
         float reflectionValue, float transmissionValue,
         float refractionIndex ) :
-        
+
     Shape(ambientColor, diffuseColor, specularColor, ambientConstant,
         diffuseConstant, specularConstant, specularExponent,
         reflectionValue, transmissionValue, refractionIndex),
         _a(a), _b(b), _c(c), _d(d) {
-    
+
     // calculate the normal vector
     Vector v1 = b - a;
     Vector v2 = d - a;
-    
-    _normal = v2^v1; // cross product
+
+    _normal = crossProduct(v2, v1);
 }
 
 // ~Rectangle
@@ -61,38 +61,40 @@ Rectangle::~Rectangle() {
 Point* Rectangle::Intersect(Vector v, Point o) {
 
     // Check if vector is parallel to plane (no intercept)
-    if (v * _normal == 0) {
+    if (dotProduct(v, _normal) == 0) {
         return NULL;
     }
 
     // Find the distance from the ray origin to the intersect point
-    float distance = ( (_a - o) * _normal ) / (v * _normal);
-    
+    float distance = dotProduct(_a - o, _normal) / dotProduct(v, _normal);
+
     if (distance < 0) {
         return NULL;
     }
-    
+
     // From the distance, calculate the intersect point
     float x = o.X() + distance * v.X();
     float y = o.Y() + distance * v.Y();
     float z = o.Z() + distance * v.Z();
 
     Point *intersect = new Point(x, y, z);
-  
+
     // Test to see if the point is inside the rectangle
     Vector CI = *intersect - _c;
     Vector CB = _b - _c;
     Vector CD = _d - _c;
-      
+
     if (intersect->distance(o) < 0.1) {
         delete intersect;
         return NULL;
-        
-    } else if ( (0 <= (CI * CB)) && ((CI * CB) < (CB * CB)) &&
-         (0 <= (CI * CD)) && ((CI * CD) < (CD * CD))) {
-        
+
+    } else if ( (0 <= dotProduct(CI, CB)) &&
+                (dotProduct(CI, CB) < dotProduct(CB, CB)) &&
+                (0 <= dotProduct(CI, CD)) &&
+                (dotProduct(CI, CD) < dotProduct(CD, CD))) {
+
         return intersect;
-        
+
     } else {
         // does not intersect plane within the rectangle
         delete intersect;
@@ -112,35 +114,35 @@ Vector Rectangle::GetSurfaceNormal(Point surface) {
 //
 Color Rectangle::GetAmbientColor(Point p) {
         return GetDiffuseColor(p);
-    /*    
+    /*
     // Implement a procedural shade of the floor.
-    
+
     float width = _a.distance(_d);
     float height = _a.distance(_b);
-    
+
     Vector AP = p - _a;
     Vector AD = _d - _a;
     Vector AB = _b - _a;
-    
+
     float AdistanceP = AP.Length();
     AP.Normalize();
     AD.Normalize();
     AB.Normalize();
-    
+
     float u = AdistanceP * (AP * AD);
     float v = AdistanceP * (AP * AB);
-    
+
     int U = int(u / 2);
     int V = int(v / 2);
-    
+
     //cout << "u: " << u << endl;
     //cout << "v: " << v << endl;
     //cout << "U: " << U << endl;
     //cout << "V: " << V << endl;
-    
+
     bool oddU = U & 0x01;
     bool oddV = V & 0x01;
-    
+
     //cout << "oddU: " << oddU << endl;
     //cout << "oddV: " << oddV << endl;
 
@@ -151,13 +153,13 @@ Color Rectangle::GetAmbientColor(Point p) {
         return Color(1,1,0);
     }
     */
-    
+
     /*
     Color rv(0,0,0);
-    
+
     float width = _a.distance(_d);
     float height = _a.distance(_b);
-    
+
     Vector AC = _c - _a;
     float length = AC.Length()/2;
     AC.Normalize();
@@ -172,7 +174,7 @@ Color Rectangle::GetAmbientColor(Point p) {
     int V = int(v/2);
     int W = int(v/2);
     int Z = int(z/2);
-    
+
     bool oddU = U & 0x01;
     bool oddV = V & 0x01;
     bool oddW = W & 0x01;
@@ -183,13 +185,13 @@ Color Rectangle::GetAmbientColor(Point p) {
     } else {
         rv += Color(0,0,0.1);
     }
-    
+
     if ((oddZ && !oddW) || (oddZ && oddW)) {
         rv += Color(0,0.1,0);
     } else {
         rv += Color(0,0.1,0.1);
     }
-  
+
     return rv;
     //*/
 }
@@ -200,33 +202,33 @@ Color Rectangle::GetAmbientColor(Point p) {
 Color Rectangle::GetDiffuseColor(Point p) {
     ///*
     // Implement a procedural shade of the floor.
-    
+
     float width = _a.distance(_d);
     float height = _a.distance(_b);
-    
+
     Vector AP = p - _a;
     Vector AD = _d - _a;
     Vector AB = _b - _a;
-    
-    float AdistanceP = AP.Length();
-    AP.Normalize();
-    AD.Normalize();
-    AB.Normalize();
-    
-    float u = AdistanceP * (AP * AD);
-    float v = AdistanceP * (AP * AB);
+
+    float AdistanceP = length(AP);
+    AP = normalize(AP);
+    AD = normalize(AD);
+    AB = normalize(AB);
+
+    float u = AdistanceP * dotProduct(AP, AD);
+    float v = AdistanceP * dotProduct(AP, AB);
 
     int U = int(u / 3);
     int V = int(v / 3);
-    
+
     //cout << "u: " << u << endl;
     //cout << "v: " << v << endl;
     //cout << "U: " << U << endl;
     //cout << "V: " << V << endl;
-    
+
     bool oddU = U & 0x01;
     bool oddV = V & 0x01;
-    
+
     //cout << "oddU: " << oddU << endl;
     //cout << "oddV: " << oddV << endl;
 
@@ -240,12 +242,12 @@ Color Rectangle::GetDiffuseColor(Point p) {
 /*
 
     // Implement a circular tesselation
-  
+
     Color rv(0,0,0);
-    
+
     float width = _a.distance(_d);
     float height = _a.distance(_b);
-    
+
     Vector AC = _c - _a;
     float length = AC.Length()/2;
     AC.Normalize();
@@ -260,7 +262,7 @@ Color Rectangle::GetDiffuseColor(Point p) {
     int V = int(v/2);
     int W = int(v/2);
     int Z = int(z/2);
-    
+
     bool oddU = U & 0x01;
     bool oddV = V & 0x01;
     bool oddW = W & 0x01;
@@ -271,13 +273,13 @@ Color Rectangle::GetDiffuseColor(Point p) {
     } else {
         rv += Color(0,0,0.5);
     }
-    
+
     if ((oddZ && !oddW) || (oddZ && oddW)) {
         rv += Color(0,0.5,0);
     } else {
         rv += Color(0,0.5,0.5);
     }
-    
+
     return rv;
     //*/
 }
