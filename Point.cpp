@@ -1,6 +1,6 @@
 ///
 /// @file Point.cpp
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 27 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Point.cpp,v 1.4 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Point.cpp,v $
 ///		Revision 1.4  2012/01/21 17:39:00  thomas
@@ -31,18 +31,13 @@
 using namespace Raytracer_n;
 
 // Point
-Point::Point(float x, float y, float z, Color c) :
-    _x(x), _y(y), _z(z), _color(c) {
-}
-
-// Point
 Point::Point(float x, float y, float z) :
     _x(x), _y(y), _z(z) {
 }
 
 // Point
 Point::Point(const Point& other) :
-    _x(other._x), _y(other._y), _z(other._z), _color(other._color) {
+    _x(other._x), _y(other._y), _z(other._z) {
 }
 
 // Constructor
@@ -57,8 +52,6 @@ Point::Point(const Point& p, const Vector& v, const float& distance) {
         _y = p.Y();
         _z = p.Z();
     }
-    
-    _color = Color(p.GetColor());
 }
 
 // Point
@@ -75,37 +68,13 @@ float Point::X() const {
     return (_x);
 }
 
-// Y  
+// Y
 float Point::Y() const {
     return (_y);
 }
 
-// Z    
+// Z
 float Point::Z() const {
     return (_z);
 }
 
-Color Point::GetColor() const {
-    return (_color);
-}
-
-// operator-
-Vector Point::operator-(const Point& other) {
-    return Vector(_x - other.X(), _y - other.Y(), _z - other.Z());
-}
-
-// operator=
-Point& Point::operator=(const Point& other) {
-    _x = other.X();
-    _y = other.Y();
-    _z = other.Z();    
-        
-    return *this;
-}
-namespace Raytracer_n {
-ostream& operator<<(ostream& os, const Point& point) {
-    os << "(" << point.X() << ", " << point.Y() << ", " << point.Z() << ")";
-    return os;
-}
-
-}

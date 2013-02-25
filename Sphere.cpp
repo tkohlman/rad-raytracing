@@ -64,9 +64,11 @@ Point* Sphere::Intersect(Vector v, Point o) {
     // B is 2(o-_center) * d
     // C is (o-c)(0-c) * _radius^2
 
+    Vector origin_center = displacementVector(o, _center);
+
     float A = dotProduct(v, v);
-    float B = dotProduct(o - _center, v) * 2.0;
-    float C = dotProduct(o - _center, o - _center) - _radius * _radius;
+    float B = dotProduct(origin_center, v) * 2.0;
+    float C = dotProduct(origin_center, origin_center) - _radius * _radius;
 
     // The quadratic roots are found using:
     // roots = (-B +- sqrt(B^2 - 4*A*C))/ (2*A)
@@ -117,7 +119,7 @@ Point* Sphere::Intersect(Vector v, Point o) {
 // GetSurfaceNormal
 //
 Vector Sphere::GetSurfaceNormal(Point surface) {
-    Vector rv = surface - _center;
+    Vector rv = displacementVector(surface, _center);
     normalize(rv);
     return rv;
 }

@@ -51,7 +51,8 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
     for (; light != mLights.end(); ++light) {
 
         // Generate the shadow ray
-        Vector shadow_ray = normalize(light->GetPosition() - intersection);
+        Vector shadow_ray = displacementVector(light->GetPosition(), intersection);
+        shadow_ray = normalize(shadow_ray);
 
         // Determine if there is direct line of sight to the intersect point
         vector<Shape*>::iterator shape = mShapes.begin();
@@ -69,8 +70,9 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
 
             // If this point is closer than the closest known point,
             // there is no line of sight.
-            if ((p != NULL) && (p->distance(light->GetPosition()) <
-                intersection.distance(light->GetPosition()))) {
+            if ((p != NULL) &&
+                (distanceBetween(*p, light->GetPosition()) <
+                 distanceBetween(intersection, light->GetPosition()))) {
 
                 if ((*shape)->GetTransmissiveConstant() > 0) {
                     continue;
@@ -101,7 +103,7 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
 
                 Vector R = vectorSubtract(shadow_ray, scalarMultiply(N, 2 * shadow_dot_normal));
                 normalize(R);
-                Vector V = normalize(camera - intersection);
+                Vector V = normalize(displacementVector(camera, intersection));
 
                 // Compute dot product between reflection ray and viewing ray.
                 // Clamp to zero if the angle is more than 90 degrees.

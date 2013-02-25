@@ -1,6 +1,6 @@
 ///
 /// @file Point.h
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 23 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Point.h,v 1.4 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Point.h,v $
 ///		Revision 1.4  2012/01/21 17:39:00  thomas
@@ -37,29 +37,45 @@ namespace Raytracer_n {
 
 class Point {
 
-    friend ostream& operator<<(ostream& os, const Point& point);
+    friend ostream& operator<<(ostream &os, const Point &point)
+    {
+        os << "(" << point._x << ", " << point._y << ", " << point._z << ")";
+        return os;
+    }
+
+    friend inline float distanceBetween( const Point &p1, const Point &p2 )
+    {
+        float dx = p1._x - p2._x;
+        float dy = p1._y - p2._y;
+        float dz = p1._z - p2._z;
+
+        return sqrt((dx*dx) + (dy*dy) + (dz*dz));
+    }
+
+    friend inline Vector displacementVector( const Point &p1, const Point &p2 )
+    {
+        return Vector(p1._x - p2._x, p1._y - p2._y, p1._z - p2._z);
+    }
+
 
 public:
 
     ///
     /// @name Point
-    /// 
+    ///
     /// @description
     /// 	Constructor
     ///
     /// @param x - x-axis component of constructed point
     /// @param y - y-axis component of constructed point
     /// @param z - z-axis component of constructed point
-    /// @param c - the color of the point
     /// @return - void
     ///
-    Point(float x, float y, float z, Color c);
-    
     Point(float x, float y, float z);
 
     ///
     /// @name Point
-    /// 
+    ///
     /// @description
     /// 	Constructor
     ///
@@ -72,7 +88,7 @@ public:
 
     ///
     /// @name Point
-    /// 
+    ///
     /// @description
     /// 	Copy Constructor
     ///
@@ -80,10 +96,10 @@ public:
     /// @return - void
     ///
     Point(const Point& other);
-    
+
     ///
     /// @name Point
-    /// 
+    ///
     /// @description
     /// 	Default Constructor
     ///
@@ -93,7 +109,7 @@ public:
 
     ///
     /// @name ~Point
-    /// 
+    ///
     /// @description
     /// 	Destructor
     ///
@@ -103,76 +119,33 @@ public:
 
     ///
     /// @name X
-    /// 
+    ///
     /// @description
     /// 	Accessor for _x member variable.
     ///
     /// @return - x-axis component of this point
-    ///    
+    ///
     float X() const;
 
     ///
     /// @name Y
-    /// 
+    ///
     /// @description
     /// 	Accessor for _y member variable.
     ///
     /// @return - y-axis component of this point
-    ///    
+    ///
     float Y() const;
 
     ///
     /// @name Z
-    /// 
+    ///
     /// @description
     /// 	Accessor for _z member variable.
     ///
     /// @return - z-axis component of this point
-    ///    
+    ///
     float Z() const;
-    
-    ///
-    /// @name GetColor
-    ///
-    /// @description
-    ///     Accessor for the _color member variable.
-    ///
-    /// @return - the color of this point
-    ///
-    Color GetColor() const;
-    
-    ///
-    /// @name operator-
-    /// 
-    /// @description
-    /// 	Calculates a vector defined by two endpoints.
-    ///
-    /// @param other - the second point
-    /// @return - 
-    ///
-    Vector operator-(const Point& other);
-    
-    ///
-    /// @name operator=
-    /// 
-    /// @description
-    /// 	Equals assignment operator.
-    ///
-    /// @param other - the second point
-    /// @return - address of this argument
-    ///
-    Point& operator=(const Point& other);
-    
-    ///
-    /// @name distance
-    ///
-    /// @description
-    ///     Calculates distance between two points.
-    ///
-    /// @param other - second point in distance calculation
-    /// @return - the distance between this point and the other point
-    ///
-    inline float distance(const Point& other) const;
 
 private:
 
@@ -183,46 +156,26 @@ private:
     ///		The x-axis component of this point.
     ///
     float _x;
-    
+
     ///
     /// @name _y
     ///
     /// @description
     ///		The y-axis component of this point.
-    ///    
+    ///
     float _y;
-    
+
     ///
     /// @name _z
     ///
     /// @description
     ///		The z-axis component of this point.
-    ///    
+    ///
     float _z;
-    
-    ///
-    /// @name _color
-    ///
-    /// @description
-    ///     The color of this point.
-    ///
-    Color _color;
-
 
 };  // class Point
 
-//
-// distance
-//
-inline float Point::distance(const Point& other) const {
 
-    float dx = _x - other.X();
-    float dy = _y - other.Y();
-    float dz = _z - other.Z();
-    
-    return sqrt((dx*dx) + (dy*dy) + (dz*dz));
-
-}
 
 }   // namespace Raytracer_n
 

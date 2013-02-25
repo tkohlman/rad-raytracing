@@ -63,7 +63,8 @@ Color Raytracer::Trace(Vector ray, Point origin, int depth) {
                 closest = p;
                 s = *iter;
 
-            } else if (origin.distance(*p) < origin.distance(*closest)) {
+            } else if (distanceBetween(origin, *p) <
+                       distanceBetween(origin, *closest)) {
 
                 // p is closer
                 closest = p;

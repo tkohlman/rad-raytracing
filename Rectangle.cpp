@@ -47,8 +47,8 @@ Rectangle::Rectangle( Point a, Point b, Point c, Point d,
         _a(a), _b(b), _c(c), _d(d) {
 
     // calculate the normal vector
-    Vector v1 = b - a;
-    Vector v2 = d - a;
+    Vector v1 = displacementVector(b, a);
+    Vector v2 = displacementVector(d, a);
 
     _normal = crossProduct(v2, v1);
 }
@@ -66,7 +66,8 @@ Point* Rectangle::Intersect(Vector v, Point o) {
     }
 
     // Find the distance from the ray origin to the intersect point
-    float distance = dotProduct(_a - o, _normal) / dotProduct(v, _normal);
+    float distance = dotProduct(displacementVector(_a, o), _normal) /
+                     dotProduct(v, _normal);
 
     if (distance < 0) {
         return NULL;
@@ -80,11 +81,11 @@ Point* Rectangle::Intersect(Vector v, Point o) {
     Point *intersect = new Point(x, y, z);
 
     // Test to see if the point is inside the rectangle
-    Vector CI = *intersect - _c;
-    Vector CB = _b - _c;
-    Vector CD = _d - _c;
+    Vector CI = displacementVector(*intersect, _c);
+    Vector CB = displacementVector(_b, _c);
+    Vector CD = displacementVector(_d, _c);
 
-    if (intersect->distance(o) < 0.1) {
+    if (distanceBetween(*intersect, o) < 0.1) {
         delete intersect;
         return NULL;
 
@@ -203,9 +204,9 @@ Color Rectangle::GetDiffuseColor(Point p) {
     ///*
     // Implement a procedural shade of the floor.
 
-    Vector AP = p - _a;
-    Vector AD = _d - _a;
-    Vector AB = _b - _a;
+    Vector AP = displacementVector(p, _a);
+    Vector AD = displacementVector(_d, _a);
+    Vector AB = displacementVector(_b, _a);
 
     float AdistanceP = length(AP);
     AP = normalize(AP);
