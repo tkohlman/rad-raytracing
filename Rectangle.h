@@ -1,6 +1,6 @@
 ///
 /// @file Rectangle.h
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 27 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Rectangle.h,v 1.4 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Rectangle.h,v $
 ///		Revision 1.4  2012/01/21 17:39:00  thomas
@@ -40,10 +40,10 @@ namespace Raytracer_n {
 class Rectangle : public Shape {
 
 public:
-    
+
     ///
     /// @name Rectangle
-    /// 
+    ///
     /// @description
     /// 	Constructor
     ///
@@ -71,15 +71,15 @@ public:
 
     ///
     /// @name ~Rectangle
-    /// 
+    ///
     /// @description
     /// 	Destructor
     ///
     ~Rectangle( void );
-    
+
     ///
     /// @name Intersect
-    /// 
+    ///
     /// @description
     /// 	Determines if a ray intersects the rectangle.
     ///
@@ -92,9 +92,9 @@ public:
 
     ///
     /// @name GetSurfaceNormal
-    /// 
+    ///
     /// @description
-    /// 	Calculates the surface normal for a point on the 
+    /// 	Calculates the surface normal for a point on the
     ///     rectangle's surface.
     ///
     /// @param surface - a point on the rectangle's surface
@@ -102,38 +102,10 @@ public:
     ///
     Vector GetSurfaceNormal(Point surface);
 
-    ///
-    /// @name GetAmbientColor();
-    /// 
-    /// @description
-    /// 	Accessor for ambient light component of this object.
-    ///
-    /// @param - point on surface for color calculation
-    /// @return - the ambient light component of this object
-    ///
-    virtual Color GetAmbientColor(Point p);
-   
-    ///
-    /// @name GetDiffuseColor
-    /// 
-    /// @description
-    /// 	Accessor for diffuse light component of this object.
-    ///
-    /// @param - point on surface for color calculation
-    /// @return - the diffuse light component of this object
-    /// 
-    virtual Color GetDiffuseColor(Point p);
-   
-    ///
-    /// @name GetSpecularColor
-    /// 
-    /// @description
-    /// 	Accessor for specular light component of this object.
-    ///
-    /// @param - point on surface for color calculation
-    /// @return - the specular light component of this object
-    /// 
-    virtual Color GetSpecularColor(Point p);
+    const Point &getA() const;
+    const Point &getB() const;
+    const Point &getC() const;
+    const Point &getD() const;
 
 private:
 
@@ -144,8 +116,8 @@ private:
     ///		The first point of the rectangle.
     ///
     Point _a;
-    
-    
+
+
     ///
     /// @name _b
     ///
@@ -153,7 +125,7 @@ private:
     ///		The second point of the rectangle.
     ///
     Point _b;
-    
+
     ///
     /// @name _c
     ///
@@ -161,7 +133,7 @@ private:
     ///		The third point of the rectangle.
     ///
     Point _c;
-    
+
     ///
     /// @name _d
     ///
@@ -169,7 +141,7 @@ private:
     ///		The fourth point of the rectangle.
     ///
     Point _d;
-    
+
     ///
     /// @name _normal
     ///
@@ -178,31 +150,28 @@ private:
     ///
     Vector _normal;
 
-    ///
-    /// @name mKa
-    ///
-    /// @description
-    ///		Ambient light component for this object.
-    ///
-    Color mKa;
-    
-    ///
-    /// @name mKd
-    ///
-    /// @description
-    ///		Diffuse light component for this object.
-    ///
-    Color mKd;
-    
-    ///
-    /// @name mKs
-    ///
-    /// @description
-    ///		Specular light component for this object.
-    ///
-    Color mKs;
-
 };  // class Rectangle
+
+
+inline const Point &Rectangle::getA() const
+{
+    return _a;
+}
+
+inline const Point &Rectangle::getB() const
+{
+    return _b;
+}
+
+inline const Point &Rectangle::getC() const
+{
+    return _c;
+}
+
+inline const Point &Rectangle::getD() const
+{
+    return _d;
+}
 
 }   // namespace Raytracer_n
 

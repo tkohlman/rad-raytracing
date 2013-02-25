@@ -69,14 +69,14 @@ CCLIBFLAGS = $(LIBFLAGS)
 ########## End of flags from header.mak
 
 
-CPP_FILES =	Color.cpp Light.cpp PhongShader.cpp Point.cpp Raytracer.cpp Rectangle.cpp Shape.cpp Sphere.cpp ToneReproducer.cpp Vector.cpp World.cpp cp7.cpp
+CPP_FILES =	checkedshader.cpp Color.cpp Light.cpp PhongShader.cpp Point.cpp Raytracer.cpp Rectangle.cpp Shape.cpp Sphere.cpp ToneReproducer.cpp Vector.cpp World.cpp cp7.cpp
 C_FILES =	
 PS_FILES =	
 S_FILES =	
-H_FILES =	Color.h Light.h PhongShader.h Point.h Raytracer.h Rectangle.h Scene.h Shape.h Sphere.h ToneReproducer.h Vector.h World.h
+H_FILES =	checkedshader.h Color.h Light.h PhongShader.h Point.h Raytracer.h Rectangle.h Scene.h Shape.h Sphere.h ToneReproducer.h Vector.h World.h
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	Color.o Light.o PhongShader.o Point.o Raytracer.o Rectangle.o Shape.o Sphere.o ToneReproducer.o Vector.o World.o scene.o
+OBJFILES =	checkedshader.o Color.o Light.o PhongShader.o Point.o Raytracer.o Rectangle.o Shape.o Sphere.o ToneReproducer.o Vector.o World.o scene.o
 
 #
 # Main targets
@@ -91,6 +91,8 @@ cp7:	cp7.o $(OBJFILES)
 # Dependencies
 #
 
+checkedshader.o: checkedshader.h proceduralshader.h
+proceduralshader.o:	Color.h Point.h
 scene.o:	scene.h
 Color.o:	Color.h
 Light.o:	Color.h Light.h Point.h Vector.h
@@ -98,12 +100,12 @@ PhongShader.o:	Color.h Light.h PhongShader.h Point.h Shape.h Vector.h World.h
 Point.o:	Color.h Point.h Vector.h
 Raytracer.o:	Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h World.h
 Rectangle.o:	Color.h Point.h Rectangle.h Shape.h Vector.h
-Shape.o:	Color.h Point.h Shape.h Vector.h
+Shape.o:	Color.h Point.h Shape.h Vector.h checkedshader.h
 Sphere.o:	Color.h Point.h Shape.h Sphere.h Vector.h
 ToneReproducer.o:	Color.h ToneReproducer.h
 Vector.o:	Vector.h
 World.o:	Color.h World.h
-cp7.o:	Color.h Light.h PhongShader.h Point.h Raytracer.h Rectangle.h Scene.h scene.h Shape.h Sphere.h ToneReproducer.h Vector.h World.h
+cp7.o:	checkedshader.h Color.h Light.h PhongShader.h Point.h Raytracer.h Rectangle.h Scene.h scene.h Shape.h Sphere.h ToneReproducer.h Vector.h World.h
 
 #
 # Housekeeping

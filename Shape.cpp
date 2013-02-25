@@ -1,6 +1,6 @@
 ///
 /// @file Shape.cpp
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 27 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Shape.cpp,v 1.3 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Shape.cpp,v $
 ///		Revision 1.3  2012/01/21 17:39:00  thomas
@@ -35,20 +35,25 @@ Shape::Shape( Color ambientColor, Color diffuseColor, Color specularColor,
               float specularConstant, float specularExponent,
               float reflectionValue, float transmissionValue,
               float refractionIndex ) :
-              
+
     mAmbientColor(ambientColor), mDiffuseColor(diffuseColor),
     mSpecularColor(specularColor), mAmbientConstant(ambientConstant),
     mDiffuseConstant(diffuseConstant), mSpecularConstant(specularConstant),
     mSpecularExponent(specularExponent), mReflectionValue(reflectionValue),
-    mTransmissionValue(transmissionValue), mRefractionIndex(refractionIndex) {
-    
+    mTransmissionValue(transmissionValue), mRefractionIndex(refractionIndex)
+{
+    shader = NULL;
 }
 
 //
 // Destructor
 //
-Shape::~Shape() { }
-
-
+Shape::~Shape()
+{
+    if (shader != NULL)
+    {
+        delete shader;
+    }
+}
 
 

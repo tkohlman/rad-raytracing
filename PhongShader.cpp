@@ -86,7 +86,7 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
         if (los) {
 
             Color oKd = object->GetDiffuseColor(intersection);
-            Color oKs = object->GetSpecularColor(intersection);
+            Color oKs = object->GetSpecularColor();
             Color lC = light->GetColor();
             float exp = object->GetSpecularExponent();
 

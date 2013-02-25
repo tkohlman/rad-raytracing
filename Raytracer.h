@@ -1,6 +1,6 @@
 ///
 /// @file Raytracer.h
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 3 February 2012
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id$
-/// 
+///
 /// Revisions:
 ///		$Log$
 ///
@@ -39,7 +39,7 @@ public:
 
     ///
     /// @name Raytracer
-    /// 
+    ///
     /// @description
     /// 	Constructor
     ///
@@ -48,12 +48,12 @@ public:
     /// @param shader - the shader to use for local illumination
     /// @param shapes - vector of shapes in the scene
     ///
-    Raytracer(int maxDepth, Color background, PhongShader shader, 
+    Raytracer(int maxDepth, Color background, PhongShader shader,
         vector<Shape*> shapes);
- 
+
     ///
     /// @name ~Raytracer
-    /// 
+    ///
     /// @description
     /// 	Destructor
     ///
@@ -61,7 +61,7 @@ public:
 
     ///
     /// @name Trace
-    /// 
+    ///
     /// @description
     /// 	Performs a recursive ray trace.
     ///
@@ -69,7 +69,7 @@ public:
     /// @param origin - the origin of the ray
     /// @param depth - recursion depth
     /// @return - color of the point the ray hits
-    ///    
+    ///
     Color Trace(Vector ray, Point origin, int depth);
 
 private:
@@ -87,7 +87,7 @@ private:
     ///
     /// @description
     ///		Background color for the scene.
-    ///    
+    ///
     Color mBackground;
 
     ///
@@ -103,10 +103,10 @@ private:
     ///
     /// @description
     ///		Vector of shapes in the scene.
-    ///    
+    ///
     vector<Shape*> mShapes;
 
-};  // class Raytracer 
+};  // class Raytracer
 
 }   // namespace Raytracer_n
 

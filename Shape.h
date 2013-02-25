@@ -33,6 +33,7 @@
 #include "Point.h"
 #include "Color.h"
 #include "Vector.h"
+#include "proceduralshader.h"
 
 #include <cstdlib>
 using namespace std;
@@ -102,10 +103,9 @@ public:
     /// @description
     /// 	Accessor for specular light component of this object.
     ///
-    /// @param - point on surface for color calculation
     /// @return - the specular light component of this object
     ///
-    virtual Color GetSpecularColor(Point p);
+    virtual Color GetSpecularColor();
 
     float GetAmbientConstant( void );
     float GetDiffuseConstant( void );
@@ -174,6 +174,8 @@ public:
     /// @return - the surface normal at this point
     ///
     virtual Vector GetSurfaceNormal(Point surface) = 0;
+
+    void setProceduralShader( ProceduralShader *newShader );
 
 private:
 
@@ -257,6 +259,8 @@ private:
     ///
     float mRefractionIndex;
 
+    ProceduralShader *shader;
+
 };  // class Shape
 
 //
@@ -280,30 +284,38 @@ inline float Shape::GetDiffuseConstant( void ) {
 //
 // GetSpecularConstant
 //
-inline float Shape::GetSpecularConstant( void ) {
-
+inline float Shape::GetSpecularConstant( void )
+{
     return mSpecularConstant;
-
 }
 
 //
 // GetAmbientColor
 //
-inline Color Shape::GetAmbientColor(Point p) {
-    return mAmbientColor;
+inline Color Shape::GetAmbientColor(Point p)
+{
+    if (shader == NULL)
+        return mAmbientColor;
+    else
+        return shader->shade(p);
 }
 
 //
 // GetDiffuseColor
 //
-inline Color Shape::GetDiffuseColor(Point p) {
-    return mDiffuseColor;
+inline Color Shape::GetDiffuseColor(Point p)
+{
+    if (shader == NULL)
+        return mDiffuseColor;
+    else
+        return shader->shade(p);
 }
 
 //
 // GetSpecularColor
 //
-inline Color Shape::GetSpecularColor(Point p) {
+inline Color Shape::GetSpecularColor()
+{
     return mSpecularColor;
 }
 
@@ -330,6 +342,16 @@ inline float Shape::GetTransmissiveConstant() {
 
 inline float Shape::GetRefractionIndex() {
     return mRefractionIndex;
+}
+
+inline void Shape::setProceduralShader( ProceduralShader *newShader )
+{
+    if (shader != NULL)
+    {
+        delete shader;
+    }
+
+    shader = newShader;
 }
 
 }   // namespace Raytracer_n

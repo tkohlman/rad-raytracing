@@ -24,6 +24,7 @@
 
 using namespace Raytracer_n;
 #include "scene.h"
+#include "checkedshader.h"
 
 #include <vector>
 #include <unistd.h>
@@ -69,7 +70,7 @@ void display( void ) {
     vector<Shape*> shapes;
 
     // Create the rectangle (floor)
-    shapes.push_back(new Rectangle(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D,
+    Rectangle *r = new Rectangle(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D,
                                    FLOOR_AMBIENT,
                                    FLOOR_DIFFUSE,
                                    FLOOR_SPECULAR,
@@ -79,7 +80,11 @@ void display( void ) {
                                    FLOOR_EXPONENT,
                                    FLOOR_KR,
                                    FLOOR_KT,
-                                   FLOOR_IR));
+                                   FLOOR_IR);
+
+    CheckedShader *checked_shader = new CheckedShader(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D);
+    r->setProceduralShader(checked_shader);
+    shapes.push_back(r);
 
     // Create the first sphere
     shapes.push_back(new Sphere(SPHERE_1_CENTER, SPHERE_1_RADIUS,
