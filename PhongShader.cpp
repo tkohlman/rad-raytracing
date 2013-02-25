@@ -48,7 +48,7 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
     // For each light source
     vector<Light>::iterator light = mLights.begin();
 
-    for (light; light != mLights.end(); ++light) {
+    for (; light != mLights.end(); ++light) {
 
         // Generate the shadow ray
         Vector shadow_ray = normalize(light->GetPosition() - intersection);
@@ -57,7 +57,7 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
         vector<Shape*>::iterator shape = mShapes.begin();
         bool los = true;
 
-        for (shape; shape != mShapes.end(); ++shape) {
+        for (; shape != mShapes.end(); ++shape) {
 
             // Do not look at the target object
             if (*shape == object) {
@@ -109,7 +109,7 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
 
                 if (reflection_dot_view > 0) {
                     // Add in the specular component
-                    Ks += oKs * lC * pow(reflection_dot_view, 20);
+                    Ks += oKs * lC * pow(reflection_dot_view, exp);
                 }
             }
         }

@@ -203,9 +203,6 @@ Color Rectangle::GetDiffuseColor(Point p) {
     ///*
     // Implement a procedural shade of the floor.
 
-    float width = _a.distance(_d);
-    float height = _a.distance(_b);
-
     Vector AP = p - _a;
     Vector AD = _d - _a;
     Vector AB = _b - _a;

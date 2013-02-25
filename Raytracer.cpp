@@ -48,7 +48,7 @@ Color Raytracer::Trace(Vector ray, Point origin, int depth) {
 
     // find the closest intersection
     vector<Shape*>::iterator iter = mShapes.begin();
-    for (iter; iter != mShapes.end(); ++iter) {
+    for (; iter != mShapes.end(); ++iter) {
 
         // Get the intersection point
         Point *p = (*iter)->Intersect(ray, origin);

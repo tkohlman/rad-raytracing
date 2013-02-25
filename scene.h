@@ -11,8 +11,8 @@ public:
     void setWidth( int width );
     void setHeight( int height );
 
-    const int getWidth() const;
-    const int getHeight() const;
+    int getWidth() const;
+    int getHeight() const;
 
 private:
 
@@ -31,12 +31,12 @@ inline void Scene::setHeight( int height )
     this->height = height;
 }
 
-inline const int Scene::getWidth() const
+inline int Scene::getWidth() const
 {
     return width;
 }
 
-inline const int Scene::getHeight() const
+inline int Scene::getHeight() const
 {
     return height;
 }

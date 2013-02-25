@@ -59,7 +59,6 @@ void display( void ) {
     float ratio = float(scene.getWidth())/scene.getHeight();
     float dx = 2.0 * ratio / scene.getWidth();
     float dy = 2.0 / scene.getHeight();
-    float z = -1;
     float xc = -ratio;
     float yc = -1;
 

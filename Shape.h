@@ -1,6 +1,6 @@
 ///
 /// @file Shape.h
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 23 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Shape.h,v 1.4 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Shape.h,v $
 ///		Revision 1.4  2012/01/21 17:39:00  thomas
@@ -45,7 +45,7 @@ public:
 
     ///
     /// @name Shape
-    /// 
+    ///
     /// @description
     /// 	Constructor
     ///
@@ -68,15 +68,15 @@ public:
 
     ///
     /// @name ~Shape
-    /// 
+    ///
     /// @description
     /// 	Destructor
     ///
     ~Shape( void );
-    
+
     ///
     /// @name GetAmbientColor();
-    /// 
+    ///
     /// @description
     /// 	Accessor for ambient light component of this object.
     ///
@@ -84,46 +84,46 @@ public:
     /// @return - the ambient light component of this object
     ///
     virtual Color GetAmbientColor(Point p);
-   
+
     ///
     /// @name GetDiffuseColor
-    /// 
+    ///
     /// @description
     /// 	Accessor for diffuse light component of this object.
     ///
     /// @param - point on surface for color calculation
     /// @return - the diffuse light component of this object
-    /// 
+    ///
     virtual Color GetDiffuseColor(Point p);
-   
+
     ///
     /// @name GetSpecularColor
-    /// 
+    ///
     /// @description
     /// 	Accessor for specular light component of this object.
     ///
     /// @param - point on surface for color calculation
     /// @return - the specular light component of this object
-    /// 
+    ///
     virtual Color GetSpecularColor(Point p);
-   
+
     float GetAmbientConstant( void );
     float GetDiffuseConstant( void );
     float GetSpecularConstant( void );
-   
+
     ///
     /// @name GetSpecularExponent
-    /// 
+    ///
     /// @description
     /// 	Accessor for specular exponent reflectivity of this object.
     ///
     /// @return - specular exponent reflectivity of this object
-    /// 
+    ///
     int GetSpecularExponent();
 
     ///
     /// @name GetReflectiveConstant
-    /// 
+    ///
     /// @description
     /// 	Accessor to reflectivity of this object.
     ///
@@ -133,17 +133,17 @@ public:
 
     ///
     /// @name GetTransmissiveConstant
-    /// 
+    ///
     /// @description
     /// 	Accessor to transmissive value of this object.
     ///
     /// @return - Transmissive value of this object.
-    /// 
+    ///
     float GetTransmissiveConstant();
 
     ///
     /// @name GetRefractionIndex
-    /// 
+    ///
     /// @description
     /// 	Accessor to refraction index of this object.
     ///
@@ -153,7 +153,7 @@ public:
 
     ///
     /// @name Intersect
-    /// 
+    ///
     /// @description
     /// 	Determines if a ray intersects the shape.
     ///
@@ -163,10 +163,10 @@ public:
     ///           intersection occurs
     ///
     virtual Point* Intersect(Vector v, Point o) = 0;
-    
+
     ///
     /// @name GetSurfaceNormal
-    /// 
+    ///
     /// @description
     /// 	Calculates the surface normal for a point on the shape's surface.
     ///
@@ -184,7 +184,7 @@ private:
     ///		Ambient light component for this object.
     ///
     Color mAmbientColor;
-    
+
     ///
     /// @name mDiffuseColor
     ///
@@ -192,7 +192,7 @@ private:
     ///		Diffuse light component for this object.
     ///
     Color mDiffuseColor;
-    
+
     ///
     /// @name mSpecularColor
     ///
@@ -200,7 +200,7 @@ private:
     ///		Specular light component for this object.
     ///
     Color mSpecularColor;
-    
+
     ///
     /// @name mAmbientConstant
     ///
@@ -208,7 +208,7 @@ private:
     ///		Ambient contribution to local illumination.
     ///
     float mAmbientConstant;
-    
+
     ///
     /// @name mDiffuseExponent
     ///
@@ -216,7 +216,7 @@ private:
     ///		Diffuse contribution to local illumination.
     ///
     float mDiffuseConstant;
-    
+
     ///
     /// @name mSpecularExponent
     ///
@@ -224,7 +224,7 @@ private:
     ///		Specular contribution to local illumination.
     ///
     float mSpecularConstant;
-    
+
     ///
     /// @name mSpecularExponent
     ///
@@ -232,7 +232,7 @@ private:
     ///		Property that controls the size of specular highlight.
     ///
     int mSpecularExponent;
-    
+
     ///
     /// @name mReflectionConstant
     ///
@@ -240,7 +240,7 @@ private:
     ///		Reflection constant of this object.
     ///
     float mReflectionValue;
-    
+
     ///
     /// @name mTransmissionConstant
     ///
@@ -248,7 +248,7 @@ private:
     ///		Transmission constant of this object.
     ///
     float mTransmissionValue;
-    
+
     ///
     /// @name mRefractionIndex
     ///
@@ -256,7 +256,7 @@ private:
     ///		Index of refraction of this object.
     ///
     float mRefractionIndex;
-    
+
 };  // class Shape
 
 //
@@ -265,7 +265,7 @@ private:
 inline float Shape::GetAmbientConstant( void ) {
 
     return mAmbientConstant;
-    
+
 }
 
 //
@@ -274,7 +274,7 @@ inline float Shape::GetAmbientConstant( void ) {
 inline float Shape::GetDiffuseConstant( void ) {
 
     return mDiffuseConstant;
-    
+
 }
 
 //
@@ -283,7 +283,7 @@ inline float Shape::GetDiffuseConstant( void ) {
 inline float Shape::GetSpecularConstant( void ) {
 
     return mSpecularConstant;
-    
+
 }
 
 //
@@ -320,10 +320,10 @@ inline int Shape::GetSpecularExponent() {
 inline float Shape::GetReflectiveConstant() {
     return mReflectionValue;
 }
-   
+
 //
 // GetTransmissiveConstant
-// 
+//
 inline float Shape::GetTransmissiveConstant() {
     return mTransmissionValue;
 }

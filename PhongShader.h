@@ -1,6 +1,6 @@
 ///
 /// @file PhongShader.h
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 3 February 2012
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id$
-/// 
+///
 /// Revisions:
 ///		$Log$
 ///
@@ -35,7 +35,7 @@ public:
 
     ///
     /// @name PhongShader
-    /// 
+    ///
     /// @description
     /// 	Constructor
     ///
@@ -47,7 +47,7 @@ public:
 
     ///
     /// @name ~PhongShader
-    /// 
+    ///
     /// @description
     /// 	Destructor
     ///
@@ -55,7 +55,7 @@ public:
 
     ///
     /// @name Shade
-    /// 
+    ///
     /// @description
     /// 	Performs a Phong shade.
     ///
@@ -70,27 +70,27 @@ public:
 private:
 
     ///
+    /// @name mLights
+    ///
+    /// @description
+    /// 	Vector of lights in the scene.
+    ///
+    vector<Light> mLights;
+
+    ///
     /// @name mShapes
-    /// 
+    ///
     /// @description
     /// 	Vector of shapes in the scene.
     ///
     vector<Shape*> mShapes;
-   
-    ///
-    /// @name mLights
-    /// 
-    /// @description
-    /// 	Vector of lights in the scene.
-    /// 
-    vector<Light> mLights;
 
     ///
     /// @name mWorld
-    /// 
+    ///
     /// @description
     /// 	Object with world constants.
-    ///    
+    ///
     World mWorld;
 
 };  // class PhongShader
