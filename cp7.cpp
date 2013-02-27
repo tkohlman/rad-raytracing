@@ -14,6 +14,7 @@
 #include "Vector.h"
 #include "Point.h"
 #include "Rectangle.h"
+#include "cylinder.h"
 #include "Sphere.h"
 #include "Light.h"
 #include "World.h"
@@ -68,6 +69,39 @@ void display( void ) {
 
     // Create a vector of shapes
     vector<Shape*> shapes;
+
+    // Create a cylinder
+
+// Cylinder Constants
+#define CYL_RADIUS  1
+
+#define CYL_POS_1_X -10
+#define CYL_POS_1_Y -12
+#define CYL_POS_1_Z -15
+
+#define CYL_POS_2_X -4
+#define CYL_POS_2_Y  0
+#define CYL_POS_2_Z -5
+
+#define CYL_COL_R 0.1
+#define CYL_COL_G 0.2
+#define CYL_COL_B 0.3
+
+    Color cyl_color(CYL_COL_R, CYL_COL_G, CYL_COL_B);
+    Point cyl_cp1(CYL_POS_1_X, CYL_POS_1_Y, CYL_POS_1_Z);
+    Point cyl_cp2(CYL_POS_2_X, CYL_POS_2_Y, CYL_POS_2_Z);
+    Cylinder *cylinder = new Cylinder(cyl_cp1, cyl_cp2, CYL_RADIUS,
+                                SPHERE_2_AMBIENT,
+                                SPHERE_2_DIFFUSE,
+                                SPHERE_2_SPECULAR,
+                                SPHERE_2_KA,
+                                SPHERE_2_KD,
+                                SPHERE_2_KS,
+                                SPHERE_2_EXPONENT,
+                                SPHERE_2_KR,
+                                SPHERE_2_KT,
+                                SPHERE_2_IR);
+    shapes.push_back(cylinder);
 
     // Create the rectangle (floor)
     Rectangle *r = new Rectangle(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D,
