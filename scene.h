@@ -1,6 +1,8 @@
 #ifndef SCENE_H_INCLUDED
 #define SCENE_H_INCLUDED
 
+#include <iostream>
+
 class Scene
 {
 
@@ -13,6 +15,8 @@ public:
 
     int getWidth() const;
     int getHeight() const;
+
+    void serialize(std::ostream &os);
 
 private:
 

@@ -185,6 +185,14 @@ void display( void ) {
         }
     }
 
+
+  filebuf fb;
+  fb.open ("scene.txt", ios::out);
+  ostream os(&fb);
+  scene.serialize(os);
+  fb.close();
+
+
     if (aflag && lflag)
     {
         // Tone Reproduction Steps

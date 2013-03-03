@@ -53,7 +53,7 @@ CPP = $(CPP) $(CPPFLAGS)
 # If you want to take advantage of GDB's extra debugging features,
 # change "-g" in the CFLAGS and LIBFLAGS macro definitions to "-ggdb".
 #
-INCLUDE =
+INCLUDE = -I ./json
 LIBDIRS =
 
 LDLIBS = -lglut -lGLU -lGL -lXext -lX11 -lm
@@ -69,20 +69,62 @@ CCLIBFLAGS = $(LIBFLAGS)
 ########## End of flags from header.mak
 
 
-CPP_FILES =	checkedshader.cpp Color.cpp Light.cpp PhongShader.cpp Point.cpp Raytracer.cpp Rectangle.cpp Shape.cpp Sphere.cpp ToneReproducer.cpp Vector.cpp World.cpp cp7.cpp cylinder.cpp
-C_FILES =	
-PS_FILES =	
-S_FILES =	
-H_FILES =	checkedshader.h Color.h Light.h PhongShader.h Point.h Raytracer.h Rectangle.h Scene.h Shape.h Sphere.h ToneReproducer.h Vector.h World.h cylinder.h
+CPP_FILES :=    checkedshader.cpp   \
+                Color.cpp           \
+                cp7.cpp             \
+                cylinder.cpp        \
+                Light.cpp           \
+                PhongShader.cpp     \
+                Point.cpp           \
+                Raytracer.cpp       \
+                Rectangle.cpp       \
+                scene.cpp           \
+                Shape.cpp           \
+                Sphere.cpp          \
+                ToneReproducer.cpp  \
+                Vector.cpp          \
+                World.cpp           \
+                ./json/json.cpp
+C_FILES =
+PS_FILES =
+S_FILES =
+H_FILES =	    checkedshader.h     \
+                Color.h             \
+                cylinderh           \
+                Light.h             \
+                PhongShader.h       \
+                Point.h             \
+                Raytracer.h         \
+                Rectangle.h         \
+                scene.h             \
+                Shape.h             \
+                Sphere.h            \
+                ToneReproducer.h    \
+                Vector.h            \
+                World.h             \
+                ./json/json.h
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	checkedshader.o Color.o Light.o PhongShader.o Point.o Raytracer.o Rectangle.o Shape.o Sphere.o ToneReproducer.o Vector.o World.o scene.o cylinder.o
-
+OBJFILES =	    checkedshader.o   \
+                Color.o           \
+                cylinder.o        \
+                Light.o           \
+                PhongShader.o     \
+                Point.o           \
+                Raytracer.o       \
+                Rectangle.o       \
+                scene.o           \
+                Shape.o           \
+                Sphere.o          \
+                ToneReproducer.o  \
+                Vector.o          \
+                World.o           \
+                ./json/json.o
 #
 # Main targets
 #
 
-all:	cp7 
+all:	cp7
 
 cp7:	cp7.o $(OBJFILES)
 	$(CXX) $(CXXFLAGS) -o cp7 cp7.o $(OBJFILES) $(CCLIBFLAGS)
@@ -91,22 +133,27 @@ cp7:	cp7.o $(OBJFILES)
 # Dependencies
 #
 
-cylinder.o:	Point.h Shape.h Color.h
-checkedshader.o: checkedshader.h proceduralshader.h
+./json/json.o:		./json/json.h ./json/jsoncpp.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ./json/jsoncpp.cpp -o ./json/json.o
+cylinder.o:	        Point.h Shape.h Color.h
+checkedshader.o:    checkedshader.h proceduralshader.h
 proceduralshader.o:	Color.h Point.h
-scene.o:	scene.h
-Color.o:	Color.h
-Light.o:	Color.h Light.h Point.h Vector.h
-PhongShader.o:	Color.h Light.h PhongShader.h Point.h Shape.h Vector.h World.h
-Point.o:	Color.h Point.h Vector.h
-Raytracer.o:	Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h World.h
-Rectangle.o:	Color.h Point.h Rectangle.h Shape.h Vector.h
-Shape.o:	Color.h Point.h Shape.h Vector.h checkedshader.h
-Sphere.o:	Color.h Point.h Shape.h Sphere.h Vector.h
+scene.o:	        scene.h ./json/json.h
+Color.o:	        Color.h
+Light.o:	        Color.h Light.h Point.h Vector.h
+PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h World.h
+Point.o:	        Color.h Point.h Vector.h
+Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h World.h
+Rectangle.o:	    Color.h Point.h Rectangle.h Shape.h Vector.h
+Shape.o:	        Color.h Point.h Shape.h Vector.h checkedshader.h
+Sphere.o:	        Color.h Point.h Shape.h Sphere.h Vector.h
 ToneReproducer.o:	Color.h ToneReproducer.h
-Vector.o:	Vector.h
-World.o:	Color.h World.h
-cp7.o:	checkedshader.h Color.h Light.h PhongShader.h Point.h Raytracer.h Rectangle.h Scene.h scene.h Shape.h Sphere.h ToneReproducer.h Vector.h World.h cylinder.h
+Vector.o:	        Vector.h
+World.o:	        Color.h World.h
+cp7.o:	            checkedshader.h Color.h Light.h PhongShader.h Point.h   \
+                    Raytracer.h Rectangle.h Scene.h scene.h Shape.h         \
+                    Sphere.h ToneReproducer.h Vector.h World.h              \
+                    cylinder.h ./json/json.h
 
 #
 # Housekeeping
@@ -121,4 +168,4 @@ clean:
 	-/bin/rm -f $(OBJFILES) cp7.o core
 
 realclean:        clean
-	-/bin/rm -f cp7 
+	-/bin/rm -f cp7
