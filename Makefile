@@ -85,7 +85,6 @@ CPP_FILES :=    camera.cpp          \
                 Sphere.cpp          \
                 ToneReproducer.cpp  \
                 Vector.cpp          \
-                World.cpp           \
                 ./json/json.cpp
 C_FILES =
 PS_FILES =
@@ -105,7 +104,6 @@ H_FILES =	    camera.h            \
                 Sphere.h            \
                 ToneReproducer.h    \
                 Vector.h            \
-                World.h             \
                 ./json/json.h
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
@@ -123,7 +121,6 @@ OBJFILES =	    camera.o          \
                 Sphere.o          \
                 ToneReproducer.o  \
                 Vector.o          \
-                World.o           \
                 ./json/json.o
 #
 # Main targets
@@ -146,19 +143,18 @@ checkedshader.o:    checkedshader.h proceduralshader.h
 proceduralshader.o:	Color.h Point.h
 scene.o:	        scene.h ./json/json.h camera.h ijsonserializable.h
 Color.o:	        Color.h ijsonserializable.h
-Light.o:	        Color.h Light.h Point.h Vector.h
-PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h World.h
+Light.o:	        Color.h Light.h Point.h Vector.h ijsonserializable.h
+PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h
 Point.o:	        Color.h Point.h Vector.h ijsonserializable.h
-Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h World.h
+Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h
 Rectangle.o:	    Color.h Point.h Rectangle.h Shape.h Vector.h ijsonserializable.h
 Shape.o:	        Color.h Point.h Shape.h Vector.h checkedshader.h ijsonserializable.h
 Sphere.o:	        Color.h Point.h Shape.h Sphere.h Vector.h ijsonserializable.h
 ToneReproducer.o:	Color.h ToneReproducer.h
 Vector.o:	        Vector.h ijsonserializable.h
-World.o:	        Color.h World.h
 cp7.o:	            checkedshader.h Color.h Light.h PhongShader.h Point.h   \
                     Raytracer.h Rectangle.h Scene.h scene.h Shape.h         \
-                    Sphere.h ToneReproducer.h Vector.h World.h              \
+                    Sphere.h ToneReproducer.h Vector.h                      \
                     cylinder.h ./json/json.h camera.h
 
 #

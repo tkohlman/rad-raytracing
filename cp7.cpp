@@ -17,7 +17,6 @@
 #include "cylinder.h"
 #include "Sphere.h"
 #include "Light.h"
-#include "World.h"
 #include "Raytracer.h"
 #include "PhongShader.h"
 #include "ToneReproducer.h"
@@ -73,9 +72,6 @@ void display( void ) {
     float dy = 2.0 / scene.getHeight();
     float xc = -ratio;
     float yc = -1;
-
-    // Create the world
-    World world(WORLD_AMBIENT);
 
     // Create a vector of shapes
     vector<Shape*> shapes;
