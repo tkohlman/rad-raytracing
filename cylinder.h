@@ -32,6 +32,7 @@ public:
     ~Cylinder();
 
     void serialize(std::ostream &os);
+    Json::Value serialize() const;
 
     ///
     /// @name Intersect

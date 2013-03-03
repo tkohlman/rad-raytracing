@@ -78,3 +78,11 @@ float Point::Z() const {
     return (_z);
 }
 
+Json::Value Point::serialize() const
+{
+    Json::Value root;
+    root["x"] = _x;
+    root["y"] = _y;
+    root["z"] = _z;
+    return root;
+}

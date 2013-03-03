@@ -45,6 +45,7 @@ COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
 CPP = $(CPP) $(CPPFLAGS)
 ########## Flags from header.mak
 
+TOPDIR := .
 #
 # This header.mak file will set up all necessary options for compiling
 # and linking C and C++ programs which use OpenGL and/or GLUT on the
@@ -53,7 +54,7 @@ CPP = $(CPP) $(CPPFLAGS)
 # If you want to take advantage of GDB's extra debugging features,
 # change "-g" in the CFLAGS and LIBFLAGS macro definitions to "-ggdb".
 #
-INCLUDE = -I ./json
+INCLUDE = -I $(TOPDIR) -I $(TOPDIR)/json
 LIBDIRS =
 
 LDLIBS = -lglut -lGLU -lGL -lXext -lX11 -lm
@@ -69,7 +70,8 @@ CCLIBFLAGS = $(LIBFLAGS)
 ########## End of flags from header.mak
 
 
-CPP_FILES :=    checkedshader.cpp   \
+CPP_FILES :=    camera.cpp          \
+                checkedshader.cpp   \
                 Color.cpp           \
                 cp7.cpp             \
                 cylinder.cpp        \
@@ -88,9 +90,11 @@ CPP_FILES :=    checkedshader.cpp   \
 C_FILES =
 PS_FILES =
 S_FILES =
-H_FILES =	    checkedshader.h     \
+H_FILES =	    camera.h            \
+                checkedshader.h     \
                 Color.h             \
                 cylinderh           \
+                ijsonserializable.h \
                 Light.h             \
                 PhongShader.h       \
                 Point.h             \
@@ -105,7 +109,8 @@ H_FILES =	    checkedshader.h     \
                 ./json/json.h
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	    checkedshader.o   \
+OBJFILES =	    camera.o          \
+                checkedshader.o   \
                 Color.o           \
                 cylinder.o        \
                 Light.o           \
@@ -133,27 +138,28 @@ cp7:	cp7.o $(OBJFILES)
 # Dependencies
 #
 
+camera.o:           camera.h ijsonserializable.h
 ./json/json.o:		./json/json.h ./json/jsoncpp.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ./json/jsoncpp.cpp -o ./json/json.o
-cylinder.o:	        Point.h Shape.h Color.h
+cylinder.o:	        Point.h Shape.h Color.h ijsonserializable.h
 checkedshader.o:    checkedshader.h proceduralshader.h
 proceduralshader.o:	Color.h Point.h
-scene.o:	        scene.h ./json/json.h
-Color.o:	        Color.h
+scene.o:	        scene.h ./json/json.h camera.h ijsonserializable.h
+Color.o:	        Color.h ijsonserializable.h
 Light.o:	        Color.h Light.h Point.h Vector.h
 PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h World.h
-Point.o:	        Color.h Point.h Vector.h
+Point.o:	        Color.h Point.h Vector.h ijsonserializable.h
 Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h World.h
-Rectangle.o:	    Color.h Point.h Rectangle.h Shape.h Vector.h
-Shape.o:	        Color.h Point.h Shape.h Vector.h checkedshader.h
-Sphere.o:	        Color.h Point.h Shape.h Sphere.h Vector.h
+Rectangle.o:	    Color.h Point.h Rectangle.h Shape.h Vector.h ijsonserializable.h
+Shape.o:	        Color.h Point.h Shape.h Vector.h checkedshader.h ijsonserializable.h
+Sphere.o:	        Color.h Point.h Shape.h Sphere.h Vector.h ijsonserializable.h
 ToneReproducer.o:	Color.h ToneReproducer.h
-Vector.o:	        Vector.h
+Vector.o:	        Vector.h ijsonserializable.h
 World.o:	        Color.h World.h
 cp7.o:	            checkedshader.h Color.h Light.h PhongShader.h Point.h   \
                     Raytracer.h Rectangle.h Scene.h scene.h Shape.h         \
                     Sphere.h ToneReproducer.h Vector.h World.h              \
-                    cylinder.h ./json/json.h
+                    cylinder.h ./json/json.h camera.h
 
 #
 # Housekeeping

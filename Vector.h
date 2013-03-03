@@ -7,22 +7,6 @@
 /// @description
 /// 	Declares a vector representation.
 ///
-/// Version:
-/// 	$Id: Vector.h,v 1.3 2012/01/21 17:39:00 thomas Exp thomas $
-///
-/// Revisions:
-///		$Log: Vector.h,v $
-///		Revision 1.3  2012/01/21 17:39:00  thomas
-///		Checkpoint 3, working baseline.
-///
-///		Revision 1.2  2011/12/28 18:47:49  thomas
-///		Checkpoint 2, functioning baseline.
-///
-///		Revision 1.1  2011/12/27 18:05:43  thomas
-///		Initial revision
-///
-///
-///
 
 #ifndef VECTOR_H
 #define VECTOR_H
@@ -31,9 +15,12 @@
 #include <iostream>
 using namespace std;
 
+#include <ijsonserializable.h>
+
 namespace Raytracer_n {
 
-class Vector {
+class Vector : public IJsonSerializable
+{
 
     ///
     /// @name operator<<
@@ -125,7 +112,9 @@ public:
     ///
     /// @return - void
     ///
-    ~Vector();
+    ~Vector() {};
+
+    Json::Value serialize() const;
 
     ///
     /// @name X

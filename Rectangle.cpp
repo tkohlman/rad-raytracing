@@ -129,3 +129,14 @@ void Rectangle::serialize(std::ostream &os)
 
     Shape::serialize(os);
 }
+
+Json::Value Rectangle::serialize() const
+{
+    Json::Value root = Shape::serialize();
+    root["type"] = "rectangle";
+    root["a"] = _a.serialize();
+    root["b"] = _b.serialize();
+    root["c"] = _c.serialize();
+    root["d"] = _d.serialize();
+    return root;
+}

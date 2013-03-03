@@ -33,6 +33,8 @@
 #include "Vector.h"
 #include "Color.h"
 
+#include <ijsonserializable.h>
+
 namespace Raytracer_n {
 
 class Point {
@@ -146,6 +148,8 @@ public:
     /// @return - z-axis component of this point
     ///
     float Z() const;
+
+    Json::Value serialize() const;
 
 private:
 

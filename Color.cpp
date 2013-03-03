@@ -1,34 +1,17 @@
 ///
 /// @file Color.cpp
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 27 December 2011
 ///
 /// @description
 /// 	Implements an RGB color representation.
 ///
-/// Version:
-/// 	$Id: Color.cpp,v 1.4 2012/01/21 17:36:33 thomas Exp thomas $
-/// 
-/// Revisions:
-///		$Log: Color.cpp,v $
-///		Revision 1.4  2012/01/21 17:36:33  thomas
-///		Checkpoint 3, working baseline.
-///
-///		Revision 1.3  2011/12/28 19:52:52  thomas
-///		Checkpoint 2, genericized shape handling.
-///
-///		Revision 1.2  2011/12/28 18:47:18  thomas
-///		Checkpoint 2, functioning baseline.
-///
-///		Revision 1.1  2011/12/27 19:16:49  thomas
-///		Initial revision
-///
-///
-///
 
 #include "Color.h"
 using namespace Raytracer_n;
+
+const Color Color::BLACK(0,0,0);
 
 // Color
 Color::Color(float r, float g, float b) :
@@ -45,16 +28,25 @@ Color::Color() :
     _r(0), _g(0), _b(0) {
 }
 
-// ~Color   
+// ~Color
 Color::~Color() {
 }
 
-// R    
+Json::Value Color::serialize() const
+{
+    Json::Value root;
+    root["r"] = _r;
+    root["g"] = _g;
+    root["b"] = _b;
+    return root;
+}
+
+// R
 float Color::R() const {
     return (_r);
 }
 
-// G  
+// G
 float Color::G() const {
     return (_g);
 }

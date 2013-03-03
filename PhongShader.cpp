@@ -19,46 +19,35 @@
 using namespace Raytracer_n;
 
 //
-// constructor
-//
-PhongShader::PhongShader(vector<Light> lights, vector<Shape*> shapes,
-    World world) :
-    mLights(lights), mShapes(shapes), mWorld(world) {
-
-}
-
-//
-// destructor
-//
-PhongShader::~PhongShader() { }
-
-//
 // Shade
 //
-Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
-
+Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
+{
     // Declare the light components
     Color Ka;
     Color Kd;
     Color Ks;
 
     // Compute the ambient component
-    Ka = object->GetAmbientColor(intersection) * mWorld.GetAmbientLight();
+    Ka = object->GetAmbientColor(intersection);
 
     // For each light source
-    vector<Light>::iterator light = mLights.begin();
+    vector<Light*> *lights = scene->getLights();
+    vector<Light*>::iterator light = lights->begin();
 
-    for (; light != mLights.end(); ++light) {
+    vector<Shape*> *shapes = scene->getShapes();
+
+    for (; light != lights->end(); ++light) {
 
         // Generate the shadow ray
-        Vector shadow_ray = displacementVector(light->GetPosition(), intersection);
+        Vector shadow_ray = displacementVector((*light)->GetPosition(), intersection);
         shadow_ray = normalize(shadow_ray);
 
         // Determine if there is direct line of sight to the intersect point
-        vector<Shape*>::iterator shape = mShapes.begin();
+        vector<Shape*>::iterator shape = shapes->begin();
         bool los = true;
 
-        for (; shape != mShapes.end(); ++shape) {
+        for (; shape != shapes->end(); ++shape) {
 
             // Do not look at the target object
             if (*shape == object) {
@@ -71,8 +60,8 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
             // If this point is closer than the closest known point,
             // there is no line of sight.
             if ((p != NULL) &&
-                (distanceBetween(*p, light->GetPosition()) <
-                 distanceBetween(intersection, light->GetPosition()))) {
+                (distanceBetween(*p, (*light)->GetPosition()) <
+                 distanceBetween(intersection, (*light)->GetPosition()))) {
 
                 if ((*shape)->GetTransmissiveConstant() > 0) {
                     continue;
@@ -87,7 +76,7 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
 
             Color oKd = object->GetDiffuseColor(intersection);
             Color oKs = object->GetSpecularColor();
-            Color lC = light->GetColor();
+            Color lC = (*light)->GetColor();
             float exp = object->GetSpecularExponent();
 
             // Calculate the required vectors (normalize all)
@@ -103,7 +92,8 @@ Color PhongShader::Shade(Shape *object, Point intersection, Point camera) {
 
                 Vector R = vectorSubtract(shadow_ray, scalarMultiply(N, 2 * shadow_dot_normal));
                 normalize(R);
-                Vector V = normalize(displacementVector(camera, intersection));
+                Vector V = normalize(displacementVector(
+                                scene->getCamera().getLocation(), intersection));
 
                 // Compute dot product between reflection ray and viewing ray.
                 // Clamp to zero if the angle is more than 90 degrees.

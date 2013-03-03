@@ -1,6 +1,6 @@
 ///
 /// @file Vector.cpp
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 27 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Vector.cpp,v 1.3 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Vector.cpp,v $
 ///		Revision 1.3  2012/01/21 17:39:00  thomas
@@ -40,10 +40,18 @@ Vector::Vector() :
     _x(0), _y(0), _z(0) {
 }
 
-
-// ~Vector   
-Vector::~Vector() {
+Json::Value Vector::serialize() const
+{
+    Json::Value root;
+    root["x"] = _x;
+    root["y"] = _y;
+    root["z"] = _z;
+    return root;
 }
+
+
+
+
 namespace Raytracer_n {
 ostream& operator<<(ostream& os, const Vector& other) {
     os << "(" << other.X() << "i, " << other.Y() << "j, " << other.Z() << "k)";

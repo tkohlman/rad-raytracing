@@ -35,8 +35,8 @@ using namespace std;
 
 #define WINDOW_TITLE "Ray Tracer - Checkpoint 7"
 
-#define WINDOW_HEIGHT 550
-#define WINDOW_WIDTH  700
+#define WINDOW_HEIGHT 275
+#define WINDOW_WIDTH  350
 
 #define WINDOW_POS_X  100
 #define WINDOW_POS_Y  100
@@ -57,7 +57,15 @@ int depth = 1;
 
 void display( void ) {
 
-    Scene scene( WINDOW_WIDTH, WINDOW_HEIGHT );
+    Scene scene;
+    scene.setWidth(WINDOW_WIDTH);
+    scene.setHeight(WINDOW_HEIGHT);
+    scene.setBackground(BACKGROUND_COLOR);
+
+    Camera camera2;
+    camera2.setLocation(CAMERA_POSITION);
+
+    scene.setCamera(camera2);
 
     // Calculations to map locations to pixels
     float ratio = float(scene.getWidth())/scene.getHeight();
@@ -121,9 +129,9 @@ void display( void ) {
     CheckedShader *checked_shader = new CheckedShader(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D);
     r->setProceduralShader(checked_shader);
     shapes.push_back(r);
+    scene.addShape(r);
 
-    // Create the first sphere
-    shapes.push_back(new Sphere(SPHERE_1_CENTER, SPHERE_1_RADIUS,
+    Sphere *sphere1 = new Sphere(SPHERE_1_CENTER, SPHERE_1_RADIUS,
                                 SPHERE_1_AMBIENT,
                                 SPHERE_1_DIFFUSE,
                                 SPHERE_1_SPECULAR,
@@ -133,10 +141,12 @@ void display( void ) {
                                 SPHERE_1_EXPONENT,
                                 SPHERE_1_KR,
                                 SPHERE_1_KT,
-                                SPHERE_1_IR));
+                                SPHERE_1_IR);
+    shapes.push_back(sphere1);
+    scene.addShape(sphere1);
 
     // Create the second sphere
-    shapes.push_back(new Sphere(SPHERE_2_CENTER, SPHERE_2_RADIUS,
+    Sphere *sphere2 = new Sphere(SPHERE_2_CENTER, SPHERE_2_RADIUS,
                                 SPHERE_2_AMBIENT,
                                 SPHERE_2_DIFFUSE,
                                 SPHERE_2_SPECULAR,
@@ -146,21 +156,22 @@ void display( void ) {
                                 SPHERE_2_EXPONENT,
                                 SPHERE_2_KR,
                                 SPHERE_2_KT,
-                                SPHERE_2_IR));
+                                SPHERE_2_IR);
+    shapes.push_back(sphere2);
+    scene.addShape(sphere2);
 
     // Create a vector of lights
     vector<Light> lights;
 
     // Create light 1
     lights.push_back(Light(LIGHT_1_POSITION, LIGHT_1_COLOR));
-
-    PhongShader shader(lights, shapes, world);
+    scene.addLight(new Light(LIGHT_1_POSITION, LIGHT_1_COLOR));
 
     // Instantiate the camera position
     Point camera = CAMERA_POSITION;
 
     // Create the raytracer
-    Raytracer raytracer(depth, BACKGROUND_COLOR, shader, shapes);
+    Raytracer raytracer(depth, BACKGROUND_COLOR, shapes);
 
     // Create the pixels array.
     vector< vector<Color*>* > *pixels =
@@ -178,7 +189,7 @@ void display( void ) {
             normalize(ray);
 
 
-            Color pixel = raytracer.Trace(ray, camera, 0);
+            Color pixel = raytracer.Trace(&scene, ray, camera, 0);
 
             // Set the color
             pixels->at(j)->at(i) = new Color(pixel);
@@ -189,7 +200,8 @@ void display( void ) {
   filebuf fb;
   fb.open ("scene.txt", ios::out);
   ostream os(&fb);
-  scene.serialize(os);
+  Json::Value root = scene.serialize();
+  os << root << endl;
   fb.close();
 
 

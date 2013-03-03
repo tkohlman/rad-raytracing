@@ -135,4 +135,13 @@ void Sphere::serialize(std::ostream &os)
     Shape::serialize(os);
 }
 
+Json::Value Sphere::serialize() const
+{
+    Json::Value root = Shape::serialize();
+    root["type"] = "sphere";
+    root["center"] = _center.serialize();
+    root["radius"] = _radius;
+    return root;
+}
+
 

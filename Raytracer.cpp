@@ -21,9 +21,9 @@ using namespace Raytracer_n;
 //
 // Constructor
 //
-Raytracer::Raytracer(int maxDepth, Color background, PhongShader shader,
+Raytracer::Raytracer(int maxDepth, Color background,
     vector<Shape*> shapes) :
-    mMaxDepth(maxDepth), mBackground(background), mPhongShader(shader),
+    mMaxDepth(maxDepth), mBackground(background),
     mShapes(shapes) {
 }
 
@@ -35,7 +35,7 @@ Raytracer::~Raytracer() { }
 //
 // Trace
 //
-Color Raytracer::Trace(Vector ray, Point origin, int depth) {
+Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth) {
 
     if (depth >= mMaxDepth) {
         return mBackground;
@@ -79,7 +79,7 @@ Color Raytracer::Trace(Vector ray, Point origin, int depth) {
 
 
         // local illumination
-        rv = mPhongShader.Shade(s, *closest, origin);
+        rv = mPhongShader.Shade(scene, s, *closest);
 
         if (depth < mMaxDepth) {
 
@@ -90,7 +90,7 @@ Color Raytracer::Trace(Vector ray, Point origin, int depth) {
             if (kr > 0) {
                 Vector N = normalize(s->GetSurfaceNormal(*closest));
                 Vector reflection = normalize(vectorSubtract(ray, scalarMultiply(N, 2 * dotProduct(ray, N))));
-                rv += Trace(reflection, *closest, depth + 1) * kr;
+                rv += Trace(scene, reflection, *closest, depth + 1) * kr;
             }
 
             // spawn transmission ray
@@ -123,7 +123,7 @@ Color Raytracer::Trace(Vector ray, Point origin, int depth) {
                     // total internal reflection:
                     // use the reflection ray with the kt value
                     Vector reflection = normalize(vectorSubtract(ray, scalarMultiply(N, 2 * dotProduct(ray, N))));
-                    rv += Trace(reflection, *closest, depth + 1) * kt;
+                    rv += Trace(scene, reflection, *closest, depth + 1) * kt;
 
                 } else {
 
@@ -133,7 +133,7 @@ Color Raytracer::Trace(Vector ray, Point origin, int depth) {
                                                 scalarMultiply(N,
                                                     (alpha * cosine) - sqrt(discriminant))));
 
-                    rv += Trace(transmission, *closest, depth + 1) * kt;
+                    rv += Trace(scene, transmission, *closest, depth + 1) * kt;
 
                 }
             }

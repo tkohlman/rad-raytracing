@@ -45,11 +45,9 @@ public:
     ///
     /// @param maxDepth - the maximum depth for recursion
     /// @param background - background color of the scene
-    /// @param shader - the shader to use for local illumination
     /// @param shapes - vector of shapes in the scene
     ///
-    Raytracer(int maxDepth, Color background, PhongShader shader,
-        vector<Shape*> shapes);
+    Raytracer(int maxDepth, Color background, vector<Shape*> shapes);
 
     ///
     /// @name ~Raytracer
@@ -58,6 +56,8 @@ public:
     /// 	Destructor
     ///
     ~Raytracer();
+
+    void setMaxDepth(int depth) { mMaxDepth = depth; };
 
     ///
     /// @name Trace
@@ -70,7 +70,7 @@ public:
     /// @param depth - recursion depth
     /// @return - color of the point the ray hits
     ///
-    Color Trace(Vector ray, Point origin, int depth);
+    Color Trace(Scene *scene, Vector ray, Point origin, int depth);
 
 private:
 

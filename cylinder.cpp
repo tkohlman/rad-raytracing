@@ -193,3 +193,12 @@ void Cylinder::serialize(std::ostream &os)
 
     Shape::serialize(os);
 }
+
+Json::Value Cylinder::serialize() const
+{
+    Json::Value root = Shape::serialize();
+    root["center_1"] = _cp1.serialize();
+    root["center_2"] = _cp2.serialize();
+    root["radius"] = _radius;
+    return root;
+}

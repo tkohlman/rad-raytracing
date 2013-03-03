@@ -20,9 +20,12 @@
 #include <ostream>
 using namespace std;
 
+#include <ijsonserializable.h>
+
 namespace Raytracer_n {
 
-class Shape {
+class Shape : public IJsonSerializable
+{
 
 public:
 
@@ -58,6 +61,8 @@ public:
     ~Shape( void );
 
     virtual void serialize(std::ostream &os);
+
+    virtual Json::Value serialize() const;
 
     ///
     /// @name GetAmbientColor();

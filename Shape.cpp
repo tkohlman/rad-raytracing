@@ -75,3 +75,19 @@ void Shape::serialize(std::ostream &os)
     os << " " << mTransmissionValue;
     os << " " << mRefractionIndex;
 }
+
+Json::Value Shape::serialize() const
+{
+    Json::Value root;
+    root["ambient_color"] = mAmbientColor.serialize();
+    root["diffuse_color"] = mDiffuseColor.serialize();
+    root["specular_color"] = mSpecularColor.serialize();
+    root["ambient_constant"] = mAmbientConstant;
+    root["diffuse_constant"] = mDiffuseConstant;
+    root["specular_constant"] = mSpecularConstant;
+    root["specular_exponent"] = mSpecularExponent;
+    root["reflective_value"] = mReflectionValue;
+    root["transmissive_value"] = mTransmissionValue;
+    root["refraction_index"] = mRefractionIndex;
+    return root;
+}

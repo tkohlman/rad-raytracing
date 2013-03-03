@@ -60,6 +60,8 @@ public:
 
     void serialize(ostream &os);
 
+    Json::Value serialize() const;
+
     ///
     /// @name Intersect
     ///
