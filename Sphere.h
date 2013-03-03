@@ -1,6 +1,6 @@
 ///
 /// @file Sphere.h
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 28 December 2011
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id: Sphere.h,v 1.5 2012/01/21 17:39:00 thomas Exp thomas $
-/// 
+///
 /// Revisions:
 ///		$Log: Sphere.h,v $
 ///		Revision 1.5  2012/01/21 17:39:00  thomas
@@ -46,7 +46,7 @@ public:
 
     ///
     /// @name Sphere
-    /// 
+    ///
     /// @description
     /// 	Constructor
     ///
@@ -72,15 +72,17 @@ public:
 
     ///
     /// @name ~Sphere
-    /// 
+    ///
     /// @description
     /// 	Destructor
-    ///    
+    ///
     ~Sphere( void );
+
+    void serialize(std::ostream &os);
 
     ///
     /// @name Intersect
-    /// 
+    ///
     /// @description
     /// 	Determines if a ray intersects the sphere.
     ///
@@ -88,12 +90,12 @@ public:
     /// @param o - origin of the ray
     /// @return - intersection point closest to ray origin, NULL if no
     ///           intersection occurs
-    ///    
+    ///
     Point* Intersect(Vector v, Point o);
 
     ///
     /// @name GetSurfaceNormal
-    /// 
+    ///
     /// @description
     /// 	Calculates the surface normal for a point on the sphere's surface.
     ///

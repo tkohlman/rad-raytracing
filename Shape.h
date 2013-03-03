@@ -7,25 +7,6 @@
 /// @description
 /// 	Defines an abstract shape class.
 ///
-/// Version:
-/// 	$Id: Shape.h,v 1.4 2012/01/21 17:39:00 thomas Exp thomas $
-///
-/// Revisions:
-///		$Log: Shape.h,v $
-///		Revision 1.4  2012/01/21 17:39:00  thomas
-///		Checkpoint 3, working baseline.
-///
-///		Revision 1.3  2011/12/29 02:25:36  thomas
-///		Removed unnecessary dynamic memory.
-///
-///		Revision 1.2  2011/12/28 18:47:49  thomas
-///		Checkpoint 2, functioning baseline.
-///
-///		Revision 1.1  2011/12/23 19:00:12  thomas
-///		Initial revision
-///
-///
-///
 
 #ifndef SHAPE_H
 #define SHAPE_H
@@ -36,6 +17,7 @@
 #include "proceduralshader.h"
 
 #include <cstdlib>
+#include <ostream>
 using namespace std;
 
 namespace Raytracer_n {
@@ -74,6 +56,8 @@ public:
     /// 	Destructor
     ///
     ~Shape( void );
+
+    virtual void serialize(std::ostream &os);
 
     ///
     /// @name GetAmbientColor();

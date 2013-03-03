@@ -180,3 +180,16 @@ Point* Cylinder::Intersect(Vector v, Point o) {
     return intersect;
 }
 
+void Cylinder::serialize(std::ostream &os)
+{
+    os << " cylinder";
+    os << " " << _cp1.X();
+    os << " " << _cp1.Y();
+    os << " " << _cp1.Z();
+    os << " " << _cp2.X();
+    os << " " << _cp2.Y();
+    os << " " << _cp2.Z();
+    os << " " << _radius;
+
+    Shape::serialize(os);
+}

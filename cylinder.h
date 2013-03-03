@@ -31,6 +31,8 @@ public:
     ///
     ~Cylinder();
 
+    void serialize(std::ostream &os);
+
     ///
     /// @name Intersect
     ///

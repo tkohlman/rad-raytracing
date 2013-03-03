@@ -29,6 +29,8 @@ using namespace Raytracer_n;
 
 #include <vector>
 #include <unistd.h>
+#include <fstream>
+#include <iostream>
 using namespace std;
 
 #define WINDOW_TITLE "Ray Tracer - Checkpoint 7"

@@ -111,4 +111,21 @@ Vector Rectangle::GetSurfaceNormal(Point surface)
     return _normal;
 }
 
+void Rectangle::serialize(std::ostream &os)
+{
+    os << " rectangle";
+    os << " " << _a.X();
+    os << " " << _a.Y();
+    os << " " << _a.Z();
+    os << " " << _b.X();
+    os << " " << _b.Y();
+    os << " " << _b.Z();
+    os << " " << _c.X();
+    os << " " << _c.Y();
+    os << " " << _c.Z();
+    os << " " << _d.X();
+    os << " " << _d.Y();
+    os << " " << _d.Z();
 
+    Shape::serialize(os);
+}

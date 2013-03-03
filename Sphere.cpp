@@ -124,6 +124,15 @@ Vector Sphere::GetSurfaceNormal(Point surface) {
     return rv;
 }
 
+void Sphere::serialize(std::ostream &os)
+{
+    os << " sphere";
+    os << " " << _center.X();
+    os << " " << _center.Y();
+    os << " " << _center.Z();
+    os << " " << _radius;
 
+    Shape::serialize(os);
+}
 
 
