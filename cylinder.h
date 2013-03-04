@@ -1,8 +1,6 @@
 #ifndef CYLINDER_H_INCLUDED
 #define CYLINDER_H_INCLUDED
 
-#include "Point.h"
-#include "Color.h"
 #include "Shape.h"
 
 namespace Raytracer_n {

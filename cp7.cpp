@@ -11,20 +11,10 @@
 ///
 
 #include <GL/glut.h>
-#include "Vector.h"
-#include "Point.h"
-#include "Rectangle.h"
-#include "cylinder.h"
-#include "Sphere.h"
-#include "Light.h"
 #include "Raytracer.h"
-#include "PhongShader.h"
 #include "ToneReproducer.h"
-#include "Scene.h"
-
 using namespace Raytracer_n;
 #include "scene.h"
-#include "checkedshader.h"
 
 #include <vector>
 #include <unistd.h>
@@ -32,13 +22,8 @@ using namespace Raytracer_n;
 #include <iostream>
 using namespace std;
 
-#define WINDOW_TITLE "Ray Tracer - Checkpoint 7"
-
-#define WINDOW_HEIGHT 275
-#define WINDOW_WIDTH  350
-
-#define WINDOW_POS_X  100
-#define WINDOW_POS_Y  100
+const int WINDOW_POS_X = 100;
+const int WINDOW_POS_Y = 100;
 
 #define LMAX    1000
 #define LDMAX   100
@@ -75,98 +60,6 @@ void render(Scene *scene, PixelBuffer2D *pixels)
             glEnd();
         }
     }
-}
-
-Scene *make_scene()
-{
-    Scene *scene = new Scene();
-    scene->setWidth(WINDOW_WIDTH);
-    scene->setHeight(WINDOW_HEIGHT);
-    scene->setBackground(BACKGROUND_COLOR);
-
-    Camera camera;
-    camera.setLocation(CAMERA_POSITION);
-
-    scene->setCamera(camera);
-
-// Cylinder Constants
-#define CYL_RADIUS  1
-
-#define CYL_POS_1_X -10
-#define CYL_POS_1_Y -12
-#define CYL_POS_1_Z -15
-
-#define CYL_POS_2_X -4
-#define CYL_POS_2_Y  0
-#define CYL_POS_2_Z -5
-
-#define CYL_COL_R 0.1
-#define CYL_COL_G 0.2
-#define CYL_COL_B 0.3
-
-    Color cyl_color(CYL_COL_R, CYL_COL_G, CYL_COL_B);
-    Point cyl_cp1(CYL_POS_1_X, CYL_POS_1_Y, CYL_POS_1_Z);
-    Point cyl_cp2(CYL_POS_2_X, CYL_POS_2_Y, CYL_POS_2_Z);
-    Cylinder *cylinder = new Cylinder(cyl_cp1, cyl_cp2, CYL_RADIUS,
-                                SPHERE_2_AMBIENT,
-                                SPHERE_2_DIFFUSE,
-                                SPHERE_2_SPECULAR,
-                                SPHERE_2_KA,
-                                SPHERE_2_KD,
-                                SPHERE_2_KS,
-                                SPHERE_2_EXPONENT,
-                                SPHERE_2_KR,
-                                SPHERE_2_KT,
-                                SPHERE_2_IR);
-    scene->addShape(cylinder);
-
-    // Create the rectangle (floor)
-    Rectangle *r = new Rectangle(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D,
-                                   FLOOR_AMBIENT,
-                                   FLOOR_DIFFUSE,
-                                   FLOOR_SPECULAR,
-                                   FLOOR_KA,
-                                   FLOOR_KD,
-                                   FLOOR_KS,
-                                   FLOOR_EXPONENT,
-                                   FLOOR_KR,
-                                   FLOOR_KT,
-                                   FLOOR_IR);
-
-    CheckedShader *checked_shader = new CheckedShader(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D);
-    r->setProceduralShader(checked_shader);
-    scene->addShape(r);
-
-    Sphere *sphere1 = new Sphere(SPHERE_1_CENTER, SPHERE_1_RADIUS,
-                                SPHERE_1_AMBIENT,
-                                SPHERE_1_DIFFUSE,
-                                SPHERE_1_SPECULAR,
-                                SPHERE_1_KA,
-                                SPHERE_1_KD,
-                                SPHERE_1_KS,
-                                SPHERE_1_EXPONENT,
-                                SPHERE_1_KR,
-                                SPHERE_1_KT,
-                                SPHERE_1_IR);
-    scene->addShape(sphere1);
-
-    // Create the second sphere
-    Sphere *sphere2 = new Sphere(SPHERE_2_CENTER, SPHERE_2_RADIUS,
-                                SPHERE_2_AMBIENT,
-                                SPHERE_2_DIFFUSE,
-                                SPHERE_2_SPECULAR,
-                                SPHERE_2_KA,
-                                SPHERE_2_KD,
-                                SPHERE_2_KS,
-                                SPHERE_2_EXPONENT,
-                                SPHERE_2_KR,
-                                SPHERE_2_KT,
-                                SPHERE_2_IR);
-    scene->addShape(sphere2);
-
-    scene->addLight(new Light(LIGHT_1_POSITION, LIGHT_1_COLOR));
-
-    return scene;
 }
 
 void save_scene(const char *filename, const Scene &scene)
@@ -311,12 +204,12 @@ int main( int argc, char** argv )
 
    	glutInit( &argc, argv );
    	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
-   	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+   	glutInitWindowSize(scene->getWidth(), scene->getHeight());
    	glutInitWindowPosition(WINDOW_POS_X, WINDOW_POS_Y);
-   	glutCreateWindow(WINDOW_TITLE);
+   	glutCreateWindow("Rad::Raytracer");
 
 	glLoadIdentity();
-	gluOrtho2D(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT);
+	gluOrtho2D(0, scene->getWidth(), 0, scene->getHeight());
 
    	// Callback functions
    	glutDisplayFunc( display );

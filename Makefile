@@ -144,7 +144,7 @@ cp7:	cp7.o $(OBJFILES)
 camera.o:           camera.h ijsonserializable.h
 ./json/json.o:		./json/json.h ./json/jsoncpp.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ./json/jsoncpp.cpp -o ./json/json.o
-cylinder.o:	        Point.h Shape.h Color.h ijsonserializable.h
+cylinder.o:	        cylinder.h Shape.h
 checkedshader.o:    checkedshader.h proceduralshader.h
 proceduralshader.o:	Color.h Point.h ijsonserializable.h
 proceduralshaderfactory.o:  proceduralshaderfactory.h
@@ -154,16 +154,13 @@ Light.o:	        Color.h Light.h Point.h Vector.h ijsonserializable.h
 PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h
 Point.o:	        Color.h Point.h Vector.h ijsonserializable.h
 Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h
-Rectangle.o:	    Color.h Point.h Rectangle.h Shape.h Vector.h ijsonserializable.h
-Shape.o:	        Color.h Point.h Shape.h Vector.h checkedshader.h ijsonserializable.h
+Rectangle.o:	    Rectangle.h Shape.h
+Shape.o:	        Color.h Point.h Shape.h Vector.h proceduralshader.h ijsonserializable.h
 ShapeFactory.o:     ShapeFactory.h
-Sphere.o:	        Color.h Point.h Shape.h Sphere.h Vector.h ijsonserializable.h
+Sphere.o:	        Shape.h Sphere.h
 ToneReproducer.o:	Color.h ToneReproducer.h
 Vector.o:	        Vector.h ijsonserializable.h
-cp7.o:	            checkedshader.h Color.h Light.h PhongShader.h Point.h   \
-                    Raytracer.h Rectangle.h Scene.h scene.h Shape.h         \
-                    Sphere.h ToneReproducer.h Vector.h                      \
-                    cylinder.h ./json/json.h camera.h proceduralshaderfactory.h
+cp7.o:	            Raytracer.h scene.h ToneReproducer.h
 
 #
 # Housekeeping

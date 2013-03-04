@@ -12,9 +12,6 @@
 #define RECTANGLE_H
 
 #include "Shape.h"
-#include "Color.h"
-#include "Point.h"
-#include "Vector.h"
 
 namespace Raytracer_n {
 

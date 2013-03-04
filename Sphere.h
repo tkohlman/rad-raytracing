@@ -34,9 +34,6 @@
 #define SPHERE_H
 
 #include "Shape.h"
-#include "Point.h"
-#include "Color.h"
-#include "Vector.h"
 
 namespace Raytracer_n {
 
