@@ -29,7 +29,8 @@
 #include <vector>
 using namespace std;
 
-
+typedef vector<Color> PixelBuffer;
+typedef vector< vector<Color>* > PixelBuffer2D;
 
 namespace Raytracer_n {
 
@@ -37,25 +38,8 @@ class Raytracer {
 
 public:
 
-    ///
-    /// @name Raytracer
-    ///
-    /// @description
-    /// 	Constructor
-    ///
-    /// @param maxDepth - the maximum depth for recursion
-    /// @param background - background color of the scene
-    /// @param shapes - vector of shapes in the scene
-    ///
-    Raytracer(int maxDepth, Color background, vector<Shape*> shapes);
-
-    ///
-    /// @name ~Raytracer
-    ///
-    /// @description
-    /// 	Destructor
-    ///
-    ~Raytracer();
+    Raytracer();
+    ~Raytracer() {};
 
     void setMaxDepth(int depth) { mMaxDepth = depth; };
 
@@ -72,7 +56,14 @@ public:
     ///
     Color Trace(Scene *scene, Vector ray, Point origin, int depth);
 
+    PixelBuffer2D *TraceScene(Scene *scene);
+
 private:
+
+    Vector makeReflectionRay(const Vector &normal, const Vector &ray,
+                             const Point &intersection);
+
+    Shape *getClosestShape(Scene *scene, const Vector &ray, Point &origin);
 
     ///
     /// @name mMaxDepth
@@ -83,28 +74,12 @@ private:
     int mMaxDepth;
 
     ///
-    /// @name mBackground
-    ///
-    /// @description
-    ///		Background color for the scene.
-    ///
-    Color mBackground;
-
-    ///
     /// @name mPhongShader
     ///
     /// @description
     ///		Shader to use for local illumination.
     ///
     PhongShader mPhongShader;
-
-    ///
-    /// @name mShapes
-    ///
-    /// @description
-    ///		Vector of shapes in the scene.
-    ///
-    vector<Shape*> mShapes;
 
 };  // class Raytracer
 

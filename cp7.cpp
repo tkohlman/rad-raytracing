@@ -46,6 +46,7 @@ using namespace std;
 int aflag = 0;      /* specify tone reproduction algorithm */
 int bflag = 0;      /* specify the number of bounces */
 int fflag = 0;      /* specify output file format */
+int hflag = 0;      /* display the usage message */
 int lflag = 0;      /* specify lmax value for tone reproduction */
 int oflag = 0;      /* specify output file */
 int sflag = 0;      /* scecify a sence.obj file to render */
@@ -54,29 +55,39 @@ int lmax = 0;
 int algo = 0;
 int depth = 1;
 
-void display( void ) {
+void render(Scene *scene, PixelBuffer2D *pixels)
+{
+    // Iterate over the pixels and render them.
+    for (int j = 0; j < scene->getHeight(); ++j)
+    {
+        for (int i = 0; i < scene->getWidth(); ++i)
+        {
+            float r_comp = pixels->at(j)->at(i).R();
+            float g_comp = pixels->at(j)->at(i).G();
+            float b_comp = pixels->at(j)->at(i).B();
 
-    Scene scene;
-    scene.setWidth(WINDOW_WIDTH);
-    scene.setHeight(WINDOW_HEIGHT);
-    scene.setBackground(BACKGROUND_COLOR);
+            // Set the color
+            glColor3f(r_comp, g_comp, b_comp);
 
-    Camera camera2;
-    camera2.setLocation(CAMERA_POSITION);
+            // Draw the point
+            glBegin(GL_POINTS);
+	        glVertex2i(i, j);
+            glEnd();
+        }
+    }
+}
 
-    scene.setCamera(camera2);
+Scene *make_scene()
+{
+    Scene *scene = new Scene();
+    scene->setWidth(WINDOW_WIDTH);
+    scene->setHeight(WINDOW_HEIGHT);
+    scene->setBackground(BACKGROUND_COLOR);
 
-    // Calculations to map locations to pixels
-    float ratio = float(scene.getWidth())/scene.getHeight();
-    float dx = 2.0 * ratio / scene.getWidth();
-    float dy = 2.0 / scene.getHeight();
-    float xc = -ratio;
-    float yc = -1;
+    Camera camera;
+    camera.setLocation(CAMERA_POSITION);
 
-    // Create a vector of shapes
-    vector<Shape*> shapes;
-
-    // Create a cylinder
+    scene->setCamera(camera);
 
 // Cylinder Constants
 #define CYL_RADIUS  1
@@ -107,7 +118,7 @@ void display( void ) {
                                 SPHERE_2_KR,
                                 SPHERE_2_KT,
                                 SPHERE_2_IR);
-    shapes.push_back(cylinder);
+    scene->addShape(cylinder);
 
     // Create the rectangle (floor)
     Rectangle *r = new Rectangle(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D,
@@ -124,8 +135,7 @@ void display( void ) {
 
     CheckedShader *checked_shader = new CheckedShader(FLOOR_A, FLOOR_B, FLOOR_C, FLOOR_D);
     r->setProceduralShader(checked_shader);
-    shapes.push_back(r);
-    scene.addShape(r);
+    scene->addShape(r);
 
     Sphere *sphere1 = new Sphere(SPHERE_1_CENTER, SPHERE_1_RADIUS,
                                 SPHERE_1_AMBIENT,
@@ -138,8 +148,7 @@ void display( void ) {
                                 SPHERE_1_KR,
                                 SPHERE_1_KT,
                                 SPHERE_1_IR);
-    shapes.push_back(sphere1);
-    scene.addShape(sphere1);
+    scene->addShape(sphere1);
 
     // Create the second sphere
     Sphere *sphere2 = new Sphere(SPHERE_2_CENTER, SPHERE_2_RADIUS,
@@ -153,78 +162,49 @@ void display( void ) {
                                 SPHERE_2_KR,
                                 SPHERE_2_KT,
                                 SPHERE_2_IR);
-    shapes.push_back(sphere2);
-    scene.addShape(sphere2);
+    scene->addShape(sphere2);
 
-    // Create a vector of lights
-    vector<Light> lights;
+    scene->addLight(new Light(LIGHT_1_POSITION, LIGHT_1_COLOR));
 
-    // Create light 1
-    lights.push_back(Light(LIGHT_1_POSITION, LIGHT_1_COLOR));
-    scene.addLight(new Light(LIGHT_1_POSITION, LIGHT_1_COLOR));
+    return scene;
+}
 
-    // Instantiate the camera position
-    Point camera = CAMERA_POSITION;
+void save_scene(const char *filename, const Scene &scene)
+{
+    filebuf fb;
+    fb.open (filename, ios::out);
+    ostream os(&fb);
+    Json::Value root = scene.serialize();
+    os << root << endl;
+    fb.close();
+}
+
+PixelBuffer2D *pixels = NULL;
+Scene *scene = NULL;
+
+void run_raytracer()
+{
+    scene = make_scene();
 
     // Create the raytracer
-    Raytracer raytracer(depth, BACKGROUND_COLOR, shapes);
+    Raytracer raytracer;
+    raytracer.setMaxDepth(depth);
 
-    // Create the pixels array.
-    vector< vector<Color*>* > *pixels =
-        new vector< vector<Color*>* >(scene.getHeight(), NULL);
-
-    // Fire rays for every pixel
-    for (int j = dy/2; j < scene.getHeight(); ++j) {
-
-        pixels->at(j) = new vector<Color*>(scene.getWidth(), NULL);
-
-        for (int i = dx/2; i < scene.getWidth(); ++i) {
-
-            // Generate the ray
-            Vector ray( (dx * i + xc), (dy * j + yc), -1);
-            normalize(ray);
-
-
-            Color pixel = raytracer.Trace(&scene, ray, camera, 0);
-
-            // Set the color
-            pixels->at(j)->at(i) = new Color(pixel);
-        }
-    }
-
-
-  filebuf fb;
-  fb.open ("scene.txt", ios::out);
-  ostream os(&fb);
-  Json::Value root = scene.serialize();
-  os << root << endl;
-  fb.close();
-
+    pixels = raytracer.TraceScene(scene);
 
     if (aflag && lflag)
     {
         // Tone Reproduction Steps
-        ToneReproducer tr(lmax, LDMAX, scene.getHeight(), scene.getWidth());
+        ToneReproducer tr(lmax, LDMAX, scene->getHeight(), scene->getWidth());
         tr.Run(pixels, algo);
     }
+}
 
-    // Iterate over the pixels and render them.
-    for (int j = dy/2; j < scene.getHeight(); ++j) {
-        for (int i = dx/2; i < scene.getWidth(); ++i) {
 
-            float r_comp = pixels->at(j)->at(i)->R();
-            float g_comp = pixels->at(j)->at(i)->G();
-            float b_comp = pixels->at(j)->at(i)->B();
 
-            // Set the color
-            glColor3f(r_comp, g_comp, b_comp);
-
-            // Draw the point
-            glBegin(GL_POINTS);
-	        glVertex2i(i, j);
-            glEnd();
-        }
-    }
+void display( void )
+{
+    render(scene, pixels);
 
     // Display new screen
     glutSwapBuffers();
@@ -246,7 +226,7 @@ int main( int argc, char** argv )
 {
     int op;
     opterr = 0;
-	while ((op = getopt(argc, argv, "a:b:f:l:o:s:")) != -1)
+	while ((op = getopt(argc, argv, "a:b:f:hl:o:s:")) != -1)
     {
 		switch (op) {
 
@@ -269,6 +249,10 @@ int main( int argc, char** argv )
 			cout << "Warning: f flag not yet implemented" << endl;
 			break;
 
+        case 'h':
+            usage();
+            /* NOT REACHED */
+
 		case 'l':
 			++lflag;
 			lmax = atoi(optarg);
@@ -289,6 +273,8 @@ int main( int argc, char** argv )
 			/* NOTREACHED */
 		}
     }
+
+    run_raytracer();
 
     // OpenGL Dependency:
 

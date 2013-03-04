@@ -18,128 +18,186 @@
 #include "Raytracer.h"
 using namespace Raytracer_n;
 
-//
-// Constructor
-//
-Raytracer::Raytracer(int maxDepth, Color background,
-    vector<Shape*> shapes) :
-    mMaxDepth(maxDepth), mBackground(background),
-    mShapes(shapes) {
+typedef vector<Shape*> ShapeList;
+typedef vector<Shape*>::iterator ShapeListIterator;
+
+const int DEFAULT_MAX_DEPTH = 1;
+const int INITIAL_DEPTH = 0;
+
+Raytracer::Raytracer()
+{
+    mMaxDepth = DEFAULT_MAX_DEPTH;
 }
 
-//
-// Destructor
-//
-Raytracer::~Raytracer() { }
+Vector Raytracer::makeReflectionRay(const Vector &normal,
+                                    const Vector &ray,
+                                    const Point &intersection)
+{
 
-//
-// Trace
-//
-Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth) {
+    Vector reflection = normalize(
+                            vectorSubtract(ray,
+                                scalarMultiply(normal,
+                                    2 * dotProduct(ray, normal)
+                                )
+                            )
+                        );
+     return reflection;
+}
+/*
+Vector Raytracer::makeTransmissionRay(const Vector &normal,
+                                      const Vector &ray,
+                                      const Point &intersection)
+{
+    normalize(
+        vectorAdd(scalarMultiply(ray, alpha),
+            scalarMultiply(normal,
+                (alpha * cosine) - sqrt(discriminant))));
+}
+*/
+Shape *Raytracer::getClosestShape(Scene *scene, const Vector &ray,
+                                  Point &origin)
+{
+    ShapeList *shapes = scene->getShapes();
+    ShapeListIterator iter = shapes->begin();
 
-    if (depth >= mMaxDepth) {
-        return mBackground;
-    }
+    Point *closestIntersection = NULL;
+    Shape *closestShape = NULL;
 
-    Color rv = mBackground;
-
-    Point *closest = NULL;
-    Shape *s = NULL;
-
-    // find the closest intersection
-    vector<Shape*>::iterator iter = mShapes.begin();
-    for (; iter != mShapes.end(); ++iter) {
-
+    for (; iter != shapes->end(); ++iter)
+    {
         // Get the intersection point
-        Point *p = (*iter)->Intersect(ray, origin);
+        Point *currentIntersection = (*iter)->Intersect(ray, origin);
 
-        if (p != NULL) {
-
-            // There was an intersection
-
-            if (closest == NULL) {
-
-                // p is closest, by default
-                closest = p;
-                s = *iter;
-
-            } else if (distanceBetween(origin, *p) <
-                       distanceBetween(origin, *closest)) {
-
+        if (currentIntersection != NULL)
+        {
+            // Check if this intersection is closer
+            if ((closestIntersection == NULL) ||
+                (distanceBetween(origin, *currentIntersection) <
+                 distanceBetween(origin, *closestIntersection)))
+            {
                 // p is closer
-                closest = p;
-                s = *iter;
-
+                closestIntersection = currentIntersection;
+                closestShape = *iter;
             }
         }
     }
 
-    // Calculate the phong shade for the closest pixel
-    if (s != NULL) {
+    // Update origin so that it is the intersection point
+    if (closestIntersection != NULL)
+    {
+        origin = *closestIntersection;
+    }
 
+    return closestShape;
+}
 
-        // local illumination
-        rv = mPhongShader.Shade(scene, s, *closest);
+Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
+{
+    if (depth >= mMaxDepth)
+    {
+        return scene->getBackground();
+    }
 
-        if (depth < mMaxDepth) {
+    Point *closestIntersection = NULL;
+    Shape *closestShape = getClosestShape(scene, ray, origin);
 
-            float kr = s->GetReflectiveConstant();
-            float kt = s->GetTransmissiveConstant();
+    // If this ray hits nothing, return the background color
+    if (closestShape == NULL)
+    {
+        return scene->getBackground();
+    }
 
-            // spawn reflection ray
-            if (kr > 0) {
-                Vector N = normalize(s->GetSurfaceNormal(*closest));
-                Vector reflection = normalize(vectorSubtract(ray, scalarMultiply(N, 2 * dotProduct(ray, N))));
-                rv += Trace(scene, reflection, *closest, depth + 1) * kr;
-            }
+    // local illumination
+    Color rv = mPhongShader.Shade(scene, closestShape, origin);
 
-            // spawn transmission ray
-            if (kt > 0) {
+    float kr = closestShape->GetReflectiveConstant();
+    float kt = closestShape->GetTransmissiveConstant();
 
-                Vector N = normalize(s->GetSurfaceNormal(*closest));
-                float alpha;
+    Vector normal = normalize(closestShape->GetSurfaceNormal(origin));
 
-                // test inside/outside
-                if (dotProduct(negateVector(ray), N) < 0) {
+    // spawn reflection ray
+    if (kr > 0)
+    {
+        Vector reflection = makeReflectionRay(normal, ray, origin);
+        rv += Trace(scene, reflection, origin, depth + 1) * kr;
+    }
 
-                    // we are inside the shape
-                    N = negateVector(N);
-                    alpha = s->GetRefractionIndex() / 1.0;
+    // spawn transmission ray
+    if (kt > 0)
+    {
+        float alpha;
+        bool insideShape = (dotProduct(negateVector(ray), normal) < 0);
 
-                } else {
+        if (insideShape)
+        {
+            normal = negateVector(normal);
+            alpha = closestShape->GetRefractionIndex();
+        }
+        else
+        {
+            alpha = 1.0 / closestShape->GetRefractionIndex();
+        }
 
-                    // we are outside the shape
-                    alpha = 1.0 / s->GetRefractionIndex();
+        float cosine = dotProduct(negateVector(ray), normal);
 
-                }
+        float discriminant = 1.0 + ( (alpha * alpha) *
+            ((cosine * cosine) - 1.0) );
 
-                float cosine = dotProduct(negateVector(ray), N);
+        bool totalInternalReflection = (discriminant < 0);
 
-                float discriminant = 1.0 + ( (alpha * alpha) *
-                    ((cosine * cosine) - 1.0) );
+        if (totalInternalReflection)
+        {
+            // use the reflection ray with the kt value
+            Vector reflection = makeReflectionRay(normal, ray, origin);
+            rv += Trace(scene, reflection, origin, depth + 1) * kt;
+        }
+        else
+        {
+            // spawn a transmission ray
+            Vector transmission = normalize(
+                                    vectorAdd(scalarMultiply(ray, alpha),
+                                        scalarMultiply(normal,
+                                            (alpha * cosine) - sqrt(discriminant))));
 
-                if (discriminant < 0) {
+            rv += Trace(scene, transmission, origin, depth + 1) * kt;
 
-                    // total internal reflection:
-                    // use the reflection ray with the kt value
-                    Vector reflection = normalize(vectorSubtract(ray, scalarMultiply(N, 2 * dotProduct(ray, N))));
-                    rv += Trace(scene, reflection, *closest, depth + 1) * kt;
-
-                } else {
-
-                    // spawn a transmission ray
-                    Vector transmission = normalize(
-                                            vectorAdd(scalarMultiply(ray, alpha),
-                                                scalarMultiply(N,
-                                                    (alpha * cosine) - sqrt(discriminant))));
-
-                    rv += Trace(scene, transmission, *closest, depth + 1) * kt;
-
-                }
-            }
         }
     }
 
     return rv;
-
 }
+
+PixelBuffer2D *Raytracer::TraceScene(Scene *scene)
+{
+    int height = scene->getHeight();
+    int width = scene->getWidth();
+    // Calculations to map locations to pixels
+    float ratio = float(width)/height;
+    float dx = 2.0 * ratio / width;
+    float dy = 2.0 / height;
+    float xc = -ratio;
+    float yc = -1;
+
+    PixelBuffer2D *pixels = new PixelBuffer2D(height);
+
+    // Fire rays for every pixel
+    for (int j = dy/2; j < height; ++j)
+    {
+        pixels->at(j) = new PixelBuffer(width);
+
+        for (int i = dx/2; i < width; ++i)
+        {
+            // Generate the ray
+            Vector ray( (dx * i + xc), (dy * j + yc), -1);
+            normalize(ray);
+            Color pixel = Trace(scene, ray, scene->getCamera().getLocation(),
+                                INITIAL_DEPTH);
+
+            // Set the color
+            pixels->at(j)->at(i) = pixel;
+        }
+    }
+
+    return pixels;
+}
+
