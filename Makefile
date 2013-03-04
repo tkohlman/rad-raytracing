@@ -73,7 +73,7 @@ CCLIBFLAGS = $(LIBFLAGS)
 CPP_FILES :=    camera.cpp          \
                 checkedshader.cpp   \
                 Color.cpp           \
-                cp7.cpp             \
+                radraytracer.cpp    \
                 cylinder.cpp        \
                 Light.cpp           \
                 PhongShader.cpp     \
@@ -132,10 +132,10 @@ OBJFILES =	    camera.o          \
 # Main targets
 #
 
-all:	cp7
+all:	radraytracer
 
-cp7:	cp7.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o cp7 cp7.o $(OBJFILES) $(CCLIBFLAGS)
+radraytracer:	radraytracer.o $(OBJFILES)
+	$(CXX) $(CXXFLAGS) -o radraytracer radraytracer.o $(OBJFILES) $(CCLIBFLAGS)
 
 #
 # Dependencies
@@ -148,7 +148,7 @@ cylinder.o:	        cylinder.h Shape.h
 checkedshader.o:    checkedshader.h proceduralshader.h
 proceduralshader.o:	Color.h Point.h ijsonserializable.h
 proceduralshaderfactory.o:  proceduralshaderfactory.h
-scene.o:	        scene.h ./json/json.h camera.h ijsonserializable.h ShapeFactory.h proceduralshaderfactory.h
+scene.o:	        scene.h camera.h ijsonserializable.h ShapeFactory.h proceduralshaderfactory.h
 Color.o:	        Color.h ijsonserializable.h
 Light.o:	        Color.h Light.h Point.h Vector.h ijsonserializable.h
 PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h
@@ -160,7 +160,7 @@ ShapeFactory.o:     ShapeFactory.h
 Sphere.o:	        Shape.h Sphere.h
 ToneReproducer.o:	Color.h ToneReproducer.h
 Vector.o:	        Vector.h ijsonserializable.h
-cp7.o:	            Raytracer.h scene.h ToneReproducer.h
+radraytracer.o:	    Raytracer.h scene.h ToneReproducer.h
 
 #
 # Housekeeping
@@ -172,7 +172,7 @@ archive.tgz:	$(SOURCEFILES) Makefile
 	tar cf - $(SOURCEFILES) Makefile | gzip > archive.tgz
 
 clean:
-	-/bin/rm -f $(OBJFILES) cp7.o core
+	-/bin/rm -f $(OBJFILES) radraytracer.o core
 
 realclean:        clean
-	-/bin/rm -f cp7
+	-/bin/rm -f radraytracer

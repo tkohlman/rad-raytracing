@@ -196,7 +196,7 @@ int main( int argc, char** argv )
     //scene = make_scene();
     //save_scene("scene.txt", *scene);
     scene = new Scene();
-    open_scene("scene.txt", scene);
+    open_scene("whitted.json", scene);
 
     run_raytracer();
 
