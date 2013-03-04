@@ -78,6 +78,7 @@ CPP_FILES :=    camera.cpp          \
                 Light.cpp           \
                 PhongShader.cpp     \
                 Point.cpp           \
+                proceduralshaderfactory.cpp \
                 Raytracer.cpp       \
                 Rectangle.cpp       \
                 scene.cpp           \
@@ -98,6 +99,7 @@ H_FILES =	    camera.h            \
                 Light.h             \
                 PhongShader.h       \
                 Point.h             \
+                proceduralshaderfactory.h \
                 Raytracer.h         \
                 Rectangle.h         \
                 scene.h             \
@@ -116,6 +118,7 @@ OBJFILES =	    camera.o          \
                 Light.o           \
                 PhongShader.o     \
                 Point.o           \
+                proceduralshaderfactory.o \
                 Raytracer.o       \
                 Rectangle.o       \
                 scene.o           \
@@ -143,8 +146,9 @@ camera.o:           camera.h ijsonserializable.h
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ./json/jsoncpp.cpp -o ./json/json.o
 cylinder.o:	        Point.h Shape.h Color.h ijsonserializable.h
 checkedshader.o:    checkedshader.h proceduralshader.h
-proceduralshader.o:	Color.h Point.h
-scene.o:	        scene.h ./json/json.h camera.h ijsonserializable.h ShapeFactory.h
+proceduralshader.o:	Color.h Point.h ijsonserializable.h
+proceduralshaderfactory.o:  proceduralshaderfactory.h
+scene.o:	        scene.h ./json/json.h camera.h ijsonserializable.h ShapeFactory.h proceduralshaderfactory.h
 Color.o:	        Color.h ijsonserializable.h
 Light.o:	        Color.h Light.h Point.h Vector.h ijsonserializable.h
 PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h
@@ -159,7 +163,7 @@ Vector.o:	        Vector.h ijsonserializable.h
 cp7.o:	            checkedshader.h Color.h Light.h PhongShader.h Point.h   \
                     Raytracer.h Rectangle.h Scene.h scene.h Shape.h         \
                     Sphere.h ToneReproducer.h Vector.h                      \
-                    cylinder.h ./json/json.h camera.h
+                    cylinder.h ./json/json.h camera.h proceduralshaderfactory.h
 
 #
 # Housekeeping

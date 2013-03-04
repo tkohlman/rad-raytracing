@@ -36,3 +36,23 @@ Color CheckedShader::shade( const Point &p )
         return Color(1,1,0);
     }
 }
+
+Json::Value CheckedShader::serialize() const
+{
+    Json::Value root;
+    root["type"] = "checked_shader";
+    root["a"] = a.serialize();
+    root["b"] = b.serialize();
+    root["c"] = c.serialize();
+    root["d"] = d.serialize();
+    return root;
+}
+
+void CheckedShader::deserialize(const Json::Value &root)
+{
+    a.deserialize(root["a"]);
+    b.deserialize(root["b"]);
+    c.deserialize(root["c"]);
+    d.deserialize(root["d"]);
+}
+

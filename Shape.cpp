@@ -27,6 +27,8 @@
 #include "Shape.h"
 using namespace Raytracer_n;
 
+#include <proceduralshaderfactory.h>
+
 //
 // Constructor
 //
@@ -89,6 +91,11 @@ Json::Value Shape::serialize() const
     root["reflective_value"] = mReflectionValue;
     root["transmissive_value"] = mTransmissionValue;
     root["refraction_index"] = mRefractionIndex;
+
+    if (shader != NULL)
+    {
+        root["shader"] = shader->serialize();
+    }
     return root;
 }
 
@@ -104,4 +111,11 @@ void Shape::deserialize(const Json::Value &root)
     mReflectionValue = root["reflective_value"].asFloat();
     mTransmissionValue = root["transmissive_value"].asFloat();
     mRefractionIndex = root["refraction_index"].asFloat();
+
+    if (root.isMember("shader"))
+    {
+        ProceduralShaderFactory factory;
+        shader = factory.create(root["shader"]["type"].asString());
+        shader->deserialize(root["shader"]);
+    }
 }

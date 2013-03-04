@@ -11,7 +11,12 @@ public:
 
     CheckedShader( Point a, Point b, Point c, Point d );
 
+    CheckedShader() {};
+
     Color shade( const Point &p );
+
+    Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
 private:
 

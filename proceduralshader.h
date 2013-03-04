@@ -5,7 +5,9 @@
 #include "Point.h"
 using namespace Raytracer_n;
 
-class ProceduralShader
+#include <ijsonserializable.h>
+
+class ProceduralShader : public IJsonSerializable
 {
 public:
 
