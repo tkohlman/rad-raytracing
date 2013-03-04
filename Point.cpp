@@ -86,3 +86,10 @@ Json::Value Point::serialize() const
     root["z"] = _z;
     return root;
 }
+
+void Point::deserialize(const Json::Value &root)
+{
+    _x = root["x"].asFloat();
+    _y = root["y"].asFloat();
+    _z = root["z"].asFloat();
+}

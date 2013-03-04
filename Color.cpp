@@ -41,6 +41,13 @@ Json::Value Color::serialize() const
     return root;
 }
 
+void Color::deserialize(const Json::Value &root)
+{
+    _r = root["r"].asFloat();
+    _g = root["g"].asFloat();
+    _b = root["b"].asFloat();
+}
+
 // R
 float Color::R() const {
     return (_r);

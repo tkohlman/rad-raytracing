@@ -89,6 +89,7 @@ public:
     ~Color();
 
     Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
     ///
     /// @name R

@@ -21,6 +21,10 @@ public:
         float reflectionValue, float transmissionValue,
         float refractionIndex);
 
+    Cylinder() {};
+
+    void init();
+
     ///
     /// @name ~Cylinder
     ///
@@ -33,6 +37,7 @@ public:
 
     void serialize(std::ostream &os);
     Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
     ///
     /// @name Intersect

@@ -52,6 +52,8 @@ public:
            float reflectionValue, float transmissionValue,
            float refractionIndex );
 
+    Shape() {};
+
     ///
     /// @name ~Shape
     ///
@@ -63,6 +65,7 @@ public:
     virtual void serialize(std::ostream &os);
 
     virtual Json::Value serialize() const;
+    virtual void deserialize(const Json::Value &root);
 
     ///
     /// @name GetAmbientColor();

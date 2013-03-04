@@ -17,11 +17,15 @@ Cylinder::Cylinder(Point cpoint_1, Point cpoint_2, float radius, Color ambientCo
         reflectionValue, transmissionValue, refractionIndex),
          _cp1(cpoint_1), _cp2(cpoint_2), _radius(radius) {
 
+    init();
+}
+
+void Cylinder::init()
+{
     float height = sqrt((_cp1.X() - _cp2.X()) * (_cp1.X() - _cp2.X()) +
                         (_cp1.Y() - _cp2.Y()) * (_cp1.Y() - _cp2.Y()) +
                         (_cp1.Z() - _cp2.Z()) * (_cp1.Z() - _cp2.Z()));
     _orient = scalarMultiply(displacementVector(_cp1, _cp2), 1.0/height);
-
 }
 
 // ~Cylinder
@@ -202,4 +206,13 @@ Json::Value Cylinder::serialize() const
     root["center_2"] = _cp2.serialize();
     root["radius"] = _radius;
     return root;
+}
+
+void Cylinder::deserialize(const Json::Value &root)
+{
+    Shape::deserialize(root);
+    _cp1.deserialize(root["center_1"]);
+    _cp2.deserialize(root["center_2"]);
+    _radius = root["radius"].asFloat();
+    init();
 }

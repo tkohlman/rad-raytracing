@@ -82,6 +82,7 @@ CPP_FILES :=    camera.cpp          \
                 Rectangle.cpp       \
                 scene.cpp           \
                 Shape.cpp           \
+                ShapeFactory.cpp    \
                 Sphere.cpp          \
                 ToneReproducer.cpp  \
                 Vector.cpp          \
@@ -101,6 +102,7 @@ H_FILES =	    camera.h            \
                 Rectangle.h         \
                 scene.h             \
                 Shape.h             \
+                ShapeFactory.h      \
                 Sphere.h            \
                 ToneReproducer.h    \
                 Vector.h            \
@@ -118,6 +120,7 @@ OBJFILES =	    camera.o          \
                 Rectangle.o       \
                 scene.o           \
                 Shape.o           \
+                ShapeFactory.o    \
                 Sphere.o          \
                 ToneReproducer.o  \
                 Vector.o          \
@@ -141,7 +144,7 @@ camera.o:           camera.h ijsonserializable.h
 cylinder.o:	        Point.h Shape.h Color.h ijsonserializable.h
 checkedshader.o:    checkedshader.h proceduralshader.h
 proceduralshader.o:	Color.h Point.h
-scene.o:	        scene.h ./json/json.h camera.h ijsonserializable.h
+scene.o:	        scene.h ./json/json.h camera.h ijsonserializable.h ShapeFactory.h
 Color.o:	        Color.h ijsonserializable.h
 Light.o:	        Color.h Light.h Point.h Vector.h ijsonserializable.h
 PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h
@@ -149,6 +152,7 @@ Point.o:	        Color.h Point.h Vector.h ijsonserializable.h
 Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h
 Rectangle.o:	    Color.h Point.h Rectangle.h Shape.h Vector.h ijsonserializable.h
 Shape.o:	        Color.h Point.h Shape.h Vector.h checkedshader.h ijsonserializable.h
+ShapeFactory.o:     ShapeFactory.h
 Sphere.o:	        Color.h Point.h Shape.h Sphere.h Vector.h ijsonserializable.h
 ToneReproducer.o:	Color.h ToneReproducer.h
 Vector.o:	        Vector.h ijsonserializable.h

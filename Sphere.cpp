@@ -144,4 +144,10 @@ Json::Value Sphere::serialize() const
     return root;
 }
 
+void Sphere::deserialize(const Json::Value &root)
+{
+    Shape::deserialize(root);
+    _center.deserialize(root["center"]);
+    _radius = root["radius"].asFloat();
+}
 

@@ -50,6 +50,8 @@ public:
         float reflectionValue, float transmissionValue,
         float refractionIndex );
 
+    Rectangle() {};
+
     ///
     /// @name ~Rectangle
     ///
@@ -58,9 +60,12 @@ public:
     ///
     ~Rectangle( void );
 
+    void init();
+
     void serialize(ostream &os);
 
     Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
     ///
     /// @name Intersect

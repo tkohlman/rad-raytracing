@@ -14,3 +14,9 @@ Json::Value Camera::serialize() const
     root["view"] = view.serialize();
     return root;
 }
+
+void Camera::deserialize(const Json::Value &root)
+{
+    location.deserialize(root["location"]);
+    view.deserialize(root["view"]);
+}

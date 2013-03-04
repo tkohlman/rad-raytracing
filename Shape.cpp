@@ -91,3 +91,17 @@ Json::Value Shape::serialize() const
     root["refraction_index"] = mRefractionIndex;
     return root;
 }
+
+void Shape::deserialize(const Json::Value &root)
+{
+    mAmbientColor.deserialize(root["ambient_color"]);
+    mDiffuseColor.deserialize(root["diffuse_color"]);
+    mSpecularColor.deserialize(root["specular_color"]);
+    mAmbientConstant = root["ambient_constant"].asFloat();
+    mDiffuseConstant = root["diffuse_constant"].asFloat();
+    mSpecularConstant = root["specular_constant"].asFloat();
+    mSpecularExponent = root["specular_exponent"].asInt();
+    mReflectionValue = root["reflective_value"].asFloat();
+    mTransmissionValue = root["transmissive_value"].asFloat();
+    mRefractionIndex = root["refraction_index"].asFloat();
+}

@@ -32,6 +32,7 @@ public:
     void addLight(Light *light) { lights->push_back(light); };
 
     Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
 private:
 

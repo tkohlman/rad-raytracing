@@ -35,6 +35,8 @@ public:
     ///
     Light(Point position, Color color);
 
+    Light() {};
+
     ///
     /// @name ~Light
     ///
@@ -46,6 +48,7 @@ public:
     ~Light();
 
     Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
     ///
     /// @name GetPosition

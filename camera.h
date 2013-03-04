@@ -20,6 +20,7 @@ public:
     void setView(const Vector &view);
 
     Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
 private:
 

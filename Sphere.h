@@ -70,6 +70,8 @@ public:
             float reflectionValue, float transmissionValue,
             float refractionIndex );
 
+    Sphere() {};
+
     ///
     /// @name ~Sphere
     ///
@@ -81,6 +83,7 @@ public:
     void serialize(std::ostream &os);
 
     Json::Value serialize() const;
+    void deserialize(const Json::Value &root);
 
     ///
     /// @name Intersect

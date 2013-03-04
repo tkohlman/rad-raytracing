@@ -1,6 +1,6 @@
 ///
 /// @file scene.h
-/// 
+///
 /// @author	Thomas Kohlman
 /// @date 27 February 2012
 ///
@@ -9,7 +9,7 @@
 ///
 /// Version:
 /// 	$Id$
-/// 
+///
 /// Revisions:
 ///		$Log$
 ///

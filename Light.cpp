@@ -45,3 +45,9 @@ Json::Value Light::serialize() const
     return root;
 }
 
+void Light::deserialize(const Json::Value &root)
+{
+    mPosition.deserialize(root["position"]);
+    mColor.deserialize(root["color"]);
+}
+

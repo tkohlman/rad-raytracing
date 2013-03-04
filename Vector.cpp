@@ -49,6 +49,12 @@ Json::Value Vector::serialize() const
     return root;
 }
 
+void Vector::deserialize(const Json::Value &root)
+{
+    _x = root["x"].asFloat();
+    _y = root["y"].asFloat();
+    _z = root["z"].asFloat();
+}
 
 
 

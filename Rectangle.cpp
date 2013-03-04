@@ -46,9 +46,14 @@ Rectangle::Rectangle( Point a, Point b, Point c, Point d,
         reflectionValue, transmissionValue, refractionIndex),
         _a(a), _b(b), _c(c), _d(d) {
 
+    init();
+}
+
+void Rectangle::init()
+{
     // calculate the normal vector
-    Vector v1 = displacementVector(b, a);
-    Vector v2 = displacementVector(d, a);
+    Vector v1 = displacementVector(_b, _a);
+    Vector v2 = displacementVector(_d, _a);
 
     _normal = crossProduct(v2, v1);
 }
@@ -139,4 +144,14 @@ Json::Value Rectangle::serialize() const
     root["c"] = _c.serialize();
     root["d"] = _d.serialize();
     return root;
+}
+
+void Rectangle::deserialize(const Json::Value &root)
+{
+    Shape::deserialize(root);
+    _a.deserialize(root["a"]);
+    _b.deserialize(root["b"]);
+    _c.deserialize(root["c"]);
+    _d.deserialize(root["d"]);
+    init();
 }

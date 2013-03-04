@@ -179,12 +179,39 @@ void save_scene(const char *filename, const Scene &scene)
     fb.close();
 }
 
+void open_scene(const char *filename, Scene *scene)
+{
+    Json::Value root;   // will contains the root value after parsing.
+    Json::Reader reader;
+    std::string file_contents;
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (in)
+    {
+        in.seekg(0, std::ios::end);
+        file_contents.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&file_contents[0], file_contents.size());
+        in.close();
+    }
+
+    bool parsingSuccessful = reader.parse(file_contents, root);
+    if (!parsingSuccessful)
+    {
+        // report to the user the failure and their locations in the document.
+        std::cerr  << "Failed to parse configuration\n"
+                   << reader.getFormattedErrorMessages();
+        return;
+    }
+
+    scene->deserialize(root);
+}
+
 PixelBuffer2D *pixels = NULL;
 Scene *scene = NULL;
 
 void run_raytracer()
 {
-    scene = make_scene();
+    //scene = make_scene();
 
     // Create the raytracer
     Raytracer raytracer;
@@ -273,6 +300,10 @@ int main( int argc, char** argv )
 			/* NOTREACHED */
 		}
     }
+    //scene = make_scene();
+    //save_scene("scene.txt", *scene);
+    scene = new Scene();
+    open_scene("scene.txt", scene);
 
     run_raytracer();
 
