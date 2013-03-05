@@ -35,22 +35,8 @@
 namespace RadRt
 {
 
-// Sphere
-Sphere::Sphere( Point center, float radius,
-                Color ambientColor, Color diffuseColor, Color specularColor,
-                float ambientConstant, float diffuseConstant,
-                float specularConstant, float specularExponent,
-                float reflectionValue, float transmissionValue,
-                float refractionIndex ) :
-
-    Shape(ambientColor, diffuseColor, specularColor, ambientConstant,
-        diffuseConstant, specularConstant, specularExponent,
-        reflectionValue, transmissionValue, refractionIndex),
-        _center(center), _radius(radius) {
-}
-
 // Intersect
-Point* Sphere::Intersect(Vector v, Point o)
+Point* Sphere::intersect(Vector v, Point o)
 {
     // This intercept calculation takes the form of the quadratic equation:
     // At^2 + Bt + C = 0, where
@@ -112,7 +98,7 @@ Point* Sphere::Intersect(Vector v, Point o)
 //
 // GetSurfaceNormal
 //
-Vector Sphere::GetSurfaceNormal(Point surface)
+Vector Sphere::getSurfaceNormal(Point surface)
 {
     Vector rv = displacementVector(surface, _center);
     normalize(rv);

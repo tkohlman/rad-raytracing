@@ -108,13 +108,13 @@ void run_raytracer()
     RadRt::Raytracer raytracer;
     raytracer.setMaxDepth(depth);
 
-    pixels = raytracer.TraceScene(scene);
+    pixels = raytracer.traceScene(scene);
 
     if (aflag && lflag)
     {
         // Tone Reproduction Steps
         RadRt::ToneReproducer tr(lmax, LDMAX, scene->getHeight(), scene->getWidth());
-        tr.Run(pixels, algo);
+        tr.run(pixels, algo);
     }
 }
 

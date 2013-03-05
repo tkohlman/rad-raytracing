@@ -19,7 +19,7 @@ class PhongShader
 {
 public:
 
-    Color Shade(Scene *scene, Shape *object, Point intersection);
+    Color shade(Scene *scene, Shape *object, Point intersection);
 
 };  // class PhongShader
 

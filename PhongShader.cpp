@@ -23,7 +23,7 @@ namespace RadRt
 //
 // Shade
 //
-Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
+Color PhongShader::shade(Scene *scene, Shape *object, Point intersection)
 {
     // Declare the light components
     Color Ka;
@@ -31,7 +31,7 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
     Color Ks;
 
     // Compute the ambient component
-    Ka = object->GetAmbientColor(intersection);
+    Ka = object->getAmbientColor(intersection);
 
     // For each light source
     LightVector *lights = scene->getLights();
@@ -57,7 +57,7 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
             }
 
             // Get the intersection point
-            Point *p = (*shape)->Intersect(shadow_ray, intersection);
+            Point *p = (*shape)->intersect(shadow_ray, intersection);
 
             // If this point is closer than the closest known point,
             // there is no line of sight.
@@ -65,7 +65,7 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
                 (distanceBetween(*p, (*light)->getPosition()) <
                  distanceBetween(intersection, (*light)->getPosition()))) {
 
-                if ((*shape)->GetTransmissiveConstant() > 0) {
+                if ((*shape)->getTransmissiveConstant() > 0) {
                     continue;
                 }
 
@@ -76,13 +76,13 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
 
         if (los) {
 
-            Color oKd = object->GetDiffuseColor(intersection);
-            Color oKs = object->GetSpecularColor();
-            Color lC = (*light)->GetColor();
-            float exp = object->GetSpecularExponent();
+            Color oKd = object->getDiffuseColor(intersection);
+            Color oKs = object->getSpecularColor();
+            Color lC = (*light)->getColor();
+            float exp = object->getSpecularExponent();
 
             // Calculate the required vectors (normalize all)
-            Vector N = normalize(object->GetSurfaceNormal(intersection));
+            Vector N = normalize(object->getSurfaceNormal(intersection));
 
             // Compute dot product between shadow and normal. Clamp to zero
             // if the angle is more than 90 degrees.
@@ -109,13 +109,13 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
         }
     }
 
-    Ka = Ka * object->GetAmbientConstant();
-    Kd = Kd * object->GetDiffuseConstant();
-    Ks = Ks * object->GetSpecularConstant();
+    Ka = Ka * object->getAmbientConstant();
+    Kd = Kd * object->getDiffuseConstant();
+    Ks = Ks * object->getSpecularConstant();
 
     Color rv = Ka + Kd + Ks;
 
-    rv.Clamp();
+    rv.clamp();
 
     return rv;
 

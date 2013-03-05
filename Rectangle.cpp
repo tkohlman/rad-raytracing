@@ -35,22 +35,6 @@
 namespace RadRt
 {
 
-// Rectangle
-Rectangle::Rectangle( Point a, Point b, Point c, Point d,
-        Color ambientColor, Color diffuseColor, Color specularColor,
-        float ambientConstant, float diffuseConstant,
-        float specularConstant, float specularExponent,
-        float reflectionValue, float transmissionValue,
-        float refractionIndex ) :
-
-    Shape(ambientColor, diffuseColor, specularColor, ambientConstant,
-        diffuseConstant, specularConstant, specularExponent,
-        reflectionValue, transmissionValue, refractionIndex),
-        _a(a), _b(b), _c(c), _d(d) {
-
-    init();
-}
-
 void Rectangle::init()
 {
     // calculate the normal vector
@@ -61,7 +45,7 @@ void Rectangle::init()
 }
 
 // Intersect
-Point* Rectangle::Intersect(Vector v, Point o) {
+Point* Rectangle::intersect(Vector v, Point o) {
 
     // Check if vector is parallel to plane (no intercept)
     if (dotProduct(v, _normal) == 0) {
@@ -109,7 +93,7 @@ Point* Rectangle::Intersect(Vector v, Point o) {
 //
 // GetSurfaceNormal
 //
-Vector Rectangle::GetSurfaceNormal(Point surface)
+Vector Rectangle::getSurfaceNormal(Point surface)
 {
     return _normal;
 }

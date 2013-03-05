@@ -64,7 +64,7 @@ public:
     ///                 pointers that each point to mWidth color values.
     /// @param algorithm - the TR algorithm to run (either Ward's or Reinhard's)
     ///
-    void Run( PixelBuffer2D *pixels, int algorithm );
+    void run( PixelBuffer2D *pixels, int algorithm );
 
 private:
 
@@ -77,7 +77,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void PrepHDR( PixelBuffer2D *pixels );
+    void prepHDR( PixelBuffer2D *pixels );
 
     ///
     /// @name CalcAbsLum
@@ -89,7 +89,7 @@ private:
     /// @param color - a single RGB value
     /// @return - absolute illuminace for this RGB value.
     ///
-    inline float CalcAbsLum( Color color );
+    inline float calcAbsLum( Color color );
 
     ///
     /// @name ApplyDevice
@@ -101,7 +101,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void ApplyDevice( PixelBuffer2D *pixels );
+    void applyDevice( PixelBuffer2D *pixels );
 
     ///
     /// @name CalcAvgLum
@@ -113,7 +113,7 @@ private:
     ///                 pointers that each point to mWidth color values.
     /// @return - the average log luminance of the scene.
     ///
-    float CalcAvgLum( PixelBuffer2D *pixels );
+    float calcAvgLum( PixelBuffer2D *pixels );
 
     /// @name WardsTR
     ///
@@ -123,7 +123,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void WardsTR( PixelBuffer2D *pixels );
+    void wardsTR( PixelBuffer2D *pixels );
 
     /// @name ReinhardsTR
     ///
@@ -133,7 +133,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void ReinhardsTR( PixelBuffer2D *pixels );
+    void reinhardsTR( PixelBuffer2D *pixels );
 
     ///
     /// @name mLmax
@@ -173,7 +173,7 @@ private:
 //
 // CalcAbsLum
 //
-inline float ToneReproducer::CalcAbsLum( Color color )
+inline float ToneReproducer::calcAbsLum( Color color )
 {
     return (0.27 * color.getR()) +
            (0.67 * color.getG()) +

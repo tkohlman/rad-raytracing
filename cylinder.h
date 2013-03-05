@@ -10,16 +10,6 @@ class Cylinder : public Shape
 {
 public:
 
-    ///
-    /// Constructor
-    ///
-    Cylinder(Point cpoint_1, Point cpoint_2, float radius, Color ambientColor,
-        Color diffuseColor, Color specularColor,
-        float ambientConstant, float diffuseConstant,
-        float specularConstant, float specularExponent,
-        float reflectionValue, float transmissionValue,
-        float refractionIndex);
-
     Cylinder() {};
 
     void init();
@@ -47,9 +37,9 @@ public:
     /// @param o - origin of the ray
     /// @return - closest (positive) intersect point to the origin of the ray
     ///
-    virtual Point* Intersect(Vector v, Point o);
+    virtual Point* intersect(Vector v, Point o);
 
-    virtual Vector GetSurfaceNormal(Point surface);
+    virtual Vector getSurfaceNormal(Point surface);
 
 private:
 

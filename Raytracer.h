@@ -50,9 +50,9 @@ public:
     /// @param depth - recursion depth
     /// @return - color of the point the ray hits
     ///
-    Color Trace(Scene *scene, Vector ray, Point origin, int depth);
+    Color trace(Scene *scene, Vector ray, Point origin, int depth);
 
-    PixelBuffer2D *TraceScene(Scene *scene);
+    PixelBuffer2D *traceScene(Scene *scene);
 
 private:
 

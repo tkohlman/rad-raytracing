@@ -4,21 +4,6 @@
 namespace RadRt
 {
 
-// Cylinder
-Cylinder::Cylinder(Point cpoint_1, Point cpoint_2, float radius, Color ambientColor,
-        Color diffuseColor, Color specularColor,
-        float ambientConstant, float diffuseConstant,
-        float specularConstant, float specularExponent,
-        float reflectionValue, float transmissionValue,
-        float refractionIndex) :
-     Shape(ambientColor, diffuseColor, specularColor, ambientConstant,
-        diffuseConstant, specularConstant, specularExponent,
-        reflectionValue, transmissionValue, refractionIndex),
-         _cp1(cpoint_1), _cp2(cpoint_2), _radius(radius) {
-
-    init();
-}
-
 void Cylinder::init()
 {
     float height =
@@ -32,13 +17,13 @@ void Cylinder::init()
 Cylinder::~Cylinder() {
 }
 
-Vector Cylinder::GetSurfaceNormal(Point surface)
+Vector Cylinder::getSurfaceNormal(Point surface)
 {
     return _orient;
 }
 
 // Intersect
-Point* Cylinder::Intersect(Vector v, Point o) {
+Point* Cylinder::intersect(Vector v, Point o) {
 
     // Side intercept ---------------------------------------------------------
     // This intercept calculation takes the form of the quadratic equation:

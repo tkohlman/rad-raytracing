@@ -39,18 +39,18 @@ ToneReproducer::~ToneReproducer( void ) {
 //
 // Run
 //
-void ToneReproducer::Run( PixelBuffer2D *pixels, int algorithm ) {
+void ToneReproducer::run( PixelBuffer2D *pixels, int algorithm ) {
 
-    PrepHDR(pixels);
+    prepHDR(pixels);
 
     if (algorithm == WARDS) {
 
-        WardsTR(pixels);
-        ApplyDevice(pixels);
+        wardsTR(pixels);
+        applyDevice(pixels);
 
     } else {
 
-        ReinhardsTR(pixels);
+        reinhardsTR(pixels);
     }
 
     return;
@@ -60,7 +60,7 @@ void ToneReproducer::Run( PixelBuffer2D *pixels, int algorithm ) {
 //
 // PrepHDR
 //
-void ToneReproducer::PrepHDR( PixelBuffer2D *pixels ) {
+void ToneReproducer::prepHDR( PixelBuffer2D *pixels ) {
 
     // Iterate through each pixel and scale by mLmax
     for (int h(0); h < mHeight; ++h)
@@ -76,7 +76,7 @@ void ToneReproducer::PrepHDR( PixelBuffer2D *pixels ) {
 //
 // ApplyDevice
 //
-void ToneReproducer::ApplyDevice( PixelBuffer2D *pixels ) {
+void ToneReproducer::applyDevice( PixelBuffer2D *pixels ) {
 
     // Iterate through each pixel and scale by 1/mLdmax
     for (int h(0); h < mHeight; ++h)
@@ -91,7 +91,7 @@ void ToneReproducer::ApplyDevice( PixelBuffer2D *pixels ) {
 //
 // CalcAvgLum
 //
-float ToneReproducer::CalcAvgLum( PixelBuffer2D *pixels ) {
+float ToneReproducer::calcAvgLum( PixelBuffer2D *pixels ) {
 
     float sum = 0;
     int n = mHeight * mWidth;
@@ -101,7 +101,7 @@ float ToneReproducer::CalcAvgLum( PixelBuffer2D *pixels ) {
     {
         for (int w(0); w < mWidth; ++w)
         {
-            sum += log(SIGMA + CalcAbsLum(pixels->at(h)->at(w)));
+            sum += log(SIGMA + calcAbsLum(pixels->at(h)->at(w)));
         }
     }
 
@@ -111,9 +111,9 @@ float ToneReproducer::CalcAvgLum( PixelBuffer2D *pixels ) {
 //
 // WardsTR
 //
-void ToneReproducer::WardsTR( PixelBuffer2D *pixels )
+void ToneReproducer::wardsTR( PixelBuffer2D *pixels )
 {
-    float lavg = CalcAvgLum(pixels);
+    float lavg = calcAvgLum(pixels);
     float sf = 1.219 + powf(mLdmax/2.0, 0.4);
     sf /= (1.219 + powf(lavg, 0.4));
     sf = powf(sf, 2.5);
@@ -131,9 +131,9 @@ void ToneReproducer::WardsTR( PixelBuffer2D *pixels )
 //
 // ReinhardsTR
 //
-void ToneReproducer::ReinhardsTR( PixelBuffer2D *pixels )
+void ToneReproducer::reinhardsTR( PixelBuffer2D *pixels )
 {
-    float sf = ALPHA/CalcAvgLum(pixels);
+    float sf = ALPHA/calcAvgLum(pixels);
 
     // Iterate through each pixel and scale by sf
     for (int h(0); h < mHeight; ++h)

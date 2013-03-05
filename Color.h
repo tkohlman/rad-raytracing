@@ -92,7 +92,7 @@ public:
     float getG() const { return _g; };
     float getB() const { return _b; };
 
-    inline void Clamp();
+    inline void clamp();
 
     inline Color operator*(const Color& other);
 
@@ -187,7 +187,7 @@ inline Color& Color::operator+=(const Color& other) {
 //
 // Clamp
 //
-inline void Color::Clamp() {
+inline void Color::clamp() {
     if (_r > 1.0) {
         _r = 1.0;
     }

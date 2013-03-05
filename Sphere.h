@@ -42,32 +42,6 @@ class Sphere : public Shape
 {
 public:
 
-    ///
-    /// @name Sphere
-    ///
-    /// @description
-    /// 	Constructor
-    ///
-    /// @param center - the center point of the sphere
-    /// @param radius - the radius of the sphere
-    /// @param ambientColor - the ambient color of this object
-    /// @param diffuseColor - the diffuse color of this object
-    /// @param specularColor - the specular color of this object
-    /// @param ambientConstant - contribution of ambient color
-    /// @param diffuseConstant - contribution of diffuse color
-    /// @param specularConstant - contribution of specular color
-    /// @param specularExponent - size of specular highlight
-    /// @param reflectionValue - reflectivity of this object
-    /// @param transmissionValue - opacity of this object
-    /// @param refractionIndex - index of reflection for this object
-    ///
-    Sphere( Point center, float radius,
-            Color ambientColor, Color diffuseColor, Color specularColor,
-            float ambientConstant, float diffuseConstant,
-            float specularConstant, float specularExponent,
-            float reflectionValue, float transmissionValue,
-            float refractionIndex );
-
     Sphere() {};
     ~Sphere() {};
 
@@ -85,7 +59,7 @@ public:
     /// @return - intersection point closest to ray origin, NULL if no
     ///           intersection occurs
     ///
-    Point* Intersect(Vector v, Point o);
+    Point* intersect(Vector v, Point o);
 
     ///
     /// @name GetSurfaceNormal
@@ -96,7 +70,7 @@ public:
     /// @param surface - a point on the sphere's surface
     /// @return - the surface normal at this point on the sphere
     ///
-    Vector GetSurfaceNormal(Point surface);
+    Vector getSurfaceNormal(Point surface);
 
 private:
 

@@ -31,24 +31,6 @@ namespace RadRt
 {
 
 //
-// Constructor
-//
-Shape::Shape( Color ambientColor, Color diffuseColor, Color specularColor,
-              float ambientConstant, float diffuseConstant,
-              float specularConstant, float specularExponent,
-              float reflectionValue, float transmissionValue,
-              float refractionIndex ) :
-
-    mAmbientColor(ambientColor), mDiffuseColor(diffuseColor),
-    mSpecularColor(specularColor), mAmbientConstant(ambientConstant),
-    mDiffuseConstant(diffuseConstant), mSpecularConstant(specularConstant),
-    mSpecularExponent(specularExponent), mReflectionValue(reflectionValue),
-    mTransmissionValue(transmissionValue), mRefractionIndex(refractionIndex)
-{
-    shader = NULL;
-}
-
-//
 // Destructor
 //
 Shape::~Shape()

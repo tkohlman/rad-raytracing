@@ -51,7 +51,7 @@ public:
     void deserialize(const Json::Value &root);
 
     Point getPosition() const { return mPosition; };
-    Color GetColor() const { return mColor; };
+    Color getColor() const { return mColor; };
 
 private:
 

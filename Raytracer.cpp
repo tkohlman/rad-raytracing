@@ -53,7 +53,7 @@ Shape *Raytracer::getClosestShape(Scene *scene, const Vector &ray,
     for (; iter != shapes->end(); ++iter)
     {
         // Get the intersection point
-        Point *currentIntersection = (*iter)->Intersect(ray, origin);
+        Point *currentIntersection = (*iter)->intersect(ray, origin);
 
         if (currentIntersection != NULL)
         {
@@ -78,7 +78,7 @@ Shape *Raytracer::getClosestShape(Scene *scene, const Vector &ray,
     return closestShape;
 }
 
-Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
+Color Raytracer::trace(Scene *scene, Vector ray, Point origin, int depth)
 {
     if (depth >= mMaxDepth)
     {
@@ -98,18 +98,18 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
     }
 
     // local illumination
-    Color rv = mPhongShader.Shade(scene, closestShape, origin);
+    Color rv = mPhongShader.shade(scene, closestShape, origin);
 
-    float kr = closestShape->GetReflectiveConstant();
-    float kt = closestShape->GetTransmissiveConstant();
+    float kr = closestShape->getReflectiveConstant();
+    float kt = closestShape->getTransmissiveConstant();
 
-    Vector normal = normalize(closestShape->GetSurfaceNormal(origin));
+    Vector normal = normalize(closestShape->getSurfaceNormal(origin));
 
     // spawn reflection ray
     if (kr > 0)
     {
         Vector reflection = makeReflectionRay(normal, ray);
-        rv += Trace(scene, reflection, origin, depth + 1) * kr;
+        rv += trace(scene, reflection, origin, depth + 1) * kr;
     }
 
     // spawn transmission ray
@@ -121,11 +121,11 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
         if (insideShape)
         {
             normal = negateVector(normal);
-            alpha = closestShape->GetRefractionIndex();
+            alpha = closestShape->getRefractionIndex();
         }
         else
         {
-            alpha = 1.0 / closestShape->GetRefractionIndex();
+            alpha = 1.0 / closestShape->getRefractionIndex();
         }
 
         float cosine = dotProduct(negateVector(ray), normal);
@@ -139,7 +139,7 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
         {
             // use the reflection ray with the kt value
             Vector reflection = makeReflectionRay(normal, ray);
-            rv += Trace(scene, reflection, origin, depth + 1) * kt;
+            rv += trace(scene, reflection, origin, depth + 1) * kt;
         }
         else
         {
@@ -149,7 +149,7 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
                                         scalarMultiply(normal,
                                             (alpha * cosine) - sqrt(discriminant))));
 
-            rv += Trace(scene, transmission, origin, depth + 1) * kt;
+            rv += trace(scene, transmission, origin, depth + 1) * kt;
 
         }
     }
@@ -157,7 +157,7 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
     return rv;
 }
 
-PixelBuffer2D *Raytracer::TraceScene(Scene *scene)
+PixelBuffer2D *Raytracer::traceScene(Scene *scene)
 {
     int height = scene->getHeight();
     int width = scene->getWidth();
@@ -180,7 +180,7 @@ PixelBuffer2D *Raytracer::TraceScene(Scene *scene)
             // Generate the ray
             Vector ray( (dx * i + xc), (dy * j + yc), -1);
             normalize(ray);
-            Color pixel = Trace(scene, ray, scene->getCamera().getLocation(),
+            Color pixel = trace(scene, ray, scene->getCamera().getLocation(),
                                 INITIAL_DEPTH);
 
             // Set the color

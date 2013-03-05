@@ -24,30 +24,7 @@ class Shape : public IJsonSerializable
 {
 public:
 
-    ///
-    /// @name Shape
-    ///
-    /// @description
-    /// 	Constructor
-    ///
-    /// @param ambientColor - the ambient color of this object
-    /// @param diffuseColor - the diffuse color of this object
-    /// @param specularColor - the specular color of this object
-    /// @param ambientConstant - contribution of ambient color
-    /// @param diffuseConstant - contribution of diffuse color
-    /// @param specularConstant - contribution of specular color
-    /// @param specularExponent - size of specular highlight
-    /// @param reflectionValue - reflectivity of this object
-    /// @param transmissionValue - opacity of this object
-    /// @param refractionIndex - index of reflection for this object
-    ///
-    Shape( Color ambientColor, Color diffuseColor, Color specularColor,
-           float ambientConstant, float diffuseConstant,
-           float specularConstant, float specularExponent,
-           float reflectionValue, float transmissionValue,
-           float refractionIndex );
-
-    Shape() {};
+    Shape() : shader(nullptr) {};
 
     ///
     /// @name ~Shape
@@ -69,7 +46,7 @@ public:
     /// @param - point on surface for color calculation
     /// @return - the ambient light component of this object
     ///
-    virtual Color GetAmbientColor(Point p);
+    virtual Color getAmbientColor(Point p);
 
     ///
     /// @name GetDiffuseColor
@@ -80,7 +57,7 @@ public:
     /// @param - point on surface for color calculation
     /// @return - the diffuse light component of this object
     ///
-    virtual Color GetDiffuseColor(Point p);
+    virtual Color getDiffuseColor(Point p);
 
     ///
     /// @name GetSpecularColor
@@ -90,51 +67,15 @@ public:
     ///
     /// @return - the specular light component of this object
     ///
-    virtual Color GetSpecularColor();
+    Color getSpecularColor() const { return mSpecularColor; };
 
-    float GetAmbientConstant( void );
-    float GetDiffuseConstant( void );
-    float GetSpecularConstant( void );
-
-    ///
-    /// @name GetSpecularExponent
-    ///
-    /// @description
-    /// 	Accessor for specular exponent reflectivity of this object.
-    ///
-    /// @return - specular exponent reflectivity of this object
-    ///
-    int GetSpecularExponent();
-
-    ///
-    /// @name GetReflectiveConstant
-    ///
-    /// @description
-    /// 	Accessor to reflectivity of this object.
-    ///
-    /// @return - Reflectivity of this object.
-    ///
-    float GetReflectiveConstant();
-
-    ///
-    /// @name GetTransmissiveConstant
-    ///
-    /// @description
-    /// 	Accessor to transmissive value of this object.
-    ///
-    /// @return - Transmissive value of this object.
-    ///
-    float GetTransmissiveConstant();
-
-    ///
-    /// @name GetRefractionIndex
-    ///
-    /// @description
-    /// 	Accessor to refraction index of this object.
-    ///
-    /// @return - Refraction index of this object.
-    ///
-    float GetRefractionIndex();
+    float getAmbientConstant() const { return mAmbientConstant; };
+    float getDiffuseConstant() const { return mDiffuseConstant; };
+    float getSpecularConstant() const { return mSpecularConstant; };
+    int getSpecularExponent() const { return mSpecularExponent; };
+    float getReflectiveConstant() const { return mReflectionValue; };
+    float getTransmissiveConstant() const { return mTransmissionValue; };
+    float getRefractionIndex() const { return mRefractionIndex; };
 
     ///
     /// @name Intersect
@@ -147,7 +88,7 @@ public:
     /// @return - intersection point closest to ray origin, NULL if no
     ///           intersection occurs
     ///
-    virtual Point* Intersect(Vector v, Point o) = 0;
+    virtual Point* intersect(Vector v, Point o) = 0;
 
     ///
     /// @name GetSurfaceNormal
@@ -158,7 +99,7 @@ public:
     /// @param surface - a point on the shape's surface
     /// @return - the surface normal at this point
     ///
-    virtual Vector GetSurfaceNormal(Point surface) = 0;
+    virtual Vector getSurfaceNormal(Point surface) = 0;
 
     void setProceduralShader( ProceduralShader *newShader );
 
@@ -249,35 +190,9 @@ private:
 };  // class Shape
 
 //
-// GetAmbientConstant
-//
-inline float Shape::GetAmbientConstant( void ) {
-
-    return mAmbientConstant;
-
-}
-
-//
-// GetDiffuseConstant
-//
-inline float Shape::GetDiffuseConstant( void ) {
-
-    return mDiffuseConstant;
-
-}
-
-//
-// GetSpecularConstant
-//
-inline float Shape::GetSpecularConstant( void )
-{
-    return mSpecularConstant;
-}
-
-//
 // GetAmbientColor
 //
-inline Color Shape::GetAmbientColor(Point p)
+inline Color Shape::getAmbientColor(Point p)
 {
     if (shader == NULL)
         return mAmbientColor;
@@ -288,45 +203,12 @@ inline Color Shape::GetAmbientColor(Point p)
 //
 // GetDiffuseColor
 //
-inline Color Shape::GetDiffuseColor(Point p)
+inline Color Shape::getDiffuseColor(Point p)
 {
     if (shader == NULL)
         return mDiffuseColor;
     else
         return shader->shade(p);
-}
-
-//
-// GetSpecularColor
-//
-inline Color Shape::GetSpecularColor()
-{
-    return mSpecularColor;
-}
-
-//
-// GetSpecularExponent
-//
-inline int Shape::GetSpecularExponent() {
-    return mSpecularExponent;
-}
-
-//
-// GetReflectiveConstant
-//
-inline float Shape::GetReflectiveConstant() {
-    return mReflectionValue;
-}
-
-//
-// GetTransmissiveConstant
-//
-inline float Shape::GetTransmissiveConstant() {
-    return mTransmissionValue;
-}
-
-inline float Shape::GetRefractionIndex() {
-    return mRefractionIndex;
 }
 
 inline void Shape::setProceduralShader( ProceduralShader *newShader )
