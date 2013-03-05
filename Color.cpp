@@ -46,13 +46,6 @@ void Color::deserialize(const Json::Value &root)
     _b = root["b"].asFloat();
 }
 
-// operator<<
-std::ostream& operator<<(std::ostream& os, const Color& color)
-{
-    os << "(" << color.getR() << "r, " << color.getG() << "g, " << color.getB() << "b)";
-    return os;
-}
-
 }   // namespace RadRt
 
 

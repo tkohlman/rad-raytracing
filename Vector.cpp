@@ -59,11 +59,5 @@ void Vector::deserialize(const Json::Value &root)
     _z = root["z"].asFloat();
 }
 
-std::ostream& operator<<(std::ostream& os, const Vector& other)
-{
-    os << "(" << other.getX() << "i, " << other.getY() << "j, " << other.getZ() << "k)";
-    return os;
-}
-
 }   // namespace RadRt
 

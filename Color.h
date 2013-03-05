@@ -39,9 +39,6 @@ namespace RadRt
 
 class Color : public IJsonSerializable
 {
-
-    friend std::ostream& operator<<(std::ostream& os, const Color& other);
-
 public:
 
     ///

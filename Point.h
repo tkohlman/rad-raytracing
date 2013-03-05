@@ -38,14 +38,8 @@
 namespace RadRt
 {
 
-class Point {
-
-    friend std::ostream& operator<<(std::ostream &os, const Point &point)
-    {
-        os << "(" << point._x << ", " << point._y << ", " << point._z << ")";
-        return os;
-    }
-
+class Point
+{
     friend inline float distanceBetween( const Point &p1, const Point &p2 )
     {
         float dx = p1._x - p2._x;
