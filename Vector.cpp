@@ -30,14 +30,16 @@ using namespace Raytracer_n;
 #include <iostream>
 using namespace std;
 
-// Vector
-Vector::Vector(float x, float y, float z) :
-    _x(x), _y(y), _z(z) {
+Vector::Vector(float x, float y, float z)
+{
+    _x = x;
+    _y = y;
+    _z = z;
 }
 
-// Vector
-Vector::Vector() :
-    _x(0), _y(0), _z(0) {
+Vector::Vector()
+{
+    _x = _y = _z = 0;
 }
 
 Json::Value Vector::serialize() const
@@ -56,11 +58,9 @@ void Vector::deserialize(const Json::Value &root)
     _z = root["z"].asFloat();
 }
 
-
-
 namespace Raytracer_n {
 ostream& operator<<(ostream& os, const Vector& other) {
-    os << "(" << other.X() << "i, " << other.Y() << "j, " << other.Z() << "k)";
+    os << "(" << other.getX() << "i, " << other.getY() << "j, " << other.getZ() << "k)";
     return os;
 }
 

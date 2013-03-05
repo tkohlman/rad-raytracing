@@ -51,10 +51,6 @@ Sphere::Sphere( Point center, float radius,
         _center(center), _radius(radius) {
 }
 
-// ~Sphere
-Sphere::~Sphere() {
-}
-
 // Intersect
 Point* Sphere::Intersect(Vector v, Point o) {
 
@@ -106,9 +102,9 @@ Point* Sphere::Intersect(Vector v, Point o) {
     }
 
     // From the t-value, calculate the intersect point
-    float x = o.X() + t * v.X();
-    float y = o.Y() + t * v.Y();
-    float z = o.Z() + t * v.Z();
+    float x = o.getX() + t * v.X();
+    float y = o.getY() + t * v.Y();
+    float z = o.getZ() + t * v.Z();
 
     Point *intersect = new Point(x, y, z);
 
@@ -127,9 +123,9 @@ Vector Sphere::GetSurfaceNormal(Point surface) {
 void Sphere::serialize(std::ostream &os)
 {
     os << " sphere";
-    os << " " << _center.X();
-    os << " " << _center.Y();
-    os << " " << _center.Z();
+    os << " " << _center.getX();
+    os << " " << _center.getY();
+    os << " " << _center.getZ();
     os << " " << _radius;
 
     Shape::serialize(os);

@@ -40,7 +40,7 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
     for (; light != lights->end(); ++light) {
 
         // Generate the shadow ray
-        Vector shadow_ray = displacementVector((*light)->GetPosition(), intersection);
+        Vector shadow_ray = displacementVector((*light)->getPosition(), intersection);
         shadow_ray = normalize(shadow_ray);
 
         // Determine if there is direct line of sight to the intersect point
@@ -60,8 +60,8 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
             // If this point is closer than the closest known point,
             // there is no line of sight.
             if ((p != NULL) &&
-                (distanceBetween(*p, (*light)->GetPosition()) <
-                 distanceBetween(intersection, (*light)->GetPosition()))) {
+                (distanceBetween(*p, (*light)->getPosition()) <
+                 distanceBetween(intersection, (*light)->getPosition()))) {
 
                 if ((*shape)->GetTransmissiveConstant() > 0) {
                     continue;

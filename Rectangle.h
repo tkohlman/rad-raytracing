@@ -48,14 +48,7 @@ public:
         float refractionIndex );
 
     Rectangle() {};
-
-    ///
-    /// @name ~Rectangle
-    ///
-    /// @description
-    /// 	Destructor
-    ///
-    ~Rectangle( void );
+    ~Rectangle() {};
 
     void init();
 

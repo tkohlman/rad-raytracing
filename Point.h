@@ -109,78 +109,23 @@ public:
     ///
     Point();
 
-    ///
-    /// @name ~Point
-    ///
-    /// @description
-    /// 	Destructor
-    ///
-    /// @return - void
-    ///
-    ~Point();
+    ~Point() {};
 
-    ///
-    /// @name X
-    ///
-    /// @description
-    /// 	Accessor for _x member variable.
-    ///
-    /// @return - x-axis component of this point
-    ///
-    float X() const;
-
-    ///
-    /// @name Y
-    ///
-    /// @description
-    /// 	Accessor for _y member variable.
-    ///
-    /// @return - y-axis component of this point
-    ///
-    float Y() const;
-
-    ///
-    /// @name Z
-    ///
-    /// @description
-    /// 	Accessor for _z member variable.
-    ///
-    /// @return - z-axis component of this point
-    ///
-    float Z() const;
+    float getX() const { return _x; };
+    float getY() const { return _y; };
+    float getZ() const { return _z; };
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
 private:
 
-    ///
-    /// @name _x
-    ///
-    /// @description
-    ///		The x-axis component of this point.
-    ///
+    // X, Y, Z Components
     float _x;
-
-    ///
-    /// @name _y
-    ///
-    /// @description
-    ///		The y-axis component of this point.
-    ///
     float _y;
-
-    ///
-    /// @name _z
-    ///
-    /// @description
-    ///		The z-axis component of this point.
-    ///
     float _z;
 
 };  // class Point
-
-
 
 }   // namespace Raytracer_n
 

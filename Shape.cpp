@@ -60,15 +60,15 @@ Shape::~Shape()
 
 void Shape::serialize(std::ostream &os)
 {
-    os << " " << mAmbientColor.R();
-    os << " " << mAmbientColor.G();
-    os << " " << mAmbientColor.B();
-    os << " " << mDiffuseColor.R();
-    os << " " << mDiffuseColor.G();
-    os << " " << mDiffuseColor.B();
-    os << " " << mSpecularColor.R();
-    os << " " << mSpecularColor.G();
-    os << " " << mSpecularColor.B();
+    os << " " << mAmbientColor.getR();
+    os << " " << mAmbientColor.getG();
+    os << " " << mAmbientColor.getB();
+    os << " " << mDiffuseColor.getR();
+    os << " " << mDiffuseColor.getG();
+    os << " " << mDiffuseColor.getB();
+    os << " " << mSpecularColor.getR();
+    os << " " << mSpecularColor.getG();
+    os << " " << mSpecularColor.getB();
     os << " " << mAmbientConstant;
     os << " " << mDiffuseConstant;
     os << " " << mSpecularConstant;

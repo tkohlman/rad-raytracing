@@ -22,9 +22,10 @@ Cylinder::Cylinder(Point cpoint_1, Point cpoint_2, float radius, Color ambientCo
 
 void Cylinder::init()
 {
-    float height = sqrt((_cp1.X() - _cp2.X()) * (_cp1.X() - _cp2.X()) +
-                        (_cp1.Y() - _cp2.Y()) * (_cp1.Y() - _cp2.Y()) +
-                        (_cp1.Z() - _cp2.Z()) * (_cp1.Z() - _cp2.Z()));
+    float height =
+        sqrt((_cp1.getX() - _cp2.getX()) * (_cp1.getX() - _cp2.getX()) +
+             (_cp1.getY() - _cp2.getY()) * (_cp1.getY() - _cp2.getY()) +
+             (_cp1.getZ() - _cp2.getZ()) * (_cp1.getZ() - _cp2.getZ()));
     _orient = scalarMultiply(displacementVector(_cp1, _cp2), 1.0/height);
 }
 
@@ -104,24 +105,24 @@ Point* Cylinder::Intersect(Vector v, Point o) {
 
     // Eliminate points with negative t-values
     if (t1 >= 0) {
-        i1 = new Point(o.X() + t1 * v.X(),
-                       o.Y() + t1 * v.Y(),
-                       o.Z() + t1 * v.Z());
+        i1 = new Point(o.getX() + t1 * v.X(),
+                       o.getY() + t1 * v.Y(),
+                       o.getZ() + t1 * v.Z());
     }
     if (t2 >= 0) {
-        i2 = new Point(o.X() + t2 * v.X(),
-                       o.Y() + t2 * v.Y(),
-                       o.Z() + t2 * v.Z());
+        i2 = new Point(o.getX() + t2 * v.X(),
+                       o.getY() + t2 * v.Y(),
+                       o.getZ() + t2 * v.Z());
     }
     if (t3 >= 0) {
-        i3 = new Point(o.X() + t3 * v.X(),
-                       o.Y() + t3 * v.Y(),
-                       o.Z() + t3 * v.Z());
+        i3 = new Point(o.getX() + t3 * v.X(),
+                       o.getY() + t3 * v.Y(),
+                       o.getZ() + t3 * v.Z());
     }
     if (t4 >= 0) {
-        i4 = new Point(o.X() + t4 * v.X(),
-                       o.Y() + t4 * v.Y(),
-                       o.Z() + t4 * v.Z());
+        i4 = new Point(o.getX() + t4 * v.X(),
+                       o.getY() + t4 * v.Y(),
+                       o.getZ() + t4 * v.Z());
     }
 
     // Check that the points lie within their respective boundaries.
@@ -187,12 +188,12 @@ Point* Cylinder::Intersect(Vector v, Point o) {
 void Cylinder::serialize(std::ostream &os)
 {
     os << " cylinder";
-    os << " " << _cp1.X();
-    os << " " << _cp1.Y();
-    os << " " << _cp1.Z();
-    os << " " << _cp2.X();
-    os << " " << _cp2.Y();
-    os << " " << _cp2.Z();
+    os << " " << _cp1.getX();
+    os << " " << _cp1.getY();
+    os << " " << _cp1.getZ();
+    os << " " << _cp2.getX();
+    os << " " << _cp2.getY();
+    os << " " << _cp2.getZ();
     os << " " << _radius;
 
     Shape::serialize(os);

@@ -177,7 +177,9 @@ private:
 //
 inline float ToneReproducer::CalcAbsLum( Color color )
 {
-    return (0.27 * color.R()) + (0.67 * color.G()) + (0.06 * color.B());
+    return (0.27 * color.getR()) +
+           (0.67 * color.getG()) +
+           (0.06 * color.getB());
 }
 
 }   // namespace Raytracer_n

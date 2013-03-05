@@ -45,30 +45,13 @@ public:
     ///
     /// @return - void
     ///
-    ~Light();
+    ~Light() {};
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    ///
-    /// @name GetPosition
-    ///
-    /// @description
-    /// 	Accessor for the light's position.
-    ///
-    /// @return - the position of the light
-    ///
-    Point GetPosition();
-
-    ///
-    /// @name GetColor
-    ///
-    /// @description
-    /// 	Accessor for the light's color.
-    ///
-    /// @return - the color of the light
-    ///
-    Color GetColor();
+    Point getPosition() const { return mPosition; };
+    Color GetColor() const { return mColor; };
 
 private:
 

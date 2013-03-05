@@ -11,30 +11,10 @@
 #include "Light.h"
 using namespace Raytracer_n;
 
-//
-// Constructor
-//
-Light::Light(Point position, Color color) :
-    mPosition(position), mColor(color) {
-}
-
-//
-// Destructor
-//
-Light::~Light() { }
-
-//
-// GetPosition
-//
-Point Light::GetPosition() {
-    return mPosition;
-}
-
-//
-// GetColor
-//
-Color Light::GetColor() {
-    return mColor;
+Light::Light(Point position, Color color)
+{
+    mPosition = position;
+    mColor = color;
 }
 
 Json::Value Light::serialize() const

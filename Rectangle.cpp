@@ -58,10 +58,6 @@ void Rectangle::init()
     _normal = crossProduct(v2, v1);
 }
 
-// ~Rectangle
-Rectangle::~Rectangle() {
-}
-
 // Intersect
 Point* Rectangle::Intersect(Vector v, Point o) {
 
@@ -79,9 +75,9 @@ Point* Rectangle::Intersect(Vector v, Point o) {
     }
 
     // From the distance, calculate the intersect point
-    float x = o.X() + distance * v.X();
-    float y = o.Y() + distance * v.Y();
-    float z = o.Z() + distance * v.Z();
+    float x = o.getX() + distance * v.X();
+    float y = o.getY() + distance * v.Y();
+    float z = o.getZ() + distance * v.Z();
 
     Point *intersect = new Point(x, y, z);
 
@@ -119,18 +115,18 @@ Vector Rectangle::GetSurfaceNormal(Point surface)
 void Rectangle::serialize(std::ostream &os)
 {
     os << " rectangle";
-    os << " " << _a.X();
-    os << " " << _a.Y();
-    os << " " << _a.Z();
-    os << " " << _b.X();
-    os << " " << _b.Y();
-    os << " " << _b.Z();
-    os << " " << _c.X();
-    os << " " << _c.Y();
-    os << " " << _c.Z();
-    os << " " << _d.X();
-    os << " " << _d.Y();
-    os << " " << _d.Z();
+    os << " " << _a.getX();
+    os << " " << _a.getY();
+    os << " " << _a.getZ();
+    os << " " << _b.getX();
+    os << " " << _b.getY();
+    os << " " << _b.getZ();
+    os << " " << _c.getX();
+    os << " " << _c.getY();
+    os << " " << _c.getZ();
+    os << " " << _d.getX();
+    os << " " << _d.getY();
+    os << " " << _d.getZ();
 
     Shape::serialize(os);
 }

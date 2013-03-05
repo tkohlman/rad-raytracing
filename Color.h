@@ -86,44 +86,16 @@ public:
     ///
     /// @return - void
     ///
-    ~Color();
+    ~Color() {};
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    ///
-    /// @name R
-    ///
-    /// @description
-    /// 	Accessor for the _r member variable.
-    ///
-    /// @return - the red component of this color
-    ///
-    float R() const;
-
-    ///
-    /// @name G
-    ///
-    /// @description
-    /// 	Accessor for the _g member variable.
-    ///
-    /// @return - the green component of this color
-    ///
-    float G() const;
-
-    ///
-    /// @name B
-    ///
-    /// @description
-    /// 	Accessor for the _b member variable.
-    ///
-    /// @return - the blue component of this color
-    ///
-    float B() const;
+    float getR() const { return _r; };
+    float getG() const { return _g; };
+    float getB() const { return _b; };
 
     inline void Clamp();
-
-    Color& operator=(const Color& other);
 
     inline Color operator*(const Color& other);
 
@@ -143,28 +115,9 @@ public:
 
 private:
 
-    ///
-    /// @name _r
-    ///
-    /// @description
-    ///		The red component of this color.
-    ///
+    // RGB Components
     float _r;
-
-    ///
-    /// @name _g
-    ///
-    /// @description
-    ///		The green component of this color.
-    ///
     float _g;
-
-    ///
-    /// @name _b
-    ///
-    /// @description
-    ///		The blue component of this color.
-    ///
     float _b;
 
 };  // class Color

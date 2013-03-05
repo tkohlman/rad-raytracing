@@ -47,9 +47,9 @@ void render(Scene *scene, PixelBuffer2D *pixels)
     {
         for (int i = 0; i < scene->getWidth(); ++i)
         {
-            float r_comp = pixels->at(j)->at(i).R();
-            float g_comp = pixels->at(j)->at(i).G();
-            float b_comp = pixels->at(j)->at(i).B();
+            float r_comp = pixels->at(j)->at(i).getR();
+            float g_comp = pixels->at(j)->at(i).getG();
+            float b_comp = pixels->at(j)->at(i).getB();
 
             // Set the color
             glColor3f(r_comp, g_comp, b_comp);

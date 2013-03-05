@@ -117,76 +117,19 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    ///
-    /// @name X
-    ///
-    /// @description
-    /// 	Accessor for _x member variable.
-    ///
-    /// @return - x-axis component of this vector
-    ///
-    inline float X() const;
-
-    ///
-    /// @name Y
-    ///
-    /// @description
-    /// 	Accessor for _y member variable.
-    ///
-    /// @return - y-axis component of this vector
-    ///
-    inline float Y() const;
-
-    ///
-    /// @name Z
-    ///
-    /// @description
-    /// 	Accessor for _z member variable.
-    ///
-    /// @return - z-axis component of this vector
-    ///
-    inline float Z() const;
+    inline float getX() const { return _x; };
+    inline float getY() const { return _y; };
+    inline float getZ() const { return _z; };
 
 private:
 
-    ///
-    /// @name _x
-    ///
-    /// @description
-    ///		The x-axis component of this vector.
-    ///
+    // XYZ Components
     float _x;
-
-    ///
-    /// @name _y
-    ///
-    /// @description
-    ///		The y-axis component of this vector.
-    ///
     float _y;
-
-    ///
-    /// @name _z
-    ///
-    /// @description
-    ///		The z-axis component of this vector.
-    ///
     float _z;
 
 
 };  // class Vector
-
-inline float Vector::X() const {
-    return (_x);
-}
-
-inline float Vector::Y() const {
-    return (_y);
-}
-
-inline float Vector::Z() const {
-    return (_z);
-}
 
 }   // namespace Raytracer_n
 

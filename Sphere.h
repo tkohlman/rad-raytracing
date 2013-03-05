@@ -68,14 +68,7 @@ public:
             float refractionIndex );
 
     Sphere() {};
-
-    ///
-    /// @name ~Sphere
-    ///
-    /// @description
-    /// 	Destructor
-    ///
-    ~Sphere( void );
+    ~Sphere() {};
 
     void serialize(std::ostream &os);
 
