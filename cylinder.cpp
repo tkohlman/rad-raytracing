@@ -33,7 +33,7 @@ void Cylinder::init()
 Cylinder::~Cylinder() {
 }
 
-Vector Cylinder::GetSurfaceNormal(Point p)
+Vector Cylinder::GetSurfaceNormal(Point surface)
 {
     return _orient;
 }

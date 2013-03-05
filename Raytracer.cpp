@@ -30,10 +30,8 @@ Raytracer::Raytracer()
 }
 
 Vector Raytracer::makeReflectionRay(const Vector &normal,
-                                    const Vector &ray,
-                                    const Point &intersection)
+                                    const Vector &ray)
 {
-
     Vector reflection = normalize(
                             vectorSubtract(ray,
                                 scalarMultiply(normal,
@@ -43,17 +41,7 @@ Vector Raytracer::makeReflectionRay(const Vector &normal,
                         );
      return reflection;
 }
-/*
-Vector Raytracer::makeTransmissionRay(const Vector &normal,
-                                      const Vector &ray,
-                                      const Point &intersection)
-{
-    normalize(
-        vectorAdd(scalarMultiply(ray, alpha),
-            scalarMultiply(normal,
-                (alpha * cosine) - sqrt(discriminant))));
-}
-*/
+
 Shape *Raytracer::getClosestShape(Scene *scene, const Vector &ray,
                                   Point &origin)
 {
@@ -98,7 +86,10 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
         return scene->getBackground();
     }
 
-    Point *closestIntersection = NULL;
+    // Note: If closestShape is not null after this call, origin will be
+    // modified and will hold the intersection point on the surface of the
+    // intersected object. This point is the origin for the next recursively
+    // spawned ray.
     Shape *closestShape = getClosestShape(scene, ray, origin);
 
     // If this ray hits nothing, return the background color
@@ -118,7 +109,7 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
     // spawn reflection ray
     if (kr > 0)
     {
-        Vector reflection = makeReflectionRay(normal, ray, origin);
+        Vector reflection = makeReflectionRay(normal, ray);
         rv += Trace(scene, reflection, origin, depth + 1) * kr;
     }
 
@@ -148,7 +139,7 @@ Color Raytracer::Trace(Scene *scene, Vector ray, Point origin, int depth)
         if (totalInternalReflection)
         {
             // use the reflection ray with the kt value
-            Vector reflection = makeReflectionRay(normal, ray, origin);
+            Vector reflection = makeReflectionRay(normal, ray);
             rv += Trace(scene, reflection, origin, depth + 1) * kt;
         }
         else

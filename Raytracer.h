@@ -60,8 +60,7 @@ public:
 
 private:
 
-    Vector makeReflectionRay(const Vector &normal, const Vector &ray,
-                             const Point &intersection);
+    Vector makeReflectionRay(const Vector &normal, const Vector &ray);
 
     Shape *getClosestShape(Scene *scene, const Vector &ray, Point &origin);
 

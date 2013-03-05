@@ -23,4 +23,5 @@ Shape *ShapeFactory::create(std::string classname)
     {
         cerr << "Unknown Shape subclass: " << classname << endl;
     }
+    return NULL;
 }

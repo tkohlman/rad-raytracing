@@ -762,7 +762,7 @@ Reader::decodeNumber( Token &token )
                                                    : Value::maxLargestUInt;
    Value::LargestUInt threshold = maxIntegerValue / 10;
    Value::UInt lastDigitThreshold = Value::UInt( maxIntegerValue % 10 );
-   assert( lastDigitThreshold >=0  &&  lastDigitThreshold <= 9 );
+   assert( lastDigitThreshold <= 9 );
    Value::LargestUInt value = 0;
    while ( current < token.end_ )
    {
@@ -1696,7 +1696,8 @@ Value::CZString::CZString( const CZString &other )
 : cstr_( other.index_ != noDuplication &&  other.cstr_ != 0
                 ?  duplicateStringValue( other.cstr_ )
                 : other.cstr_ )
-   , index_( other.cstr_ ? (other.index_ == noDuplication ? noDuplication : duplicate)
+   , index_( other.cstr_ ? (unsigned int)
+            (other.index_ == noDuplication ? noDuplication : duplicate)
                          : other.index_ )
 {
 }
@@ -1874,7 +1875,6 @@ Value::Value( double value )
 
 Value::Value( const char *value )
    : type_( stringValue )
-   , allocated_( true )
    , comments_( 0 )
 # ifdef JSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
@@ -1887,7 +1887,6 @@ Value::Value( const char *value )
 Value::Value( const char *beginValue,
               const char *endValue )
    : type_( stringValue )
-   , allocated_( true )
    , comments_( 0 )
 # ifdef JSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
@@ -1900,7 +1899,6 @@ Value::Value( const char *beginValue,
 
 Value::Value( const std::string &value )
    : type_( stringValue )
-   , allocated_( true )
    , comments_( 0 )
 # ifdef JSON_VALUE_USE_INTERNAL_MAP
    , itemIsUsed_( 0 )
@@ -1967,7 +1965,6 @@ Value::Value( const Value &other )
       if ( other.value_.string_ )
       {
          value_.string_ = duplicateStringValue( other.value_.string_ );
-         allocated_ = true;
       }
       else
          value_.string_ = 0;
@@ -3219,7 +3216,7 @@ Path::makePath( const std::string &path,
       {
          ++current;
          if ( *current == '%' )
-            addPathInArg( path, in, itInArg, PathArgument::kindIndex );
+            addPathInArg( in, itInArg, PathArgument::kindIndex );
          else
          {
             ArrayIndex index = 0;
@@ -3228,11 +3225,11 @@ Path::makePath( const std::string &path,
             args_.push_back( index );
          }
          if ( current == end  ||  *current++ != ']' )
-            invalidPath( path, int(current - path.c_str()) );
+            invalidPath(  );
       }
       else if ( *current == '%' )
       {
-         addPathInArg( path, in, itInArg, PathArgument::kindKey );
+         addPathInArg( in, itInArg, PathArgument::kindKey );
          ++current;
       }
       else if ( *current == '.' )
@@ -3251,8 +3248,7 @@ Path::makePath( const std::string &path,
 
 
 void
-Path::addPathInArg( const std::string &path,
-                    const InArgs &in,
+Path::addPathInArg( const InArgs &in,
                     InArgs::const_iterator &itInArg,
                     PathArgument::Kind kind )
 {
@@ -3272,8 +3268,7 @@ Path::addPathInArg( const std::string &path,
 
 
 void
-Path::invalidPath( const std::string &path,
-                   int location )
+Path::invalidPath(  )
 {
    // Error: invalid path.
 }

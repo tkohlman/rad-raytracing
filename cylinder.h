@@ -49,7 +49,7 @@ public:
     ///
     virtual Point* Intersect(Vector v, Point o);
 
-    virtual Vector GetSurfaceNormal(Point p);
+    virtual Vector GetSurfaceNormal(Point surface);
 
 private:
 
