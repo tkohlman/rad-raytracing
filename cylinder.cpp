@@ -105,24 +105,24 @@ Point* Cylinder::Intersect(Vector v, Point o) {
 
     // Eliminate points with negative t-values
     if (t1 >= 0) {
-        i1 = new Point(o.getX() + t1 * v.X(),
-                       o.getY() + t1 * v.Y(),
-                       o.getZ() + t1 * v.Z());
+        i1 = new Point(o.getX() + t1 * v.getX(),
+                       o.getY() + t1 * v.getY(),
+                       o.getZ() + t1 * v.getZ());
     }
     if (t2 >= 0) {
-        i2 = new Point(o.getX() + t2 * v.X(),
-                       o.getY() + t2 * v.Y(),
-                       o.getZ() + t2 * v.Z());
+        i2 = new Point(o.getX() + t2 * v.getX(),
+                       o.getY() + t2 * v.getY(),
+                       o.getZ() + t2 * v.getZ());
     }
     if (t3 >= 0) {
-        i3 = new Point(o.getX() + t3 * v.X(),
-                       o.getY() + t3 * v.Y(),
-                       o.getZ() + t3 * v.Z());
+        i3 = new Point(o.getX() + t3 * v.getX(),
+                       o.getY() + t3 * v.getY(),
+                       o.getZ() + t3 * v.getZ());
     }
     if (t4 >= 0) {
-        i4 = new Point(o.getX() + t4 * v.X(),
-                       o.getY() + t4 * v.Y(),
-                       o.getZ() + t4 * v.Z());
+        i4 = new Point(o.getX() + t4 * v.getX(),
+                       o.getY() + t4 * v.getY(),
+                       o.getZ() + t4 * v.getZ());
     }
 
     // Check that the points lie within their respective boundaries.

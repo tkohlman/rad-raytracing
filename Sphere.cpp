@@ -102,9 +102,9 @@ Point* Sphere::Intersect(Vector v, Point o) {
     }
 
     // From the t-value, calculate the intersect point
-    float x = o.getX() + t * v.X();
-    float y = o.getY() + t * v.Y();
-    float z = o.getZ() + t * v.Z();
+    float x = o.getX() + t * v.getX();
+    float y = o.getY() + t * v.getY();
+    float z = o.getZ() + t * v.getZ();
 
     Point *intersect = new Point(x, y, z);
 

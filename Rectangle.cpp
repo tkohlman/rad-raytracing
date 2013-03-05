@@ -75,9 +75,9 @@ Point* Rectangle::Intersect(Vector v, Point o) {
     }
 
     // From the distance, calculate the intersect point
-    float x = o.getX() + distance * v.X();
-    float y = o.getY() + distance * v.Y();
-    float z = o.getZ() + distance * v.Z();
+    float x = o.getX() + distance * v.getX();
+    float y = o.getY() + distance * v.getY();
+    float z = o.getZ() + distance * v.getZ();
 
     Point *intersect = new Point(x, y, z);
 
