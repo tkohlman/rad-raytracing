@@ -58,26 +58,6 @@ Shape::~Shape()
     }
 }
 
-void Shape::serialize(std::ostream &os)
-{
-    os << " " << mAmbientColor.getR();
-    os << " " << mAmbientColor.getG();
-    os << " " << mAmbientColor.getB();
-    os << " " << mDiffuseColor.getR();
-    os << " " << mDiffuseColor.getG();
-    os << " " << mDiffuseColor.getB();
-    os << " " << mSpecularColor.getR();
-    os << " " << mSpecularColor.getG();
-    os << " " << mSpecularColor.getB();
-    os << " " << mAmbientConstant;
-    os << " " << mDiffuseConstant;
-    os << " " << mSpecularConstant;
-    os << " " << mSpecularExponent;
-    os << " " << mReflectionValue;
-    os << " " << mTransmissionValue;
-    os << " " << mRefractionIndex;
-}
-
 Json::Value Shape::serialize() const
 {
     Json::Value root;

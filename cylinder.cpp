@@ -185,20 +185,6 @@ Point* Cylinder::Intersect(Vector v, Point o) {
     return intersect;
 }
 
-void Cylinder::serialize(std::ostream &os)
-{
-    os << " cylinder";
-    os << " " << _cp1.getX();
-    os << " " << _cp1.getY();
-    os << " " << _cp1.getZ();
-    os << " " << _cp2.getX();
-    os << " " << _cp2.getY();
-    os << " " << _cp2.getZ();
-    os << " " << _radius;
-
-    Shape::serialize(os);
-}
-
 Json::Value Cylinder::serialize() const
 {
     Json::Value root = Shape::serialize();

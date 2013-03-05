@@ -60,9 +60,7 @@ public:
     /// @description
     /// 	Destructor
     ///
-    ~Shape( void );
-
-    virtual void serialize(std::ostream &os);
+    ~Shape();
 
     virtual Json::Value serialize() const;
     virtual void deserialize(const Json::Value &root);

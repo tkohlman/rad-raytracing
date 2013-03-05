@@ -120,17 +120,6 @@ Vector Sphere::GetSurfaceNormal(Point surface) {
     return rv;
 }
 
-void Sphere::serialize(std::ostream &os)
-{
-    os << " sphere";
-    os << " " << _center.getX();
-    os << " " << _center.getY();
-    os << " " << _center.getZ();
-    os << " " << _radius;
-
-    Shape::serialize(os);
-}
-
 Json::Value Sphere::serialize() const
 {
     Json::Value root = Shape::serialize();

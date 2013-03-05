@@ -33,7 +33,6 @@ public:
     ///
     ~Cylinder();
 
-    void serialize(std::ostream &os);
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 

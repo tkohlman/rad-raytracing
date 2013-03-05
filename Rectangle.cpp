@@ -112,25 +112,6 @@ Vector Rectangle::GetSurfaceNormal(Point surface)
     return _normal;
 }
 
-void Rectangle::serialize(std::ostream &os)
-{
-    os << " rectangle";
-    os << " " << _a.getX();
-    os << " " << _a.getY();
-    os << " " << _a.getZ();
-    os << " " << _b.getX();
-    os << " " << _b.getY();
-    os << " " << _b.getZ();
-    os << " " << _c.getX();
-    os << " " << _c.getY();
-    os << " " << _c.getZ();
-    os << " " << _d.getX();
-    os << " " << _d.getY();
-    os << " " << _d.getZ();
-
-    Shape::serialize(os);
-}
-
 Json::Value Rectangle::serialize() const
 {
     Json::Value root = Shape::serialize();
