@@ -25,17 +25,13 @@
 #include "Point.h"
 #include "Shape.h"
 #include "Vector.h"
+#include <pixel.h>
 
-#include <vector>
-using namespace std;
+namespace RadRt
+{
 
-typedef vector<Color> PixelBuffer;
-typedef vector< vector<Color>* > PixelBuffer2D;
-
-namespace Raytracer_n {
-
-class Raytracer {
-
+class Raytracer
+{
 public:
 
     Raytracer();
@@ -82,7 +78,7 @@ private:
 
 };  // class Raytracer
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

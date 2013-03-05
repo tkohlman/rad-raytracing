@@ -25,9 +25,10 @@
 ///
 
 #include "Shape.h"
-using namespace Raytracer_n;
-
 #include <proceduralshaderfactory.h>
+
+namespace RadRt
+{
 
 //
 // Constructor
@@ -99,3 +100,5 @@ void Shape::deserialize(const Json::Value &root)
         shader->deserialize(root["shader"]);
     }
 }
+
+}   // namespace RadRt

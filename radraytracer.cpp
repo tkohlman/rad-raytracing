@@ -13,14 +13,17 @@
 #include <GL/glut.h>
 #include "Raytracer.h"
 #include "ToneReproducer.h"
-using namespace Raytracer_n;
 #include "scene.h"
 
 #include <vector>
 #include <unistd.h>
 #include <fstream>
 #include <iostream>
-using namespace std;
+
+RadRt::PixelBuffer2D *pixels = NULL;
+RadRt::Scene *scene = NULL;
+
+
 
 const int WINDOW_POS_X = 100;
 const int WINDOW_POS_Y = 100;
@@ -40,7 +43,7 @@ int lmax = 0;
 int algo = 0;
 int depth = 1;
 
-void render(Scene *scene, PixelBuffer2D *pixels)
+void render(RadRt::Scene *scene, RadRt::PixelBuffer2D *pixels)
 {
     // Iterate over the pixels and render them.
     for (int j = 0; j < scene->getHeight(); ++j)
@@ -62,17 +65,17 @@ void render(Scene *scene, PixelBuffer2D *pixels)
     }
 }
 
-void save_scene(const char *filename, const Scene &scene)
+void save_scene(const char *filename, const RadRt::Scene &scene)
 {
-    filebuf fb;
-    fb.open (filename, ios::out);
-    ostream os(&fb);
+    std::filebuf file_buffer;
+    file_buffer.open(filename, std::ios::out);
+    std::ostream os(&file_buffer);
     Json::Value root = scene.serialize();
-    os << root << endl;
-    fb.close();
+    os << root << std::endl;
+    file_buffer.close();
 }
 
-void open_scene(const char *filename, Scene *scene)
+void open_scene(const char *filename, RadRt::Scene *scene)
 {
     Json::Value root;   // will contains the root value after parsing.
     Json::Reader reader;
@@ -99,15 +102,10 @@ void open_scene(const char *filename, Scene *scene)
     scene->deserialize(root);
 }
 
-PixelBuffer2D *pixels = NULL;
-Scene *scene = NULL;
-
 void run_raytracer()
 {
-    //scene = make_scene();
-
     // Create the raytracer
-    Raytracer raytracer;
+    RadRt::Raytracer raytracer;
     raytracer.setMaxDepth(depth);
 
     pixels = raytracer.TraceScene(scene);
@@ -115,7 +113,7 @@ void run_raytracer()
     if (aflag && lflag)
     {
         // Tone Reproduction Steps
-        ToneReproducer tr(lmax, LDMAX, scene->getHeight(), scene->getWidth());
+        RadRt::ToneReproducer tr(lmax, LDMAX, scene->getHeight(), scene->getWidth());
         tr.Run(pixels, algo);
     }
 }
@@ -132,12 +130,12 @@ void display( void )
 
 void usage()
 {
-    cout << "Usage: raytrace "      << endl;
-    cout << "\t-a <0 (Ward) | 1 (Reinhard)>" << endl;
-    cout << "\t-f <format: PNG>"    << endl;
-    cout << "\t-l <lmax>"           << endl;
-    cout << "\t-o <output file>"    << endl;
-    cout << "\t-s <scene.obj>"      << endl;
+    std::cout << "Usage: raytrace "      << std::endl;
+    std::cout << "\t-a <0 (Ward) | 1 (Reinhard)>" << std::endl;
+    std::cout << "\t-f <format: PNG>"    << std::endl;
+    std::cout << "\t-l <lmax>"           << std::endl;
+    std::cout << "\t-o <output file>"    << std::endl;
+    std::cout << "\t-s <scene.obj>"      << std::endl;
 
     exit(1);
 }
@@ -166,7 +164,7 @@ int main( int argc, char** argv )
 
 		case 'f':
 			++fflag;
-			cout << "Warning: f flag not yet implemented" << endl;
+			std::cout << "Warning: f flag not yet implemented" << std::endl;
 			break;
 
         case 'h':
@@ -180,12 +178,12 @@ int main( int argc, char** argv )
 
 		case 'o':
 			++oflag;
-			cout << "Warning: o flag not yet implemented" << endl;
+			std::cout << "Warning: o flag not yet implemented" << std::endl;
 			break;
 
 		case 's':
 			++sflag;
-			cout << "Warning: s flag not yet implemented" << endl;
+			std::cout << "Warning: s flag not yet implemented" << std::endl;
 			break;
 
 		default:
@@ -193,9 +191,8 @@ int main( int argc, char** argv )
 			/* NOTREACHED */
 		}
     }
-    //scene = make_scene();
-    //save_scene("scene.txt", *scene);
-    scene = new Scene();
+
+    scene = new RadRt::Scene();
     open_scene("whitted.json", scene);
 
     run_raytracer();
@@ -219,6 +216,4 @@ int main( int argc, char** argv )
    	return 0;
 
 }
-
-
 

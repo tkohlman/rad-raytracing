@@ -35,11 +35,12 @@
 
 #include <ijsonserializable.h>
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
 class Point {
 
-    friend ostream& operator<<(ostream &os, const Point &point)
+    friend std::ostream& operator<<(std::ostream &os, const Point &point)
     {
         os << "(" << point._x << ", " << point._y << ", " << point._z << ")";
         return os;
@@ -127,7 +128,7 @@ private:
 
 };  // class Point
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

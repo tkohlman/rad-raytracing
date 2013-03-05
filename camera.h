@@ -3,9 +3,10 @@
 
 #include <Point.h>
 #include <Vector.h>
-using namespace Raytracer_n;
-
 #include <ijsonserializable.h>
+
+namespace RadRt
+{
 
 class Camera : IJsonSerializable
 {
@@ -28,5 +29,7 @@ private:
     Vector view;
 
 };
+
+}   // namespace RadRt
 
 #endif // CAMERA_H_INCLUDED

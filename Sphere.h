@@ -35,10 +35,11 @@
 
 #include "Shape.h"
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
-class Sphere : public Shape {
-
+class Sphere : public Shape
+{
 public:
 
     ///
@@ -115,11 +116,9 @@ private:
     ///
     float _radius;
 
-
-
 };  // class Sphere
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

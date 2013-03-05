@@ -5,6 +5,9 @@
 #include <Sphere.h>
 #include <iostream>
 
+namespace RadRt
+{
+
 Shape *ShapeFactory::create(std::string classname)
 {
     if (classname.compare("rectangle") == 0)
@@ -25,3 +28,5 @@ Shape *ShapeFactory::create(std::string classname)
     }
     return NULL;
 }
+
+}   // namespace RadRt

@@ -4,17 +4,19 @@
 #include <json.h>
 #include <ShapeFactory.h>
 
+namespace RadRt
+{
+
 const int DEFAULT_WIDTH = 500;
 const int DEFAULT_HEIGHT = 500;
-
 
 Scene::Scene()
 {
     width = DEFAULT_WIDTH;
     height = DEFAULT_HEIGHT;
     background = Color::BLACK;
-    shapes = new std::vector<Shape*>();
-    lights = new std::vector<Light*>();
+    shapes = new ShapeVector();
+    lights = new LightVector();
 }
 
 Scene::~Scene()
@@ -35,7 +37,7 @@ Json::Value Scene::serialize() const
     scene["background_color"] = background.serialize();
 
     Json::Value json_shapes;
-    vector<Shape*>::const_iterator shape_iter = shapes->begin();
+    ShapeConstIterator shape_iter = shapes->begin();
     while(shape_iter != shapes->end())
     {
         json_shapes.append((*shape_iter)->serialize());
@@ -44,7 +46,7 @@ Json::Value Scene::serialize() const
     scene["shapes"] = json_shapes;
 
     Json::Value json_lights;
-    vector<Light*>::const_iterator light_iter = lights->begin();
+    LightConstIterator light_iter = lights->begin();
     while(light_iter != lights->end())
     {
         json_lights.append((*light_iter)->serialize());
@@ -81,3 +83,5 @@ void Scene::deserialize(const Json::Value &root)
         lights->push_back(light);
     }
 }
+
+}   // namespace RadRt

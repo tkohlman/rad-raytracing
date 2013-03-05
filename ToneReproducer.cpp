@@ -17,6 +17,8 @@
 
 #include "ToneReproducer.h"
 
+namespace RadRt
+{
 
 #define SIGMA 0.01
 #define ALPHA 0.16
@@ -37,7 +39,7 @@ ToneReproducer::~ToneReproducer( void ) {
 //
 // Run
 //
-void ToneReproducer::Run( vector< vector<Color>* > *pixels, int algorithm ) {
+void ToneReproducer::Run( PixelBuffer2D *pixels, int algorithm ) {
 
     PrepHDR(pixels);
 
@@ -58,7 +60,7 @@ void ToneReproducer::Run( vector< vector<Color>* > *pixels, int algorithm ) {
 //
 // PrepHDR
 //
-void ToneReproducer::PrepHDR( vector< vector<Color>* > *pixels ) {
+void ToneReproducer::PrepHDR( PixelBuffer2D *pixels ) {
 
     // Iterate through each pixel and scale by mLmax
     for (int h(0); h < mHeight; ++h)
@@ -74,7 +76,7 @@ void ToneReproducer::PrepHDR( vector< vector<Color>* > *pixels ) {
 //
 // ApplyDevice
 //
-void ToneReproducer::ApplyDevice( vector< vector<Color>* > *pixels ) {
+void ToneReproducer::ApplyDevice( PixelBuffer2D *pixels ) {
 
     // Iterate through each pixel and scale by 1/mLdmax
     for (int h(0); h < mHeight; ++h)
@@ -89,7 +91,7 @@ void ToneReproducer::ApplyDevice( vector< vector<Color>* > *pixels ) {
 //
 // CalcAvgLum
 //
-float ToneReproducer::CalcAvgLum( vector< vector<Color>* > *pixels ) {
+float ToneReproducer::CalcAvgLum( PixelBuffer2D *pixels ) {
 
     float sum = 0;
     int n = mHeight * mWidth;
@@ -109,7 +111,7 @@ float ToneReproducer::CalcAvgLum( vector< vector<Color>* > *pixels ) {
 //
 // WardsTR
 //
-void ToneReproducer::WardsTR( vector< vector<Color>* > *pixels )
+void ToneReproducer::WardsTR( PixelBuffer2D *pixels )
 {
     float lavg = CalcAvgLum(pixels);
     float sf = 1.219 + powf(mLdmax/2.0, 0.4);
@@ -129,7 +131,7 @@ void ToneReproducer::WardsTR( vector< vector<Color>* > *pixels )
 //
 // ReinhardsTR
 //
-void ToneReproducer::ReinhardsTR( vector< vector<Color>* > *pixels )
+void ToneReproducer::ReinhardsTR( PixelBuffer2D *pixels )
 {
     float sf = ALPHA/CalcAvgLum(pixels);
 
@@ -142,4 +144,6 @@ void ToneReproducer::ReinhardsTR( vector< vector<Color>* > *pixels )
         }
     }
 }
+
+}   // namespace RadRt
 

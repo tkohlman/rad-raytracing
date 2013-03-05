@@ -7,6 +7,16 @@
 #include <Shape.h>
 #include <vector>
 
+namespace RadRt
+{
+
+typedef std::vector<Shape*> ShapeVector;
+typedef std::vector<Shape*>::iterator ShapeIterator;
+typedef std::vector<Shape*>::const_iterator ShapeConstIterator;
+typedef std::vector<Light*> LightVector;
+typedef std::vector<Light*>::iterator LightIterator;
+typedef std::vector<Light*>::const_iterator LightConstIterator;
+
 class Scene : public IJsonSerializable
 {
 
@@ -20,8 +30,8 @@ public:
     int getHeight() const { return height; };
     Camera getCamera() const { return camera; };
     Color getBackground() const { return background; };
-    std::vector<Shape*> *getShapes() const { return shapes; };
-    std::vector<Light*> *getLights() const { return lights; };
+    ShapeVector *getShapes() const { return shapes; };
+    LightVector *getLights() const { return lights; };
 
     // Mutators
     void setWidth( int width ) { this->width = width; };
@@ -43,9 +53,11 @@ private:
 
     Color background;
 
-    std::vector<Shape*> *shapes;
-    std::vector<Light*> *lights;
+    ShapeVector *shapes;
+    LightVector *lights;
 
 };
+
+}   // namespace RadRt
 
 #endif // SCENE_H

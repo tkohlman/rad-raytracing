@@ -12,20 +12,18 @@
 #include "Point.h"
 #include <scene.h>
 
-#include <vector>
-using namespace std;
+namespace RadRt
+{
 
-namespace Raytracer_n {
-
-class PhongShader {
-
+class PhongShader
+{
 public:
 
     Color Shade(Scene *scene, Shape *object, Point intersection);
 
 };  // class PhongShader
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

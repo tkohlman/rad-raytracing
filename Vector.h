@@ -13,11 +13,11 @@
 
 #include <cmath>
 #include <iostream>
-using namespace std;
 
 #include <ijsonserializable.h>
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
 class Vector : public IJsonSerializable
 {
@@ -32,7 +32,7 @@ class Vector : public IJsonSerializable
     /// @param other - the vector to output
     /// @return - the output stream
     ///
-    friend ostream& operator<<(ostream& os, const Vector& other);
+    friend std::ostream& operator<<(std::ostream& os, const Vector& other);
 
     friend inline Vector vectorAdd(const Vector &a, const Vector &b)
     {
@@ -131,7 +131,7 @@ private:
 
 };  // class Vector
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

@@ -9,7 +9,9 @@
 ///
 
 #include "Color.h"
-using namespace Raytracer_n;
+
+namespace RadRt
+{
 
 const Color Color::BLACK(0,0,0);
 
@@ -45,11 +47,13 @@ void Color::deserialize(const Json::Value &root)
 }
 
 // operator<<
-ostream& operator<<(ostream& os, const Color& color) {
+std::ostream& operator<<(std::ostream& os, const Color& color)
+{
     os << "(" << color.getR() << "r, " << color.getG() << "g, " << color.getB() << "b)";
     return os;
 }
 
+}   // namespace RadRt
 
 
 

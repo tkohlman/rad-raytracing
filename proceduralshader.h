@@ -3,9 +3,10 @@
 
 #include "Color.h"
 #include "Point.h"
-using namespace Raytracer_n;
-
 #include <ijsonserializable.h>
+
+namespace RadRt
+{
 
 class ProceduralShader : public IJsonSerializable
 {
@@ -13,5 +14,7 @@ public:
 
     virtual Color shade( const Point &p ) = 0;
 };
+
+}   // namespace RadRt
 
 #endif // PROCEDURALSHADER_H

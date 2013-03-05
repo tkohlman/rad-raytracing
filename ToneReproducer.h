@@ -20,19 +20,17 @@
 
 #include <math.h>
 #include <vector>
-using namespace std;
-
-#include "Color.h"
-using namespace Raytracer_n;
+#include <Color.h>
+#include <pixel.h>
 
 #define WARDS       0x01
 #define REINHARDS   0x02
 
+namespace RadRt
+{
 
-namespace Raytracer_n {
-
-class ToneReproducer {
-
+class ToneReproducer
+{
 public:
 
     ///
@@ -66,7 +64,7 @@ public:
     ///                 pointers that each point to mWidth color values.
     /// @param algorithm - the TR algorithm to run (either Ward's or Reinhard's)
     ///
-    void Run( vector< vector<Color>* > *pixels, int algorithm );
+    void Run( PixelBuffer2D *pixels, int algorithm );
 
 private:
 
@@ -79,7 +77,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void PrepHDR( vector< vector<Color>* > *pixels );
+    void PrepHDR( PixelBuffer2D *pixels );
 
     ///
     /// @name CalcAbsLum
@@ -103,7 +101,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void ApplyDevice( vector< vector<Color>* > *pixels );
+    void ApplyDevice( PixelBuffer2D *pixels );
 
     ///
     /// @name CalcAvgLum
@@ -115,7 +113,7 @@ private:
     ///                 pointers that each point to mWidth color values.
     /// @return - the average log luminance of the scene.
     ///
-    float CalcAvgLum( vector< vector<Color>* > *pixels );
+    float CalcAvgLum( PixelBuffer2D *pixels );
 
     /// @name WardsTR
     ///
@@ -125,7 +123,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void WardsTR( vector< vector<Color>* > *pixels );
+    void WardsTR( PixelBuffer2D *pixels );
 
     /// @name ReinhardsTR
     ///
@@ -135,7 +133,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void ReinhardsTR( vector< vector<Color>* > *pixels );
+    void ReinhardsTR( PixelBuffer2D *pixels );
 
     ///
     /// @name mLmax
@@ -182,7 +180,7 @@ inline float ToneReproducer::CalcAbsLum( Color color )
            (0.06 * color.getB());
 }
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

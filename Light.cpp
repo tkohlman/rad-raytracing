@@ -9,7 +9,9 @@
 ///
 
 #include "Light.h"
-using namespace Raytracer_n;
+
+namespace RadRt
+{
 
 Light::Light(Point position, Color color)
 {
@@ -30,4 +32,6 @@ void Light::deserialize(const Json::Value &root)
     mPosition.deserialize(root["position"]);
     mColor.deserialize(root["color"]);
 }
+
+}   // namespace RadRt
 

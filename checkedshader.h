@@ -3,7 +3,9 @@
 
 #include "proceduralshader.h"
 #include "Rectangle.h"
-using namespace Raytracer_n;
+
+namespace RadRt
+{
 
 class CheckedShader : public ProceduralShader
 {
@@ -25,5 +27,7 @@ private:
     Point c;
     Point d;
 };
+
+}   // namespace RadRt
 
 #endif // CHECKEDSHADER_H_INCLUDED

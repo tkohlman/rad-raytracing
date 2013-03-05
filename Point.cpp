@@ -9,7 +9,9 @@
 ///
 
 #include "Point.h"
-using namespace Raytracer_n;
+
+namespace RadRt
+{
 
 Point::Point(float x, float y, float z)
 {
@@ -52,3 +54,5 @@ void Point::deserialize(const Json::Value &root)
     _y = root["y"].asFloat();
     _z = root["z"].asFloat();
 }
+
+}   // namespace RadRt

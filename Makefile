@@ -77,6 +77,7 @@ CPP_FILES :=    camera.cpp          \
                 cylinder.cpp        \
                 Light.cpp           \
                 PhongShader.cpp     \
+                pixel.h             \
                 Point.cpp           \
                 proceduralshaderfactory.cpp \
                 Raytracer.cpp       \
@@ -153,12 +154,12 @@ Color.o:	        Color.h ijsonserializable.h
 Light.o:	        Color.h Light.h Point.h Vector.h ijsonserializable.h
 PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h
 Point.o:	        Color.h Point.h Vector.h ijsonserializable.h
-Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h
+Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h pixel.h
 Rectangle.o:	    Rectangle.h Shape.h
 Shape.o:	        Color.h Point.h Shape.h Vector.h proceduralshader.h ijsonserializable.h
 ShapeFactory.o:     ShapeFactory.h
 Sphere.o:	        Shape.h Sphere.h
-ToneReproducer.o:	Color.h ToneReproducer.h
+ToneReproducer.o:	Color.h ToneReproducer.h pixel.h
 Vector.o:	        Vector.h ijsonserializable.h
 radraytracer.o:	    Raytracer.h scene.h ToneReproducer.h
 

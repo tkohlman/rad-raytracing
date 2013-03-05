@@ -1,6 +1,9 @@
 
 #include <camera.h>
 
+namespace RadRt
+{
+
 Camera::Camera():
     location(0,0,0), view(0,0,-1)
 {
@@ -20,3 +23,5 @@ void Camera::deserialize(const Json::Value &root)
     location.deserialize(root["location"]);
     view.deserialize(root["view"]);
 }
+
+}   // namespace RadRt

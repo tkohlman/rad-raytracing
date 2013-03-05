@@ -31,16 +31,16 @@
 #define COLOR_H
 
 #include <iostream>
-using namespace std;
 
 #include <ijsonserializable.h>
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
 class Color : public IJsonSerializable
 {
 
-    friend ostream& operator<<(ostream& os, const Color& other);
+    friend std::ostream& operator<<(std::ostream& os, const Color& other);
 
 public:
 
@@ -202,7 +202,7 @@ inline void Color::Clamp() {
     }
 }
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

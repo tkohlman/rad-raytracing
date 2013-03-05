@@ -30,12 +30,10 @@
 ///
 ///
 
+#include <Sphere.h>
 
-#include <cmath>
-using namespace std;
-
-#include "Sphere.h"
-using namespace Raytracer_n;
+namespace RadRt
+{
 
 // Sphere
 Sphere::Sphere( Point center, float radius,
@@ -52,8 +50,8 @@ Sphere::Sphere( Point center, float radius,
 }
 
 // Intersect
-Point* Sphere::Intersect(Vector v, Point o) {
-
+Point* Sphere::Intersect(Vector v, Point o)
+{
     // This intercept calculation takes the form of the quadratic equation:
     // At^2 + Bt + C = 0, where
     // A is v*v
@@ -114,7 +112,8 @@ Point* Sphere::Intersect(Vector v, Point o) {
 //
 // GetSurfaceNormal
 //
-Vector Sphere::GetSurfaceNormal(Point surface) {
+Vector Sphere::GetSurfaceNormal(Point surface)
+{
     Vector rv = displacementVector(surface, _center);
     normalize(rv);
     return rv;
@@ -136,3 +135,4 @@ void Sphere::deserialize(const Json::Value &root)
     _radius = root["radius"].asFloat();
 }
 
+}   // namespace RadRt
