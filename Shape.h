@@ -15,18 +15,13 @@
 #include "Color.h"
 #include "Vector.h"
 #include "proceduralshader.h"
-
-#include <cstdlib>
-#include <ostream>
-using namespace std;
-
 #include <ijsonserializable.h>
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
 class Shape : public IJsonSerializable
 {
-
 public:
 
     ///
@@ -344,7 +339,7 @@ inline void Shape::setProceduralShader( ProceduralShader *newShader )
     shader = newShader;
 }
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

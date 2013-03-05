@@ -1,9 +1,8 @@
 
-#include "cylinder.h"
-using namespace Raytracer_n;
+#include <cylinder.h>
 
-#include <cmath>
-using namespace std;
+namespace RadRt
+{
 
 // Cylinder
 Cylinder::Cylinder(Point cpoint_1, Point cpoint_2, float radius, Color ambientColor,
@@ -203,3 +202,5 @@ void Cylinder::deserialize(const Json::Value &root)
     _radius = root["radius"].asFloat();
     init();
 }
+
+}   // namespace RadRt

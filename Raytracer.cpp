@@ -16,10 +16,9 @@
 ///
 
 #include "Raytracer.h"
-using namespace Raytracer_n;
 
-typedef vector<Shape*> ShapeList;
-typedef vector<Shape*>::iterator ShapeListIterator;
+namespace RadRt
+{
 
 const int DEFAULT_MAX_DEPTH = 1;
 const int INITIAL_DEPTH = 0;
@@ -45,8 +44,8 @@ Vector Raytracer::makeReflectionRay(const Vector &normal,
 Shape *Raytracer::getClosestShape(Scene *scene, const Vector &ray,
                                   Point &origin)
 {
-    ShapeList *shapes = scene->getShapes();
-    ShapeListIterator iter = shapes->begin();
+    ShapeVector *shapes = scene->getShapes();
+    ShapeIterator iter = shapes->begin();
 
     Point *closestIntersection = NULL;
     Shape *closestShape = NULL;
@@ -192,3 +191,4 @@ PixelBuffer2D *Raytracer::TraceScene(Scene *scene)
     return pixels;
 }
 
+}   // namespace RadRt

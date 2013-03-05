@@ -4,6 +4,9 @@
 #include <proceduralshaderfactory.h>
 #include <checkedshader.h>
 
+namespace RadRt
+{
+
 ProceduralShader *ProceduralShaderFactory:: create(std::string classname)
 {
     if (classname.compare("checked_shader") == 0)
@@ -12,7 +15,10 @@ ProceduralShader *ProceduralShaderFactory:: create(std::string classname)
     }
     else
     {
-        cerr << "Unknown Procedural Shader subclass: " << classname << endl;
+        std::cerr << "Unknown Procedural Shader subclass: " << classname <<
+            std::endl;
     }
     return NULL;
+}
+
 }

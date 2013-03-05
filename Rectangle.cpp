@@ -31,7 +31,9 @@
 ///
 
 #include "Rectangle.h"
-using namespace Raytracer_n;
+
+namespace RadRt
+{
 
 // Rectangle
 Rectangle::Rectangle( Point a, Point b, Point c, Point d,
@@ -132,3 +134,5 @@ void Rectangle::deserialize(const Json::Value &root)
     _d.deserialize(root["d"]);
     init();
 }
+
+}   // namespace RadRt

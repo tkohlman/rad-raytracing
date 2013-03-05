@@ -11,12 +11,12 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "Point.h"
-#include "Color.h"
-
+#include <Point.h>
+#include <Color.h>
 #include <ijsonserializable.h>
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
 class Light : IJsonSerializable
 {
@@ -73,7 +73,7 @@ private:
 
 };  // class Light
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

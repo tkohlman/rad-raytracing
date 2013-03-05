@@ -16,7 +16,9 @@
 ///
 
 #include "PhongShader.h"
-using namespace Raytracer_n;
+
+namespace RadRt
+{
 
 //
 // Shade
@@ -32,10 +34,10 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
     Ka = object->GetAmbientColor(intersection);
 
     // For each light source
-    vector<Light*> *lights = scene->getLights();
-    vector<Light*>::iterator light = lights->begin();
+    LightVector *lights = scene->getLights();
+    LightIterator light = lights->begin();
 
-    vector<Shape*> *shapes = scene->getShapes();
+    ShapeVector *shapes = scene->getShapes();
 
     for (; light != lights->end(); ++light) {
 
@@ -44,7 +46,7 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
         shadow_ray = normalize(shadow_ray);
 
         // Determine if there is direct line of sight to the intersect point
-        vector<Shape*>::iterator shape = shapes->begin();
+        ShapeIterator shape = shapes->begin();
         bool los = true;
 
         for (; shape != shapes->end(); ++shape) {
@@ -119,7 +121,7 @@ Color PhongShader::Shade(Scene *scene, Shape *object, Point intersection)
 
 }
 
-
+}   // namespace RadRt
 
 
 

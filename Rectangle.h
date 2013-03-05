@@ -13,10 +13,11 @@
 
 #include "Shape.h"
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
-class Rectangle : public Shape {
-
+class Rectangle : public Shape
+{
 public:
 
     ///
@@ -151,7 +152,7 @@ inline const Point &Rectangle::getD() const
     return _d;
 }
 
-}   // namespace Raytracer_n
+}   // namespace RadRt
 
 #endif
 

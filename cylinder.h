@@ -3,10 +3,11 @@
 
 #include "Shape.h"
 
-namespace Raytracer_n {
+namespace RadRt
+{
 
-class Cylinder : public Shape {
-
+class Cylinder : public Shape
+{
 public:
 
     ///
@@ -86,6 +87,6 @@ private:
 
 };  // class Cylinder
 
-}   // namespace Raytracer
+}   // namespace RadRt
 
 #endif // CYLINDER_H_INCLUDED

@@ -4,11 +4,16 @@
 #include <string>
 #include <Shape.h>
 
+namespace RadRt
+{
+
 class ShapeFactory
 {
 public:
 
     Shape *create(std::string classname);
 };
+
+}   // namespace RadRt
 
 #endif // SHAPEFACTORY_H_INCLUDED

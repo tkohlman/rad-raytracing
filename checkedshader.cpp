@@ -1,10 +1,12 @@
 
 #include "checkedshader.h"
 
+namespace RadRt
+{
+
 CheckedShader::CheckedShader( Point a, Point b, Point c, Point d ):
     a(a), b(b), c(c), d(d)
 {
-
 }
 
 Color CheckedShader::shade( const Point &p )
@@ -55,4 +57,6 @@ void CheckedShader::deserialize(const Json::Value &root)
     c.deserialize(root["c"]);
     d.deserialize(root["d"]);
 }
+
+}   // namespace RadRt
 

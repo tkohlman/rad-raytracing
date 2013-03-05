@@ -25,10 +25,11 @@
 ///
 
 #include "Vector.h"
-using namespace Raytracer_n;
 
 #include <iostream>
-using namespace std;
+
+namespace RadRt
+{
 
 Vector::Vector(float x, float y, float z)
 {
@@ -58,11 +59,11 @@ void Vector::deserialize(const Json::Value &root)
     _z = root["z"].asFloat();
 }
 
-namespace Raytracer_n {
-ostream& operator<<(ostream& os, const Vector& other) {
+std::ostream& operator<<(std::ostream& os, const Vector& other)
+{
     os << "(" << other.getX() << "i, " << other.getY() << "j, " << other.getZ() << "k)";
     return os;
 }
 
-}
+}   // namespace RadRt
 
