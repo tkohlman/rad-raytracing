@@ -1,179 +1,177 @@
-#
-# Created by gmakemake (Ubuntu Dec 29 2011) on Mon Feb 27 01:20:43 2012
-#
+################################################################################
+######                         Acknowledgements                           ######
+################################################################################
+#                                                                              #
+#   This makefile scheme is based off of the method developed by Tom Tromey.   #
+#   For more information, visit: http://mad-scientist.net/make/autodep.html    #
+#                                                                              #
+################################################################################
 
-#
-# Definitions
-#
+.SILENT:
 
-.SUFFIXES:
-.SUFFIXES:	.a .o .c .C .cpp .s .S
-.c.o:
-		$(COMPILE.c) $<
-.C.o:
-		$(COMPILE.cc) $<
-.cpp.o:
-		$(COMPILE.cc) $<
-.S.s:
-		$(CPP) -o $*.s $<
-.s.o:
-		$(COMPILE.s) -o $@ $<
-.c.a:
-		$(COMPILE.c) -o $% $<
-		$(AR) $(ARFLAGS) $@ $%
-		$(RM) $%
-.C.a:
-		$(COMPILE.cc) -o $% $<
-		$(AR) $(ARFLAGS) $@ $%
-		$(RM) $%
-.cpp.a:
-		$(COMPILE.cc) -o $% $<
-		$(AR) $(ARFLAGS) $@ $%
-		$(RM) $%
+################################################################################
+######                          Source Folders                            ######
+################################################################################
+MODULES =
+MODULES += lib/json/
+MODULES += src/effects/
+MODULES += src/graphics/
+MODULES += src/raytracer/
+MODULES += src/scene/
+MODULES += src/shaders/
+MODULES += src/shapes/
 
-AS =		as
-CC =		gcc
-CXX =		g++
+################################################################################
+######                          Header Folders                            ######
+################################################################################
+INCLUDES =
+INCLUDES += include/effects
+INCLUDES += include/graphics/
+INCLUDES += include/json/
+INCLUDES += include/raytracer/
+INCLUDES += include/scene/
+INCLUDES += include/shaders/
+INCLUDES += include/shapes/
+INCLUDES += lib/json/
 
-RM = rm -f
-AR = ar
-LINK.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
-LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS)
-COMPILE.s = $(AS) $(ASFLAGS)
-COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) -c
-COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
-CPP = $(CPP) $(CPPFLAGS)
-########## Flags from header.mak
+################################################################################
+######                               Flags                                ######
+################################################################################
+SOURCE :=
 
-TOPDIR := .
-#
-# This header.mak file will set up all necessary options for compiling
-# and linking C and C++ programs which use OpenGL and/or GLUT on the
-# Ubuntu systems.
-#
-# If you want to take advantage of GDB's extra debugging features,
-# change "-g" in the CFLAGS and LIBFLAGS macro definitions to "-ggdb".
-#
-INCLUDE = -I $(TOPDIR) -I $(TOPDIR)/json
-LIBDIRS =
+LIBDIRS              =
+LDLIBS              := -lglut -lGLU -lGL -lXext -lX11 -lm
 
-LDLIBS = -lglut -lGLU -lGL -lXext -lX11 -lm
+CFLAGS              := $(patsubst %,-I%,$(INCLUDES))
 
-CFLAGS = -g $(INCLUDE) -std=c++0x -Wall -pedantic -Wextra
-CCFLAGS =  $(CFLAGS)
-CXXFLAGS = $(CFLAGS)
+CXX_RELEASE_FLAGS   := $(CFLAGS) -std=c++0x
+CXX_DEBUG_FLAGS     := $(CXX_RELEASE_FLAGS) -ggdb -Wall -pedantic -Wextra
+CXXFLAGS             =
 
-LIBFLAGS = -g $(LIBDIRS) $(LDLIBS)
-CLIBFLAGS = $(LIBFLAGS)
-CCLIBFLAGS = $(LIBFLAGS)
+LIB_RELEASE_FLAGS   := $(LIBDIRS) $(LDLIBS)
+LIB_DEBUG_FLAGS     := -ggdb $(LIB_RELEASE_FLAGS)
+CCLIBFLAGS           =
 
-########## End of flags from header.mak
+################################################################################
+######                            Directories                             ######
+################################################################################
+   ROOT := .
+INCLUDE := $(ROOT)/include
+    SRC := $(ROOT)/src
+    LIB := $(ROOT)/lib
+    OBJ := obj
+    OBJDIR  = $(OBJ)/
+    BIN := $(ROOT)/bin
+    DEP := $(ROOT)/dep
+  DEBUG := debug
+RELEASE := release
 
+DEPFILE = $(DEP)/$(*F)
+OBJFILE = $(OBJDIR)/$(*F)
 
-CPP_FILES :=    camera.cpp          \
-                checkedshader.cpp   \
-                Color.cpp           \
-                radraytracer.cpp    \
-                cylinder.cpp        \
-                Light.cpp           \
-                PhongShader.cpp     \
-                pixel.h             \
-                Point.cpp           \
-                proceduralshaderfactory.cpp \
-                Raytracer.cpp       \
-                Rectangle.cpp       \
-                scene.cpp           \
-                Shape.cpp           \
-                ShapeFactory.cpp    \
-                Sphere.cpp          \
-                ToneReproducer.cpp  \
-                Vector.cpp          \
-                ./json/json.cpp
-C_FILES =
-PS_FILES =
-S_FILES =
-H_FILES =	    camera.h            \
-                checkedshader.h     \
-                Color.h             \
-                cylinderh           \
-                ijsonserializable.h \
-                Light.h             \
-                PhongShader.h       \
-                Point.h             \
-                proceduralshaderfactory.h \
-                Raytracer.h         \
-                Rectangle.h         \
-                scene.h             \
-                Shape.h             \
-                ShapeFactory.h      \
-                Sphere.h            \
-                ToneReproducer.h    \
-                Vector.h            \
-                ./json/json.h
-SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
-.PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	    camera.o          \
-                checkedshader.o   \
-                Color.o           \
-                cylinder.o        \
-                Light.o           \
-                PhongShader.o     \
-                Point.o           \
-                proceduralshaderfactory.o \
-                Raytracer.o       \
-                Rectangle.o       \
-                scene.o           \
-                Shape.o           \
-                ShapeFactory.o    \
-                Sphere.o          \
-                ToneReproducer.o  \
-                Vector.o          \
-                ./json/json.o
-#
-# Main targets
-#
+################################################################################
+######                             Definitions                            ######
+################################################################################
 
-all:	radraytracer
+CXX := g++
 
-radraytracer:	radraytracer.o $(OBJFILES)
-	$(CXX) $(CXXFLAGS) -o radraytracer radraytracer.o $(OBJFILES) $(CCLIBFLAGS)
+CXXDEP := g++ -MM -MG $(CFLAGS)
 
-#
-# Dependencies
-#
+empty :=
+space := $(empty) $(empty)
 
-camera.o:           camera.h ijsonserializable.h
-./json/json.o:		./json/json.h ./json/jsoncpp.cpp
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c ./json/jsoncpp.cpp -o ./json/json.o
-cylinder.o:	        cylinder.h Shape.h
-checkedshader.o:    checkedshader.h proceduralshader.h
-proceduralshader.o:	Color.h Point.h ijsonserializable.h
-proceduralshaderfactory.o:  proceduralshaderfactory.h
-scene.o:	        scene.h camera.h ijsonserializable.h ShapeFactory.h proceduralshaderfactory.h
-Color.o:	        Color.h ijsonserializable.h
-Light.o:	        Color.h Light.h Point.h Vector.h ijsonserializable.h
-PhongShader.o:	    Color.h Light.h PhongShader.h Point.h Shape.h Vector.h
-Point.o:	        Color.h Point.h Vector.h ijsonserializable.h
-Raytracer.o:	    Color.h Light.h PhongShader.h Point.h Raytracer.h Shape.h Vector.h pixel.h
-Rectangle.o:	    Rectangle.h Shape.h
-Shape.o:	        Color.h Point.h Shape.h Vector.h proceduralshader.h ijsonserializable.h
-ShapeFactory.o:     ShapeFactory.h
-Sphere.o:	        Shape.h Sphere.h
-ToneReproducer.o:	Color.h ToneReproducer.h pixel.h
-Vector.o:	        Vector.h ijsonserializable.h
-radraytracer.o:	    Raytracer.h scene.h ToneReproducer.h
+RM      = rm -f
+MKDIR   = mkdir -p
+RMDIR   = $(MKDIR) $1; rmdir $1
 
-#
-# Housekeeping
-#
+################################################################################
+######                              Magic                                 ######
+################################################################################
 
-Archive:	archive.tgz
+# Include each module.mk file
+include $(patsubst %,%module.mk,$(MODULES))
 
-archive.tgz:	$(SOURCEFILES) Makefile
-	tar cf - $(SOURCEFILES) Makefile | gzip > archive.tgz
+# Set the source file search path
+vpath %.cpp $(MODULES)
+
+# Determine the object file names, based on whether this a debug or a release
+# build
+ifeq ($(MAKECMDGOALS),)
+OBJDIR := $(OBJ)/$(DEBUG)
+OBJECT := $(addprefix $(OBJDIR)/, $(patsubst %.cpp,%.o, $(notdir \
+    $(filter %.cpp,$(SOURCE)))))
+$(OBJECT): | build build_debug
+CXXFLAGS += $(CXX_DEBUG_FLAGS)
+CCLIBFLAGS += $(LIB_DEBUG_FLAGS)
+else
+OBJDIR := $(OBJ)/$(RELEASE)
+OBJECT := $(addprefix $(OBJDIR)/, $(patsubst %.cpp,%.o, $(notdir \
+            $(filter %.cpp,$(SOURCE)))))
+$(OBJECT): | build build_release
+CXXFLAGS += $(CXX_RELEASE_FLAGS)
+CCLIBFLAGS += $(LIB_RELEASE_FLAGS)
+endif
+
+DEPENDENCIES := $(addprefix $(DEP)/, \
+                    $(patsubst %.cpp,%.d,$(notdir $(filter %.cpp,$(SOURCE)))))
+
+################################################################################
+######                          Pattern Rules                             ######
+################################################################################
+
+$(OBJDIR)/%.o: %.cpp
+	printf "CPP $*.cpp\n"
+	$(CXX) $(CXXFLAGS) -MMD -MT "$(DEPFILE).d $(OBJFILE).o" \
+		-MF "$(DEPFILE).d" -o $(OBJFILE).o -c $<
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+		-e '/^$$/ d' -e 's/$$/ :/' < $(DEPFILE).d >> $(DEPFILE).d
+
+-include $(DEPENDENCIES)
+
+################################################################################
+######                              Targets                               ######
+################################################################################
+
+.PHONY: debug release build build_debug build_release clean realclean
+
+TARGET = radraytracer
+
+.DEFAULT_GOAL := debug
+
+default: debug
+
+debug:      $(OBJECT)
+	printf "LINK $(BIN)/$(DEBUG)/$(TARGET)\n"
+	$(CXX) -o $(BIN)/$(DEBUG)/$(TARGET) $(OBJECT) $(CCLIBFLAGS)
+
+release: $(OBJECT)
+	printf "LINK $(BIN)/$(RELEASE)/$(TARGET)\n"
+	$(CXX) -o $(BIN)/$(RELEASE)/$(TARGET) $(OBJECT) $(CCLIBFLAGS)
+
+build:
+	$(MKDIR) $(OBJDIR)
+	$(MKDIR) $(DEP)
+
+build_debug:
+	$(MKDIR) $(BIN)/$(DEBUG)
+build_release:
+	$(MKDIR) $(BIN)/$(RELEASE)
 
 clean:
-	-/bin/rm -f $(OBJFILES) radraytracer.o core
+	printf "RM OBJECT FILES\n"
+	$(RM) $(OBJ)/$(RELEASE)/*.o $(OBJ)/$(DEBUG)/*.o
+	$(call RMDIR,$(OBJ)/$(DEBUG))
+	$(call RMDIR,$(OBJ)/$(RELEASE))
+	$(call RMDIR,$(OBJ))
 
 realclean:        clean
-	-/bin/rm -f radraytracer
+	printf "RM DEPENDENCY FILES\n"
+	printf "RM EXECUTABLE FILES\n"
+	$(RM) $(DEPENDENCIES)
+	$(RM) $(BIN)/$(DEBUG)/$(TARGET)
+	$(RM) $(BIN)/$(RELEASE)/$(TARGET)
+	$(call RMDIR,$(BIN)/$(DEBUG))
+	$(call RMDIR,$(BIN)/$(RELEASE))
+	$(call RMDIR,$(BIN))
+	$(call RMDIR,$(DEP))
+
