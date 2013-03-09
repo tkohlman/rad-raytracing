@@ -109,6 +109,13 @@ public:
     inline Color& operator+=(const Color& other);
 
     const static Color BLACK;
+    const static Color BLUE;
+    const static Color GREEN;
+    const static Color CYAN;
+    const static Color RED;
+    const static Color PURPLE;
+    const static Color YELLOW;
+    const static Color WHITE;
 
 private:
 
