@@ -18,6 +18,8 @@
 namespace RadRt
 {
 
+class Ray;
+
 class Raytracer
 {
 public:
@@ -38,15 +40,16 @@ public:
     /// @param depth - recursion depth
     /// @return - color of the point the ray hits
     ///
-    Color trace(Scene *scene, Vector ray, Point origin, int depth);
+    Color trace(Scene *scene, Ray ray, int depth);
 
     PixelBuffer2D *traceScene(Scene *scene);
 
 private:
 
-    Vector makeReflectionRay(const Vector &normal, const Vector &ray);
+    Ray makeReflectionRay(const Vector &normal, const Ray &ray,
+                          const Point &intersection);
 
-    Shape *getClosestShape(Scene *scene, const Vector &ray, Point &origin);
+    Shape *getClosestShape(Scene *scene, const Ray &ray, Point **intersection);
 
     ///
     /// @name mMaxDepth
@@ -63,6 +66,8 @@ private:
     ///		Shader to use for local illumination.
     ///
     PhongShader mPhongShader;
+
+    Point *mIntersection;
 
 };  // class Raytracer
 

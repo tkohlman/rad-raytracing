@@ -15,6 +15,8 @@
 namespace RadRt
 {
 
+class Ray;
+
 class Shape : public IJsonSerializable
 {
 public:
@@ -72,18 +74,7 @@ public:
     float getTransmissiveConstant() const { return mTransmissionValue; };
     float getRefractionIndex() const { return mRefractionIndex; };
 
-    ///
-    /// @name Intersect
-    ///
-    /// @description
-    /// 	Determines if a ray intersects the shape.
-    ///
-    /// @param v - direction vector of the ray
-    /// @param o - origin of the ray
-    /// @return - intersection point closest to ray origin, NULL if no
-    ///           intersection occurs
-    ///
-    virtual Point* intersect(Vector v, Point o) = 0;
+    virtual Point* intersect(const Ray &ray) = 0;
 
     ///
     /// @name GetSurfaceNormal

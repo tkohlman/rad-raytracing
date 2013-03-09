@@ -4,6 +4,7 @@
  */
 
 #include "rectangle.h"
+#include "ray.h"
 
 namespace RadRt
 {
@@ -18,25 +19,27 @@ void Rectangle::init()
 }
 
 // Intersect
-Point* Rectangle::intersect(Vector v, Point o) {
+Point* Rectangle::intersect(const Ray &ray) {
 
     // Check if vector is parallel to plane (no intercept)
-    if (dotProduct(v, _normal) == 0) {
+    if (dotProduct(ray.getDirection(), _normal) == 0) {
         return NULL;
     }
 
     // Find the distance from the ray origin to the intersect point
-    float distance = dotProduct(displacementVector(_a, o), _normal) /
-                     dotProduct(v, _normal);
+    float distance = dotProduct(displacementVector(_a, ray.getVertex()),
+                                 _normal) /
+                     dotProduct(ray.getDirection(), _normal);
 
-    if (distance < 0) {
+    if (distance < 0)
+    {
         return NULL;
     }
 
     // From the distance, calculate the intersect point
-    float x = o.getX() + distance * v.getX();
-    float y = o.getY() + distance * v.getY();
-    float z = o.getZ() + distance * v.getZ();
+    float x = ray.getVertex().getX() + distance * ray.getDirection().getX();
+    float y = ray.getVertex().getY() + distance * ray.getDirection().getY();
+    float z = ray.getVertex().getZ() + distance * ray.getDirection().getZ();
 
     Point *intersect = new Point(x, y, z);
 
@@ -45,7 +48,7 @@ Point* Rectangle::intersect(Vector v, Point o) {
     Vector CB = displacementVector(_b, _c);
     Vector CD = displacementVector(_d, _c);
 
-    if (distanceBetween(*intersect, o) < 0.1) {
+    if (distanceBetween(*intersect, ray.getVertex()) < 0.1) {
         delete intersect;
         return NULL;
 

@@ -4,12 +4,13 @@
  */
 
 #include "sphere.h"
+#include "ray.h"
 
 namespace RadRt
 {
 
 // Intersect
-Point* Sphere::intersect(Vector v, Point o)
+Point* Sphere::intersect(const Ray &ray)
 {
     // This intercept calculation takes the form of the quadratic equation:
     // At^2 + Bt + C = 0, where
@@ -17,10 +18,10 @@ Point* Sphere::intersect(Vector v, Point o)
     // B is 2(o-_center) * d
     // C is (o-c)(0-c) * _radius^2
 
-    Vector origin_center = displacementVector(o, _center);
+    Vector origin_center = displacementVector(ray.getVertex(), _center);
 
-    float A = dotProduct(v, v);
-    float B = dotProduct(origin_center, v) * 2.0;
+    float A = dotProduct(ray.getDirection(), ray.getDirection());
+    float B = dotProduct(origin_center, ray.getDirection()) * 2.0;
     float C = dotProduct(origin_center, origin_center) - _radius * _radius;
 
     // The quadratic roots are found using:
@@ -30,10 +31,10 @@ Point* Sphere::intersect(Vector v, Point o)
 
     float discriminant = B * B - 4 * A * C;
 
-    if (discriminant < 0) {
+    if (discriminant < 0)
+    {
         // no real roots (no intersection)
         return NULL;
-
     }
 
     float distance1 = ( -B + sqrt(discriminant) ) / (2 * A);
@@ -59,9 +60,9 @@ Point* Sphere::intersect(Vector v, Point o)
     }
 
     // From the t-value, calculate the intersect point
-    float x = o.getX() + t * v.getX();
-    float y = o.getY() + t * v.getY();
-    float z = o.getZ() + t * v.getZ();
+    float x = ray.getVertex().getX() + t * ray.getDirection().getX();
+    float y = ray.getVertex().getY() + t * ray.getDirection().getY();
+    float z = ray.getVertex().getZ() + t * ray.getDirection().getZ();
 
     Point *intersect = new Point(x, y, z);
 

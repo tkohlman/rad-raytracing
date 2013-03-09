@@ -21,18 +21,7 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    ///
-    /// @name Intersect
-    ///
-    /// @description
-    /// 	Determines if a ray intersects the sphere.
-    ///
-    /// @param v - direction vector of the ray
-    /// @param o - origin of the ray
-    /// @return - intersection point closest to ray origin, NULL if no
-    ///           intersection occurs
-    ///
-    Point* intersect(Vector v, Point o);
+    Point* intersect(const Ray &ray);
 
     ///
     /// @name GetSurfaceNormal

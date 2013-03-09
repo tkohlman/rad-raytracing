@@ -4,6 +4,7 @@
  */
 
 #include "cylinder.h"
+#include "ray.h"
 
 namespace RadRt
 {
@@ -27,8 +28,8 @@ Vector Cylinder::getSurfaceNormal(Point surface)
 }
 
 // Intersect
-Point* Cylinder::intersect(Vector v, Point o) {
-
+Point* Cylinder::intersect(const Ray &ray)
+{
     // Side intercept ---------------------------------------------------------
     // This intercept calculation takes the form of the quadratic equation:
     // At^2 + Bt + C = 0, where
@@ -40,10 +41,11 @@ Point* Cylinder::intersect(Vector v, Point o) {
     // orientation is (_cp1 - _cp2)
     // delta_p is (o - _cp1)
 
-    Vector delta_p = displacementVector(o, _cp1);
+    Vector delta_p = displacementVector(ray.getVertex(), _cp1);
 
-    Vector common1 = vectorSubtract(v,
-                        scalarMultiply(_orient, dotProduct(v, _orient)));
+    Vector common1 = vectorSubtract(ray.getDirection(),
+                        scalarMultiply(_orient,
+                            dotProduct(ray.getDirection(), _orient)));
     Vector common2 = vectorSubtract(delta_p,
                         scalarMultiply(_orient, dotProduct(delta_p, _orient)));
 
@@ -76,11 +78,11 @@ Point* Cylinder::intersect(Vector v, Point o) {
     float t4 = -1;
 
     // Find intercepts with both planes
-    if (dotProduct(v, _orient) != 0) {
-        t3 = dotProduct(displacementVector(_cp1, o), _orient) /
-             dotProduct(v, _orient);
-        t4 = dotProduct(displacementVector(_cp2, o), _orient) /
-             dotProduct(v, _orient);
+    if (dotProduct(ray.getDirection(), _orient) != 0) {
+        t3 = dotProduct(displacementVector(_cp1, ray.getVertex()), _orient) /
+             dotProduct(ray.getDirection(), _orient);
+        t4 = dotProduct(displacementVector(_cp2, ray.getVertex()), _orient) /
+             dotProduct(ray.getDirection(), _orient);
     }
     //-------------------------------------------------------------------------
 
@@ -93,24 +95,25 @@ Point* Cylinder::intersect(Vector v, Point o) {
 
     // Eliminate points with negative t-values
     if (t1 >= 0) {
-        i1 = new Point(o.getX() + t1 * v.getX(),
-                       o.getY() + t1 * v.getY(),
-                       o.getZ() + t1 * v.getZ());
+        i1 = new Point(
+                       ray.getVertex().getX() + t1 * ray.getDirection().getX(),
+                       ray.getVertex().getY() + t1 * ray.getDirection().getY(),
+                       ray.getVertex().getZ() + t1 * ray.getDirection().getZ());
     }
     if (t2 >= 0) {
-        i2 = new Point(o.getX() + t2 * v.getX(),
-                       o.getY() + t2 * v.getY(),
-                       o.getZ() + t2 * v.getZ());
+        i2 = new Point(ray.getVertex().getX() + t2 * ray.getDirection().getX(),
+                       ray.getVertex().getY() + t2 * ray.getDirection().getY(),
+                       ray.getVertex().getZ() + t2 * ray.getDirection().getZ());
     }
     if (t3 >= 0) {
-        i3 = new Point(o.getX() + t3 * v.getX(),
-                       o.getY() + t3 * v.getY(),
-                       o.getZ() + t3 * v.getZ());
+        i3 = new Point(ray.getVertex().getX() + t3 * ray.getDirection().getX(),
+                       ray.getVertex().getY() + t3 * ray.getDirection().getY(),
+                       ray.getVertex().getZ() + t3 * ray.getDirection().getZ());
     }
     if (t4 >= 0) {
-        i4 = new Point(o.getX() + t4 * v.getX(),
-                       o.getY() + t4 * v.getY(),
-                       o.getZ() + t4 * v.getZ());
+        i4 = new Point(ray.getVertex().getX() + t4 * ray.getDirection().getX(),
+                       ray.getVertex().getY() + t4 * ray.getDirection().getY(),
+                       ray.getVertex().getZ() + t4 * ray.getDirection().getZ());
     }
 
     // Check that the points lie within their respective boundaries.

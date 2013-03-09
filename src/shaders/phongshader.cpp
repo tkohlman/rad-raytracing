@@ -4,6 +4,7 @@
  */
 
 #include "phongshader.h"
+#include "ray.h"
 
 namespace RadRt
 {
@@ -30,9 +31,9 @@ Color PhongShader::shade(Scene *scene, Shape *object, Point intersection)
     for (; light != lights->end(); ++light) {
 
         // Generate the shadow ray
-        Vector shadow_ray = displacementVector((*light)->getPosition(), intersection);
-        shadow_ray = normalize(shadow_ray);
-
+        Ray shadow_ray(intersection,
+                       normalize(displacementVector((*light)->getPosition(),
+                                                    intersection)));
         // Determine if there is direct line of sight to the intersect point
         ShapeIterator shape = shapes->begin();
         bool los = true;
@@ -45,7 +46,7 @@ Color PhongShader::shade(Scene *scene, Shape *object, Point intersection)
             }
 
             // Get the intersection point
-            Point *p = (*shape)->intersect(shadow_ray, intersection);
+            Point *p = (*shape)->intersect(shadow_ray);
 
             // If this point is closer than the closest known point,
             // there is no line of sight.
@@ -74,13 +75,14 @@ Color PhongShader::shade(Scene *scene, Shape *object, Point intersection)
 
             // Compute dot product between shadow and normal. Clamp to zero
             // if the angle is more than 90 degrees.
-            float shadow_dot_normal = dotProduct(shadow_ray, N);
+            float shadow_dot_normal = dotProduct(shadow_ray.getDirection(), N);
             if (shadow_dot_normal >= 0) {
 
                 // Add in the diffuse component
                 Kd += oKd * lC * shadow_dot_normal;
 
-                Vector R = vectorSubtract(shadow_ray, scalarMultiply(N, 2 * shadow_dot_normal));
+                Vector R = vectorSubtract(shadow_ray.getDirection(),
+                                scalarMultiply(N, 2 * shadow_dot_normal));
                 normalize(R);
                 Vector V = normalize(displacementVector(
                                 scene->getCamera().getLocation(), intersection));

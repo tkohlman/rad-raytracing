@@ -32,17 +32,7 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    ///
-    /// @name Intersect
-    ///
-    /// @description
-    /// 	Determines if a ray intersects the cylinder.
-    ///
-    /// @param v - direction vector of the ray
-    /// @param o - origin of the ray
-    /// @return - closest (positive) intersect point to the origin of the ray
-    ///
-    virtual Point* intersect(Vector v, Point o);
+    virtual Point* intersect(const Ray &ray);
 
     virtual Vector getSurfaceNormal(Point surface);
 
