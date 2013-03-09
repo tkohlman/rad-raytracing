@@ -1,12 +1,7 @@
-///
-/// @file Point.cpp
-///
-/// @author	Thomas Kohlman
-/// @date 27 December 2011
-///
-/// @description
-/// 	Implements a 3D point representation.
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include "point.h"
 

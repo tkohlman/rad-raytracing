@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
+
 #ifndef SCENE_H_INCLUDED
 #define SCENE_H_INCLUDED
 

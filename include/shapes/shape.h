@@ -1,12 +1,7 @@
-///
-/// @file Shape.h
-///
-/// @author	Thomas Kohlman
-/// @date 23 December 2011
-///
-/// @description
-/// 	Defines an abstract shape class.
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #ifndef SHAPE_H
 #define SHAPE_H

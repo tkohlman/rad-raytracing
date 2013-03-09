@@ -1,34 +1,7 @@
-///
-/// @file Sphere.h
-///
-/// @author	Thomas Kohlman
-/// @date 28 December 2011
-///
-/// @description
-/// 	Declares a sphere from the shape base class.
-///
-/// Version:
-/// 	$Id: Sphere.h,v 1.5 2012/01/21 17:39:00 thomas Exp thomas $
-///
-/// Revisions:
-///		$Log: Sphere.h,v $
-///		Revision 1.5  2012/01/21 17:39:00  thomas
-///		Checkpoint 3, working baseline.
-///
-///		Revision 1.4  2011/12/29 02:25:36  thomas
-///		Removed unnecessary dynamic memory.
-///
-///		Revision 1.3  2011/12/28 19:54:02  thomas
-///		Checkpoint 2, genericized shape handling.
-///
-///		Revision 1.2  2011/12/28 18:47:49  thomas
-///		Checkpoint 2, functioning baseline.
-///
-///		Revision 1.1  2011/12/28 16:41:45  thomas
-///		Initial revision
-///
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #ifndef SPHERE_H
 #define SPHERE_H

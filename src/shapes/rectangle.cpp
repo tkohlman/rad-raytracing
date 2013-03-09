@@ -1,34 +1,7 @@
-///
-/// @file Rectangle.cpp
-///
-/// @author	Thomas Kohlman
-/// @date 27 December 2011
-///
-/// @description
-/// 	Implements a rectangle from the Shape base class.
-///
-/// Version:
-/// 	$Id: Rectangle.cpp,v 1.5 2012/01/21 17:39:00 thomas Exp thomas $
-///
-/// Revisions:
-///		$Log: Rectangle.cpp,v $
-///		Revision 1.5  2012/01/21 17:39:00  thomas
-///		Checkpoint 3, working baseline.
-///
-///		Revision 1.4  2011/12/29 02:25:08  thomas
-///		Removed unnecessary dynamic memory.
-///
-///		Revision 1.3  2011/12/28 19:52:52  thomas
-///		Checkpoint 2, genericized shape handling.
-///
-///		Revision 1.2  2011/12/28 18:47:18  thomas
-///		Checkpoint 2, functioning baseline.
-///
-///		Revision 1.1  2011/12/27 19:21:25  thomas
-///		Initial revision
-///
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include "rectangle.h"
 

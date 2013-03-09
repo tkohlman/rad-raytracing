@@ -1,31 +1,7 @@
-///
-/// @file Point.h
-///
-/// @author	Thomas Kohlman
-/// @date 23 December 2011
-///
-/// @description
-/// 	Declares a 3D point representation.
-///
-/// Version:
-/// 	$Id: Point.h,v 1.4 2012/01/21 17:39:00 thomas Exp thomas $
-///
-/// Revisions:
-///		$Log: Point.h,v $
-///		Revision 1.4  2012/01/21 17:39:00  thomas
-///		Checkpoint 3, working baseline.
-///
-///		Revision 1.3  2011/12/28 19:54:02  thomas
-///		Checkpoint 2, genericized shape handling.
-///
-///		Revision 1.2  2011/12/28 18:47:49  thomas
-///		Checkpoint 2, functioning baseline.
-///
-///		Revision 1.1  2011/12/23 19:35:13  thomas
-///		Initial revision
-///
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #ifndef POINT_H
 #define POINT_H

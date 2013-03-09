@@ -1,5 +1,4 @@
-rad-raytracing
-==============
+
 This software is released under the MIT License. For full license text,
 see http://opensource.org/licenses/MIT.
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
+
 #ifndef IJSONSERIALIZABLE_H_INCLUDED
 #define IJSONSERIALIZABLE_H_INCLUDED
 

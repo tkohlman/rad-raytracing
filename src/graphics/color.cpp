@@ -1,12 +1,7 @@
-///
-/// @file Color.cpp
-///
-/// @author	Thomas Kohlman
-/// @date 27 December 2011
-///
-/// @description
-/// 	Implements an RGB color representation.
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include "color.h"
 

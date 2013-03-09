@@ -1,9 +1,7 @@
-///
-/// @file PhongShader.h
-///
-/// @author	Thomas Kohlman
-/// @date 3 February 2012
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #ifndef PHONG_SHADER_H
 #define PHONG_SHADER_H

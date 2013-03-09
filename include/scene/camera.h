@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
+
 #ifndef CAMERA_H_INCLUDED
 #define CAMERA_H_INCLUDED
 

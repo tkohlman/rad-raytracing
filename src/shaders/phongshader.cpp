@@ -1,19 +1,7 @@
-///
-/// @file PhongShader.cpp
-///
-/// @author	Thomas Kohlman
-/// @date 3 February 2012
-///
-/// @description
-/// 	Implements a Phong shading model.
-///
-/// Version:
-/// 	$Id$
-///
-/// Revisions:
-///		$Log$
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include "phongshader.h"
 

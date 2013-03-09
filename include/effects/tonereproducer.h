@@ -1,19 +1,7 @@
-///
-/// @file ToneReproducer.h
-///
-/// @author	Thomas Kohlman
-/// @date 26 February 2012
-///
-/// @description
-/// 	Contains routines for tone reproduction.
-///
-/// Version:
-/// 	$Id$
-///
-/// Revisions:
-///		$Log$
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #ifndef TONE_REPRODUCER_H
 #define TONE_REPRODUCER_H

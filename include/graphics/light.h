@@ -1,12 +1,7 @@
-///
-/// @file Light.h
-///
-/// @author	Thomas Kohlman
-/// @date 19 January 2012
-///
-/// @description
-/// 	A point light source in a 3D scene.
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #ifndef LIGHT_H
 #define LIGHT_H

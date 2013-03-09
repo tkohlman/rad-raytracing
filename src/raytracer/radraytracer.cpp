@@ -1,14 +1,7 @@
-///
-/// @file cp7.cpp
-///
-/// @author	Thomas Kohlman
-/// @date 21 January 2012
-///
-/// @description
-/// 	Checkpoint 7 - Tone Reproduction
-///
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include <GL/glut.h>
 #include "raytracer.h"

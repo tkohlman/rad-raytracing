@@ -1,5 +1,7 @@
-
-
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include "proceduralshaderfactory.h"
 #include "checkedshader.h"
@@ -21,4 +23,4 @@ ProceduralShader *ProceduralShaderFactory:: create(std::string classname)
     return NULL;
 }
 
-}
+}   // namespace RadRt

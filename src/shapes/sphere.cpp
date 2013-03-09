@@ -1,34 +1,7 @@
-///
-/// @file Sphere.cpp
-///
-/// @author	Thomas Kohlman
-/// @date 28 December 2011
-///
-/// @description
-/// 	Implements a sphere from the shape base class.
-///
-/// Version:
-/// 	$Id: Sphere.cpp,v 1.5 2012/01/21 17:39:32 thomas Exp thomas $
-///
-/// Revisions:
-///		$Log: Sphere.cpp,v $
-///		Revision 1.5  2012/01/21 17:39:32  thomas
-///		Checkpoint 3, working baseline.
-///
-///		Revision 1.4  2011/12/29 02:25:08  thomas
-///		Removed unnecessary dynamic memory.
-///
-///		Revision 1.3  2011/12/28 19:52:52  thomas
-///		Checkpoint 2, genericized shape handling.
-///
-///		Revision 1.2  2011/12/28 18:47:18  thomas
-///		Checkpoint 2, functioning baseline.
-///
-///		Revision 1.1  2011/12/28 16:55:52  thomas
-///		Initial revision
-///
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include "sphere.h"
 

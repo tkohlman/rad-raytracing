@@ -1,19 +1,7 @@
-///
-/// @file Raytracer.cpp
-///
-/// @author	Thomas Kohlman
-/// @date 3 February 2012
-///
-/// @description
-/// 	Provides raytracing functionality.
-///
-/// Version:
-/// 	$Id$
-///
-/// Revisions:
-///		$Log$
-///
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #include "raytracer.h"
 

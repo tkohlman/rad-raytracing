@@ -1,12 +1,7 @@
-///
-/// @file Vector.h
-///
-/// @author	Thomas Kohlman
-/// @date 27 December 2011
-///
-/// @description
-/// 	Declares a vector representation.
-///
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
 
 #ifndef VECTOR_H
 #define VECTOR_H
