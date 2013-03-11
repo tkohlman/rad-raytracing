@@ -34,7 +34,7 @@ Point* Sphere::intersect(const Ray &ray, Vector **normal)
     if (discriminant < 0)
     {
         // no real roots (no intersection)
-        return NULL;
+        return nullptr;
     }
 
     float distance1 = ( -B + sqrt(discriminant) ) / (2 * A);
@@ -56,7 +56,7 @@ Point* Sphere::intersect(const Ray &ray, Vector **normal)
         t = distance2;
 
     } else {
-        return NULL;
+        return nullptr;
     }
 
     // From the t-value, calculate the intersect point

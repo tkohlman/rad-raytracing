@@ -169,7 +169,7 @@ private:
 //
 inline Color Shape::getAmbientColor(Point p)
 {
-    if (shader == NULL)
+    if (shader == nullptr)
         return mAmbientColor;
     else
         return shader->shade(p);
@@ -180,7 +180,7 @@ inline Color Shape::getAmbientColor(Point p)
 //
 inline Color Shape::getDiffuseColor(Point p)
 {
-    if (shader == NULL)
+    if (shader == nullptr)
         return mDiffuseColor;
     else
         return shader->shade(p);
@@ -188,7 +188,7 @@ inline Color Shape::getDiffuseColor(Point p)
 
 inline void Shape::setProceduralShader( ProceduralShader *newShader )
 {
-    if (shader != NULL)
+    if (shader != nullptr)
     {
         delete shader;
     }

@@ -33,9 +33,9 @@ Shape *Raytracer::getClosestShape(Scene *scene, const Ray &ray,
     ShapeVector *shapes = scene->getShapes();
     ShapeIterator iter = shapes->begin();
 
-    Point *closestIntersection = NULL;
-    Shape *closestShape = NULL;
-    Vector *currentNormal = NULL;
+    Point *closestIntersection =nullptr;
+    Shape *closestShape = nullptr;
+    Vector *currentNormal = nullptr;
 
     for (; iter != shapes->end(); ++iter)
     {
@@ -97,7 +97,7 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
 
 
     // If this ray hits nothing, return the background color
-    if (closestShape == NULL)
+    if (closestShape == nullptr)
     {
         return scene->getBackground();
     }

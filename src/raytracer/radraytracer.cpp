@@ -13,8 +13,8 @@
 #include <fstream>
 #include <iostream>
 
-RadRt::PixelBuffer2D *pixels = NULL;
-RadRt::Scene *scene = NULL;
+RadRt::PixelBuffer2D *pixels = nullptr;
+RadRt::Scene *scene = nullptr;
 
 
 
@@ -144,7 +144,7 @@ int main( int argc, char** argv )
 
         case 'a':
             ++aflag;
-            algo = strtof(optarg, NULL);
+            algo = strtof(optarg, nullptr);
             if (algo == 0)
                 algo = WARDS;
             else

@@ -83,10 +83,10 @@ Point* Cylinder::intersect(const Ray &ray, Vector **normal)
 
 
     // Create the four intercept points.
-    Point *i1 = NULL;
-    Point *i2 = NULL;
-    Point *i3 = NULL;
-    Point *i4 = NULL;
+    Point *i1 = nullptr;
+    Point *i2 = nullptr;
+    Point *i3 = nullptr;
+    Point *i4 = nullptr;
 
     // Eliminate points with negative t-values
     if (t1 >= 0) {
@@ -114,59 +114,59 @@ Point* Cylinder::intersect(const Ray &ray, Vector **normal)
     // Check that the points lie within their respective boundaries.
     // i1 and i2 must be between the two endcaps. i3 and i4 must be
     // contained in the endcaps.
-    if ((i1 != NULL) &&
+    if ((i1 != nullptr) &&
         ((dotProduct(_orient, displacementVector(*i1, _cp1)) > 0) ||
          (dotProduct(_orient, displacementVector(*i1, _cp2)) < 0))) {
         delete i1;
-        i1 = NULL;
+        i1 = nullptr;
     }
 
-    if ((i2 != NULL) &&
+    if ((i2 != nullptr) &&
         ((dotProduct(_orient, displacementVector(*i2, _cp1)) > 0) ||
          (dotProduct(_orient, displacementVector(*i2, _cp2)) < 0))) {
         delete i2;
-        i2 = NULL;
+        i2 = nullptr;
     }
 
-    if ((i3 != NULL) &&
+    if ((i3 != nullptr) &&
         (dotProduct(displacementVector(*i3, _cp1),
                     displacementVector(*i3, _cp1)) >= (_radius * _radius))) {
         delete i3;
-        i3 = NULL;
+        i3 = nullptr;
     }
 
-    if ((i4 != NULL) &&
+    if ((i4 != nullptr) &&
         (dotProduct(displacementVector(*i4, _cp2),
                     displacementVector(*i4, _cp2)) >= (_radius * _radius))) {
         delete i4;
-        i4 = NULL;
+        i4 = nullptr;
     }
 
     // Take the closest remaining point.
-    Point* intersect = NULL;
+    Point* intersect = nullptr;
     float t = 1000000;
-    if (i1 != NULL && t1 < t) {
+    if (i1 != nullptr && t1 < t) {
         intersect = i1;
         t = t1;
     }
-    if (i2 != NULL && t2 < t) {
+    if (i2 != nullptr && t2 < t) {
         intersect = i2;
         t = t2;
     }
-    if (i3 != NULL && t3 < t) {
+    if (i3 != nullptr && t3 < t) {
         intersect = i3;
         t = t3;
     }
-    if (i4 != NULL && t4 < t) {
+    if (i4 != nullptr && t4 < t) {
         intersect = i4;
         t = t4;
     }
 
     // Clean up memory
-    if ((i1 != NULL) && (i1 != intersect)) delete i1;
-    if ((i2 != NULL) && (i2 != intersect)) delete i2;
-    if ((i3 != NULL) && (i3 != intersect)) delete i3;
-    if ((i4 != NULL) && (i4 != intersect)) delete i4;
+    if ((i1 != nullptr) && (i1 != intersect)) delete i1;
+    if ((i2 != nullptr) && (i2 != intersect)) delete i2;
+    if ((i3 != nullptr) && (i3 != intersect)) delete i3;
+    if ((i4 != nullptr) && (i4 != intersect)) delete i4;
 
     if ((intersect != nullptr) && (normal != nullptr))
     {

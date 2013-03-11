@@ -30,7 +30,7 @@ Shape *ShapeFactory::create(std::string classname)
     {
         std::cerr << "Unknown Shape subclass: " << classname << std::endl;
     }
-    return NULL;
+    return nullptr;
 }
 
 }   // namespace RadRt

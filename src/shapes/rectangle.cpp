@@ -23,7 +23,7 @@ Point* Rectangle::intersect(const Ray &ray, Vector **normal) {
 
     // Check if vector is parallel to plane (no intercept)
     if (dotProduct(ray.getDirection(), _normal) == 0) {
-        return NULL;
+        return nullptr;
     }
 
     // Find the distance from the ray origin to the intersect point
@@ -33,7 +33,7 @@ Point* Rectangle::intersect(const Ray &ray, Vector **normal) {
 
     if (distance < 0)
     {
-        return NULL;
+        return nullptr;
     }
 
     // From the distance, calculate the intersect point
@@ -50,7 +50,7 @@ Point* Rectangle::intersect(const Ray &ray, Vector **normal) {
 
     if (distanceBetween(*intersect, ray.getVertex()) < 0.1) {
         delete intersect;
-        return NULL;
+        return nullptr;
 
     } else if ( (0 <= dotProduct(CI, CB)) &&
                 (dotProduct(CI, CB) < dotProduct(CB, CB)) &&
@@ -71,7 +71,7 @@ Point* Rectangle::intersect(const Ray &ray, Vector **normal) {
     } else {
         // does not intersect plane within the rectangle
         delete intersect;
-        return NULL;
+        return nullptr;
     }
 }
 

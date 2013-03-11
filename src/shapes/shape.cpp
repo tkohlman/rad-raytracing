@@ -14,7 +14,7 @@ namespace RadRt
 //
 Shape::~Shape()
 {
-    if (shader != NULL)
+    if (shader != nullptr)
     {
         delete shader;
     }
@@ -34,7 +34,7 @@ Json::Value Shape::serialize() const
     root["transmissive_value"] = mTransmissionValue;
     root["refraction_index"] = mRefractionIndex;
 
-    if (shader != NULL)
+    if (shader != nullptr)
     {
         root["shader"] = shader->serialize();
     }
