@@ -22,13 +22,8 @@ void Cylinder::init()
 Cylinder::~Cylinder() {
 }
 
-Vector Cylinder::getSurfaceNormal(Point surface)
-{
-    return _orient;
-}
-
 // Intersect
-Point* Cylinder::intersect(const Ray &ray)
+Point* Cylinder::intersect(const Ray &ray, Vector **normal)
 {
     // Side intercept ---------------------------------------------------------
     // This intercept calculation takes the form of the quadratic equation:
@@ -172,6 +167,16 @@ Point* Cylinder::intersect(const Ray &ray)
     if ((i2 != NULL) && (i2 != intersect)) delete i2;
     if ((i3 != NULL) && (i3 != intersect)) delete i3;
     if ((i4 != NULL) && (i4 != intersect)) delete i4;
+
+    if ((intersect != nullptr) && (normal != nullptr))
+    {
+        if (*normal != nullptr)
+        {
+            delete *normal;
+        }
+        *normal = new Vector(_orient);
+        normalize(**normal);
+    }
 
     return intersect;
 }

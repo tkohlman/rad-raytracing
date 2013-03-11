@@ -17,7 +17,8 @@ class PhongShader
 {
 public:
 
-    Color shade(Scene *scene, Shape *object, Point intersection);
+    Color shade(Scene *scene, Shape *object, const Point &intersection,
+                const Vector &normal);
 
 };  // class PhongShader
 

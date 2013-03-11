@@ -74,18 +74,7 @@ public:
     float getTransmissiveConstant() const { return mTransmissionValue; };
     float getRefractionIndex() const { return mRefractionIndex; };
 
-    virtual Point* intersect(const Ray &ray) = 0;
-
-    ///
-    /// @name GetSurfaceNormal
-    ///
-    /// @description
-    /// 	Calculates the surface normal for a point on the shape's surface.
-    ///
-    /// @param surface - a point on the shape's surface
-    /// @return - the surface normal at this point
-    ///
-    virtual Vector getSurfaceNormal(Point surface) = 0;
+    virtual Point* intersect(const Ray &ray, Vector **normal) = 0;
 
     void setProceduralShader( ProceduralShader *newShader );
 

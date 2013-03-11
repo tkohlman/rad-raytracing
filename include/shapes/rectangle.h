@@ -23,19 +23,7 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    Point* intersect(const Ray &ray);
-
-    ///
-    /// @name GetSurfaceNormal
-    ///
-    /// @description
-    /// 	Calculates the surface normal for a point on the
-    ///     rectangle's surface.
-    ///
-    /// @param surface - a point on the rectangle's surface
-    /// @return - the surface normal at this point on the rectangle
-    ///
-    Vector getSurfaceNormal(Point surface);
+    Point* intersect(const Ray &ray, Vector **normal);
 
     const Point &getA() const { return _a; };
     const Point &getB() const { return _b; };

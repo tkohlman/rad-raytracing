@@ -15,11 +15,11 @@ void Rectangle::init()
     Vector v1 = displacementVector(_b, _a);
     Vector v2 = displacementVector(_d, _a);
 
-    _normal = crossProduct(v2, v1);
+    _normal = normalize(crossProduct(v2, v1));
 }
 
 // Intersect
-Point* Rectangle::intersect(const Ray &ray) {
+Point* Rectangle::intersect(const Ray &ray, Vector **normal) {
 
     // Check if vector is parallel to plane (no intercept)
     if (dotProduct(ray.getDirection(), _normal) == 0) {
@@ -57,6 +57,15 @@ Point* Rectangle::intersect(const Ray &ray) {
                 (0 <= dotProduct(CI, CD)) &&
                 (dotProduct(CI, CD) < dotProduct(CD, CD))) {
 
+        if (normal != nullptr)
+        {
+            if (*normal != nullptr)
+            {
+                delete *normal;
+            }
+            *normal = new Vector(_normal);
+        }
+
         return intersect;
 
     } else {
@@ -64,14 +73,6 @@ Point* Rectangle::intersect(const Ray &ray) {
         delete intersect;
         return NULL;
     }
-}
-
-//
-// GetSurfaceNormal
-//
-Vector Rectangle::getSurfaceNormal(Point surface)
-{
-    return _normal;
 }
 
 Json::Value Rectangle::serialize() const

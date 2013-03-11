@@ -10,7 +10,7 @@ namespace RadRt
 {
 
 // Intersect
-Point* Sphere::intersect(const Ray &ray)
+Point* Sphere::intersect(const Ray &ray, Vector **normal)
 {
     // This intercept calculation takes the form of the quadratic equation:
     // At^2 + Bt + C = 0, where
@@ -66,17 +66,17 @@ Point* Sphere::intersect(const Ray &ray)
 
     Point *intersect = new Point(x, y, z);
 
-    return intersect;
-}
+    if (normal != nullptr)
+    {
+        if (*normal != nullptr)
+        {
+            delete *normal;
+        }
+        *normal = new Vector(normalize(
+                        displacementVector(*intersect, _center)));
+    }
 
-//
-// GetSurfaceNormal
-//
-Vector Sphere::getSurfaceNormal(Point surface)
-{
-    Vector rv = displacementVector(surface, _center);
-    normalize(rv);
-    return rv;
+    return intersect;
 }
 
 Json::Value Sphere::serialize() const

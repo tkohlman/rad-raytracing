@@ -49,7 +49,8 @@ private:
     Ray makeReflectionRay(const Vector &normal, const Ray &ray,
                           const Point &intersection);
 
-    Shape *getClosestShape(Scene *scene, const Ray &ray, Point **intersection);
+    Shape *getClosestShape(Scene *scene, const Ray &ray, Point **intersection,
+                           Vector **normal);
 
     ///
     /// @name mMaxDepth

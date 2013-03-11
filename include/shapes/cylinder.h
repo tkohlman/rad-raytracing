@@ -32,9 +32,7 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    virtual Point* intersect(const Ray &ray);
-
-    virtual Vector getSurfaceNormal(Point surface);
+    virtual Point* intersect(const Ray &ray, Vector **normal);
 
 private:
 
