@@ -9,8 +9,7 @@
 namespace RadRt
 {
 
-// Intersect
-Point* Sphere::intersect(const Ray &ray, Vector **normal)
+Ray *Sphere::intersect(const Ray &ray)
 {
     // This intercept calculation takes the form of the quadratic equation:
     // At^2 + Bt + C = 0, where
@@ -46,16 +45,17 @@ Point* Sphere::intersect(const Ray &ray, Vector **normal)
 
     // Choose the minimum, positive distance
     if ((distance1 > epsilon) && ( (distance1 < distance2) ||
-         (distance2 < epsilon) )) {
-
+         (distance2 < epsilon) ))
+    {
         t = distance1;
-
-    } else if ((distance2 > epsilon) && ( (distance2 < distance1) ||
-                (distance1 < epsilon) )) {
-
+    }
+    else if ((distance2 > epsilon) && ( (distance2 < distance1) ||
+                (distance1 < epsilon) ))
+    {
         t = distance2;
-
-    } else {
+    }
+    else
+    {
         return nullptr;
     }
 
@@ -64,19 +64,11 @@ Point* Sphere::intersect(const Ray &ray, Vector **normal)
     float y = ray.getVertex().getY() + t * ray.getDirection().getY();
     float z = ray.getVertex().getZ() + t * ray.getDirection().getZ();
 
-    Point *intersect = new Point(x, y, z);
+    Point intersection(x, y, z);
 
-    if (normal != nullptr)
-    {
-        if (*normal != nullptr)
-        {
-            delete *normal;
-        }
-        *normal = new Vector(normalize(
-                        displacementVector(*intersect, _center)));
-    }
+    Vector normal = normalize(displacementVector(intersection, _center));
 
-    return intersect;
+    return new Ray(intersection, normal);
 }
 
 Json::Value Sphere::serialize() const

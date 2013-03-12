@@ -22,8 +22,7 @@ void Cylinder::init()
 Cylinder::~Cylinder() {
 }
 
-// Intersect
-Point* Cylinder::intersect(const Ray &ray, Vector **normal)
+Ray *Cylinder::intersect(const Ray &ray)
 {
     // Side intercept ---------------------------------------------------------
     // This intercept calculation takes the form of the quadratic equation:
@@ -168,17 +167,13 @@ Point* Cylinder::intersect(const Ray &ray, Vector **normal)
     if ((i3 != nullptr) && (i3 != intersect)) delete i3;
     if ((i4 != nullptr) && (i4 != intersect)) delete i4;
 
-    if ((intersect != nullptr) && (normal != nullptr))
+    if (intersect != nullptr)
     {
-        if (*normal != nullptr)
-        {
-            delete *normal;
-        }
-        *normal = new Vector(_orient);
-        normalize(**normal);
+        Ray *rv = new Ray(*intersect, _orient);
+        delete intersect;
+        return rv;
     }
-
-    return intersect;
+    return nullptr;
 }
 
 Json::Value Cylinder::serialize() const

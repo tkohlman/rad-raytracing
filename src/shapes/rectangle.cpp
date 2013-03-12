@@ -18,11 +18,11 @@ void Rectangle::init()
     _normal = normalize(crossProduct(v2, v1));
 }
 
-// Intersect
-Point* Rectangle::intersect(const Ray &ray, Vector **normal) {
+Ray *Rectangle::intersect(const Ray &ray) {
 
     // Check if vector is parallel to plane (no intercept)
-    if (dotProduct(ray.getDirection(), _normal) == 0) {
+    if (dotProduct(ray.getDirection(), _normal) == 0)
+    {
         return nullptr;
     }
 
@@ -41,36 +41,27 @@ Point* Rectangle::intersect(const Ray &ray, Vector **normal) {
     float y = ray.getVertex().getY() + distance * ray.getDirection().getY();
     float z = ray.getVertex().getZ() + distance * ray.getDirection().getZ();
 
-    Point *intersect = new Point(x, y, z);
+    Point intersection(x, y, z);
 
     // Test to see if the point is inside the rectangle
-    Vector CI = displacementVector(*intersect, _c);
+    Vector CI = displacementVector(intersection, _c);
     Vector CB = displacementVector(_b, _c);
     Vector CD = displacementVector(_d, _c);
 
-    if (distanceBetween(*intersect, ray.getVertex()) < 0.1) {
-        delete intersect;
+    if (distanceBetween(intersection, ray.getVertex()) < 0.1)
+    {
         return nullptr;
-
-    } else if ( (0 <= dotProduct(CI, CB)) &&
-                (dotProduct(CI, CB) < dotProduct(CB, CB)) &&
-                (0 <= dotProduct(CI, CD)) &&
-                (dotProduct(CI, CD) < dotProduct(CD, CD))) {
-
-        if (normal != nullptr)
-        {
-            if (*normal != nullptr)
-            {
-                delete *normal;
-            }
-            *normal = new Vector(_normal);
-        }
-
-        return intersect;
-
-    } else {
+    }
+    else if ( (0 <= dotProduct(CI, CB)) &&
+              (dotProduct(CI, CB) < dotProduct(CB, CB)) &&
+              (0 <= dotProduct(CI, CD)) &&
+              (dotProduct(CI, CD) < dotProduct(CD, CD)))
+    {
+        return new Ray(intersection, _normal);;
+    }
+    else
+    {
         // does not intersect plane within the rectangle
-        delete intersect;
         return nullptr;
     }
 }

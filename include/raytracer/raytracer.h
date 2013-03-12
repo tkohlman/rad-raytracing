@@ -19,6 +19,7 @@ namespace RadRt
 {
 
 class Ray;
+class Intersection;
 
 class Raytracer
 {
@@ -49,8 +50,7 @@ private:
     Ray makeReflectionRay(const Vector &normal, const Ray &ray,
                           const Point &intersection);
 
-    Shape *getClosestShape(Scene *scene, const Ray &ray, Point **intersection,
-                           Vector **normal);
+    Intersection *getClosestIntersection(Scene *scene, const Ray &ray);
 
     ///
     /// @name mMaxDepth

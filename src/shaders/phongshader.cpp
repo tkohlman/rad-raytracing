@@ -5,15 +5,12 @@
 
 #include "phongshader.h"
 #include "ray.h"
+#include "intersection.h"
 
 namespace RadRt
 {
 
-//
-// Shade
-//
-Color PhongShader::shade(Scene *scene, Shape *object, const Point &intersection,
-                         const Vector &normal)
+Color PhongShader::shade(Scene *scene, Intersection *intersection)
 {
     // Declare the light components
     Color Ka;
@@ -21,7 +18,12 @@ Color PhongShader::shade(Scene *scene, Shape *object, const Point &intersection,
     Color Ks;
 
     // Compute the ambient component
-    Ka = object->getAmbientColor(intersection);
+    Ka = intersection->getIntersectedShape()->getAmbientColor(
+            intersection->getIntersectionPoint());
+
+    Point point = intersection->getIntersectionPoint();
+    Shape *shape = intersection->getIntersectedShape();
+    Vector normal = intersection->getNormal();
 
     float Kt = 1;
 
@@ -34,32 +36,33 @@ Color PhongShader::shade(Scene *scene, Shape *object, const Point &intersection,
     for (; light != lights->end(); ++light) {
 
         // Generate the shadow ray
-        Ray shadow_ray(intersection,
+        Ray shadow_ray(point,
                        normalize(displacementVector((*light)->getPosition(),
-                                                    intersection)));
+                            point)));
         // Determine if there is direct line of sight to the intersect point
-        ShapeIterator shape = shapes->begin();
+        ShapeIterator shape_iter = shapes->begin();
         bool los = true;
 
-        for (; shape != shapes->end(); ++shape) {
-
+        for (; shape_iter != shapes->end(); ++shape_iter)
+        {
             // Do not look at the target object
-            if (*shape == object) {
+            if (*shape_iter == shape)
+            {
                 continue;
             }
 
             // Get the intersection point
-            Point *p = (*shape)->intersect(shadow_ray, nullptr);
+            Ray *intersected = (*shape_iter)->intersect(shadow_ray);
 
             // If this point is closer than the closest known point,
             // there is no line of sight.
-            if ((p != nullptr) &&
-                (distanceBetween(*p, (*light)->getPosition()) <
-                 distanceBetween(intersection, (*light)->getPosition()))) {
+            if ((intersected != nullptr) &&
+                (distanceBetween(intersected->getVertex(), (*light)->getPosition()) <
+                 distanceBetween(point, (*light)->getPosition()))) {
 
-                if ((*shape)->getTransmissiveConstant() > 0)
+                if ((*shape_iter)->getTransmissiveConstant() > 0)
                 {
-                    Kt *= (*shape)->getTransmissiveConstant();
+                    Kt *= (*shape_iter)->getTransmissiveConstant();
                     continue;
                 }
 
@@ -68,12 +71,12 @@ Color PhongShader::shade(Scene *scene, Shape *object, const Point &intersection,
             }
         }
 
-        if (los) {
-
-            Color oKd = object->getDiffuseColor(intersection);
-            Color oKs = object->getSpecularColor();
+        if (los)
+        {
+            Color oKd = shape->getDiffuseColor(point);
+            Color oKs = shape->getSpecularColor();
             Color lC = (*light)->getColor();
-            float exp = object->getSpecularExponent();
+            float exp = shape->getSpecularExponent();
 
             // Compute dot product between shadow and normal. Clamp to zero
             // if the angle is more than 90 degrees.
@@ -88,7 +91,8 @@ Color PhongShader::shade(Scene *scene, Shape *object, const Point &intersection,
                                 scalarMultiply(normal, 2 * shadow_dot_normal)));
 
                 Vector V = normalize(displacementVector(
-                                scene->getCamera().getLocation(), intersection));
+                                scene->getCamera().getLocation(),
+                                    intersection->getIntersectionPoint()));
 
                 // Compute dot product between reflection ray and viewing ray.
                 // Clamp to zero if the angle is more than 90 degrees.
@@ -102,16 +106,15 @@ Color PhongShader::shade(Scene *scene, Shape *object, const Point &intersection,
         }
     }
 
-    Ka = Ka * Kt * object->getAmbientConstant();
-    Kd = Kd * Kt * object->getDiffuseConstant();
-    Ks = Ks * Kt * object->getSpecularConstant();
+    Ka = Ka * Kt * shape->getAmbientConstant();
+    Kd = Kd * Kt * shape->getDiffuseConstant();
+    Ks = Ks * Kt * shape->getSpecularConstant();
 
     Color rv = Ka + Kd + Ks;
 
     rv.clamp();
 
     return rv;
-
 }
 
 }   // namespace RadRt

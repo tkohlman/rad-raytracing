@@ -74,7 +74,7 @@ public:
     float getTransmissiveConstant() const { return mTransmissionValue; };
     float getRefractionIndex() const { return mRefractionIndex; };
 
-    virtual Point* intersect(const Ray &ray, Vector **normal) = 0;
+    virtual Ray *intersect(const Ray &ray) = 0;
 
     void setProceduralShader( ProceduralShader *newShader );
 

@@ -13,12 +13,13 @@
 namespace RadRt
 {
 
+class Intersection;
+
 class PhongShader
 {
 public:
 
-    Color shade(Scene *scene, Shape *object, const Point &intersection,
-                const Vector &normal);
+    Color shade(Scene *scene, Intersection *intersection);
 
 };  // class PhongShader
 
