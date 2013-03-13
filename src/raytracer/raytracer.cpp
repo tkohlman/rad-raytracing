@@ -56,6 +56,8 @@ Intersection *Raytracer::getClosestIntersection(Scene *scene, const Ray &ray)
                                             intersection->getDirection(),
                                             *iter);
             }
+            delete intersection;
+            intersection = nullptr;
         }
     }
 

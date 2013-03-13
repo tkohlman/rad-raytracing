@@ -1886,7 +1886,7 @@ Value::Value( const std::string &value )
 {
    value_.string_ = duplicateStringValue( value.c_str(),
                                           (unsigned int)value.length() );
-
+   allocated_ |= 1;
 }
 
 Value::Value( const StaticString &value )
@@ -1945,6 +1945,7 @@ Value::Value( const Value &other )
       if ( other.value_.string_ )
       {
          value_.string_ = duplicateStringValue( other.value_.string_ );
+         allocated_ |= 1;
       }
       else
          value_.string_ = 0;

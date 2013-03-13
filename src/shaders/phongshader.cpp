@@ -58,7 +58,9 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
             // there is no line of sight.
             if ((intersected != nullptr) &&
                 (distanceBetween(intersected->getVertex(), (*light)->getPosition()) <
-                 distanceBetween(point, (*light)->getPosition()))) {
+                 distanceBetween(point, (*light)->getPosition())))
+            {
+                delete intersected;
 
                 if ((*shape_iter)->getTransmissiveConstant() > 0)
                 {
@@ -69,6 +71,9 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
                 los = false;
                 break;
             }
+
+            if (intersected != nullptr)
+                delete intersected;
         }
 
         if (los)

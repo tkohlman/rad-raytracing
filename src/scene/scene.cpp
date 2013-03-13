@@ -24,8 +24,28 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+    ShapeIterator shape_iter = shapes->begin();
+    while(shape_iter != shapes->end())
+    {
+        delete *shape_iter;
+        ++shape_iter;
+    }
+
+    LightIterator light_iter = lights->begin();
+    while(light_iter != lights->end())
+    {
+        delete *light_iter;
+        ++light_iter;
+    }
+
+    shapes->clear();
+    lights->clear();
+
     delete shapes;
     delete lights;
+
+    shapes = nullptr;
+    lights = nullptr;
 }
 
 Json::Value Scene::serialize() const

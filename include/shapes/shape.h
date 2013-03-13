@@ -29,7 +29,7 @@ public:
     /// @description
     /// 	Destructor
     ///
-    ~Shape();
+    virtual ~Shape();
 
     virtual Json::Value serialize() const;
     virtual void deserialize(const Json::Value &root);

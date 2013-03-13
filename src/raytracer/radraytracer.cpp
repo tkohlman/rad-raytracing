@@ -194,7 +194,6 @@ int main( int argc, char** argv )
         run_raytracer();
 
         // OpenGL Dependency:
-
         glutInit( &argc, argv );
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
         glutInitWindowSize(scene->getWidth(), scene->getHeight());
@@ -208,6 +207,15 @@ int main( int argc, char** argv )
         glutDisplayFunc( display );
 
         glutMainLoop( );
+
+        // Clean up memory
+        for (int j = 0; j < scene->getHeight(); ++j)
+        {
+                delete pixels->at(j);
+        }
+        delete pixels;
+
+        delete scene;
     }
 
    	return 0;
