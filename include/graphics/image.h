@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2013 Thomas Kohlman
+ * See license.txt for copying permission.
+ */
+
 #ifndef IMAGE_H_INCLUDED
 #define IMAGE_H_INCLUDED
 
