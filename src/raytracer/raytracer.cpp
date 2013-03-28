@@ -138,7 +138,6 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
             rv += trace(scene, transmission, depth + 1) * kt;
         }
     }
-
     delete intersection;
 
     return rv;
