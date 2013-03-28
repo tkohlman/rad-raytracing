@@ -13,7 +13,7 @@
 #include "point.h"
 #include "shape.h"
 #include "vector.h"
-#include "pixel.h"
+#include "image.h"
 
 namespace RadRt
 {
@@ -43,7 +43,7 @@ public:
     ///
     Color trace(Scene *scene, Ray ray, int depth);
 
-    PixelBuffer2D *traceScene(Scene *scene);
+    Image *traceScene(Scene *scene);
 
 private:
 

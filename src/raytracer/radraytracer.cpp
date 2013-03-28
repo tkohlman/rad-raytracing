@@ -7,13 +7,15 @@
 #include "raytracer.h"
 #include "tonereproducer.h"
 #include "scene.h"
+#include "image.h"
 
 #include <vector>
 #include <unistd.h>
 #include <fstream>
 #include <iostream>
 
-RadRt::PixelBuffer2D *pixels = nullptr;
+
+RadRt::Image *image = nullptr;
 RadRt::Scene *scene = nullptr;
 
 
@@ -36,23 +38,24 @@ int lmax = 0;
 int algo = 0;
 int depth = 1;
 
-void render(RadRt::Scene *scene, RadRt::PixelBuffer2D *pixels)
+void render(RadRt::Scene *scene, RadRt::Image *image)
 {
     // Iterate over the pixels and render them.
-    for (int j = 0; j < scene->getHeight(); ++j)
+    for (int row = 0; row < scene->getHeight(); ++row)
     {
-        for (int i = 0; i < scene->getWidth(); ++i)
+        for (int column = 0; column < scene->getWidth(); ++column)
         {
-            float r_comp = pixels->at(j)->at(i).getR();
-            float g_comp = pixels->at(j)->at(i).getG();
-            float b_comp = pixels->at(j)->at(i).getB();
+            RadRt::Color color = *image->getPixel(row, column);
+            float r_comp = color.getR();
+            float g_comp = color.getG();
+            float b_comp = color.getB();
 
             // Set the color
             glColor3f(r_comp, g_comp, b_comp);
 
             // Draw the point
             glBegin(GL_POINTS);
-	        glVertex2i(i, j);
+	        glVertex2i(column, row);
             glEnd();
         }
     }
@@ -101,13 +104,13 @@ void run_raytracer()
     RadRt::Raytracer raytracer;
     raytracer.setMaxDepth(depth);
 
-    pixels = raytracer.traceScene(scene);
+    image = raytracer.traceScene(scene);
 
     if (aflag && lflag)
     {
         // Tone Reproduction Steps
         RadRt::ToneReproducer tr(lmax, LDMAX, scene->getHeight(), scene->getWidth());
-        tr.run(pixels, algo);
+        tr.run(image, algo);
     }
 }
 
@@ -115,7 +118,7 @@ void run_raytracer()
 
 void display( void )
 {
-    render(scene, pixels);
+    render(scene, image);
 
     // Display new screen
     glutSwapBuffers();
@@ -209,11 +212,11 @@ int main( int argc, char** argv )
         glutMainLoop( );
 
         // Clean up memory
-        for (int j = 0; j < scene->getHeight(); ++j)
-        {
-                delete pixels->at(j);
-        }
-        delete pixels;
+        //for (int j = 0; j < scene->getHeight(); ++j)
+        //{
+        //        delete pixels->at(j);
+        //}
+        delete image;
 
         delete scene;
     }

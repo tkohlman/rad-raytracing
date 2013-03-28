@@ -6,6 +6,7 @@
 #include "raytracer.h"
 #include "ray.h"
 #include "intersection.h"
+#include "image.h"
 
 namespace RadRt
 {
@@ -143,10 +144,11 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
     return rv;
 }
 
-PixelBuffer2D *Raytracer::traceScene(Scene *scene)
+Image *Raytracer::traceScene(Scene *scene)
 {
     int height = scene->getHeight();
     int width = scene->getWidth();
+
     // Calculations to map locations to pixels
     float ratio = float(width)/height;
     float dx = 2.0 * ratio / width;
@@ -154,26 +156,29 @@ PixelBuffer2D *Raytracer::traceScene(Scene *scene)
     float xc = -ratio;
     float yc = -1;
 
-    PixelBuffer2D *pixels = new PixelBuffer2D(height);
+    Image *image = new Image(width, height);
+
+    //PixelBuffer2D *pixels = new PixelBuffer2D(height);
 
     // Fire rays for every pixel
-    for (int j = dy/2; j < height; ++j)
+    for (int row = dy/2; row < height; ++row)
     {
-        pixels->at(j) = new PixelBuffer(width);
+        //pixels->at(row) = new PixelBuffer(width);
 
-        for (int i = dx/2; i < width; ++i)
+        for (int column = dx/2; column < width; ++column)
         {
             // Generate the ray
             Ray ray(scene->getCamera().getLocation(),
-                    normalize(Vector((dx * i + xc), (dy * j + yc), -1)));
+                    normalize(Vector((dx * column + xc), (dy * row + yc), -1)));
             Color pixel = trace(scene, ray, INITIAL_DEPTH);
 
             // Set the color
-            pixels->at(j)->at(i) = pixel;
+            image->setPixel(row, column, pixel);
+            //pixels->at(row)->at(column) = pixel;
         }
     }
 
-    return pixels;
+    return image;
 }
 
 }   // namespace RadRt

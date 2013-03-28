@@ -9,7 +9,7 @@
 #include <math.h>
 #include <vector>
 #include "color.h"
-#include "pixel.h"
+#include "image.h"
 
 #define WARDS       0x01
 #define REINHARDS   0x02
@@ -52,7 +52,7 @@ public:
     ///                 pointers that each point to mWidth color values.
     /// @param algorithm - the TR algorithm to run (either Ward's or Reinhard's)
     ///
-    void run( PixelBuffer2D *pixels, int algorithm );
+    void run( Image *image, int algorithm );
 
 private:
 
@@ -65,7 +65,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void prepHDR( PixelBuffer2D *pixels );
+    void prepHDR( Image *image );
 
     ///
     /// @name CalcAbsLum
@@ -89,7 +89,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void applyDevice( PixelBuffer2D *pixels );
+    void applyDevice( Image *image );
 
     ///
     /// @name CalcAvgLum
@@ -101,7 +101,7 @@ private:
     ///                 pointers that each point to mWidth color values.
     /// @return - the average log luminance of the scene.
     ///
-    float calcAvgLum( PixelBuffer2D *pixels );
+    float calcAvgLum( Image *image );
 
     /// @name WardsTR
     ///
@@ -111,7 +111,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void wardsTR( PixelBuffer2D *pixels );
+    void wardsTR( Image *image );
 
     /// @name ReinhardsTR
     ///
@@ -121,7 +121,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void reinhardsTR( PixelBuffer2D *pixels );
+    void reinhardsTR( Image *image );
 
     ///
     /// @name mLmax

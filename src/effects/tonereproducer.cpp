@@ -24,39 +24,31 @@ ToneReproducer::ToneReproducer( int lmax, int ldmax, int height, int width ) :
 ToneReproducer::~ToneReproducer( void ) {
 }
 
-//
-// Run
-//
-void ToneReproducer::run( PixelBuffer2D *pixels, int algorithm ) {
+void ToneReproducer::run( Image *image, int algorithm )
+{
+    prepHDR(image);
 
-    prepHDR(pixels);
-
-    if (algorithm == WARDS) {
-
-        wardsTR(pixels);
-        applyDevice(pixels);
-
-    } else {
-
-        reinhardsTR(pixels);
+    if (algorithm == WARDS)
+    {
+        wardsTR(image);
+        applyDevice(image);
+    }
+    else
+    {
+        reinhardsTR(image);
     }
 
     return;
-
 }
 
-//
-// PrepHDR
-//
-void ToneReproducer::prepHDR( PixelBuffer2D *pixels ) {
-
+void ToneReproducer::prepHDR( Image *image )
+{
     // Iterate through each pixel and scale by mLmax
     for (int h(0); h < mHeight; ++h)
     {
         for (int w(0); w < mWidth; ++w)
         {
-
-            pixels->at(h)->at(w) *= mLmax;
+            *(image->getPixel(w, h)) *= mLmax;
         }
     }
 }
@@ -64,14 +56,14 @@ void ToneReproducer::prepHDR( PixelBuffer2D *pixels ) {
 //
 // ApplyDevice
 //
-void ToneReproducer::applyDevice( PixelBuffer2D *pixels ) {
-
+void ToneReproducer::applyDevice( Image *image )
+{
     // Iterate through each pixel and scale by 1/mLdmax
     for (int h(0); h < mHeight; ++h)
     {
         for (int w(0); w < mWidth; ++w)
         {
-            pixels->at(h)->at(w) /= mLdmax;
+            *(image->getPixel(w, h)) /= mLdmax;
         }
     }
 }
@@ -79,8 +71,8 @@ void ToneReproducer::applyDevice( PixelBuffer2D *pixels ) {
 //
 // CalcAvgLum
 //
-float ToneReproducer::calcAvgLum( PixelBuffer2D *pixels ) {
-
+float ToneReproducer::calcAvgLum( Image *image )
+{
     float sum = 0;
     int n = mHeight * mWidth;
 
@@ -89,7 +81,7 @@ float ToneReproducer::calcAvgLum( PixelBuffer2D *pixels ) {
     {
         for (int w(0); w < mWidth; ++w)
         {
-            sum += log(SIGMA + calcAbsLum(pixels->at(h)->at(w)));
+            sum += log(SIGMA + calcAbsLum(*(image->getPixel(w, h))));
         }
     }
 
@@ -99,9 +91,9 @@ float ToneReproducer::calcAvgLum( PixelBuffer2D *pixels ) {
 //
 // WardsTR
 //
-void ToneReproducer::wardsTR( PixelBuffer2D *pixels )
+void ToneReproducer::wardsTR( Image *image )
 {
-    float lavg = calcAvgLum(pixels);
+    float lavg = calcAvgLum(image);
     float sf = 1.219 + powf(mLdmax/2.0, 0.4);
     sf /= (1.219 + powf(lavg, 0.4));
     sf = powf(sf, 2.5);
@@ -111,7 +103,7 @@ void ToneReproducer::wardsTR( PixelBuffer2D *pixels )
     {
         for (int w(0); w < mWidth; ++w)
         {
-            pixels->at(h)->at(w) *= sf;
+            *(image->getPixel(w, h)) *= sf;
         }
     }
 }
@@ -119,16 +111,16 @@ void ToneReproducer::wardsTR( PixelBuffer2D *pixels )
 //
 // ReinhardsTR
 //
-void ToneReproducer::reinhardsTR( PixelBuffer2D *pixels )
+void ToneReproducer::reinhardsTR( Image *image )
 {
-    float sf = ALPHA/calcAvgLum(pixels);
+    float sf = ALPHA/calcAvgLum(image);
 
     // Iterate through each pixel and scale by sf
     for (int h(0); h < mHeight; ++h)
     {
         for (int w(0); w < mWidth; ++w)
         {
-            pixels->at(h)->at(w) *= sf;
+            *(image->getPixel(w, h)) *= sf;
         }
     }
 }

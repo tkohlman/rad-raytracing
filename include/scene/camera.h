@@ -21,9 +21,11 @@ public:
 
     Point getLocation() const { return location; };
     Vector getView() const { return view; };
+    Vector getUpVector() const { return upVector; };
 
     void setLocation(const Point &location) { this->location = location; };
     void setView(const Vector &view) { this->view = view; };
+    void setUpVector(const Vector &upVector) { this->upVector = upVector; };
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
@@ -31,8 +33,11 @@ public:
 private:
 
     Point location;
-    Vector view;
 
+    float focus;
+
+    Vector view;
+    Vector upVector;
 };
 
 }   // namespace RadRt
