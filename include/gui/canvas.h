@@ -13,6 +13,7 @@ namespace RadRt
 {
 
 class Color;
+class Image;
 
 class Canvas : public Gtk::DrawingArea
 {
@@ -25,18 +26,21 @@ public:
     static const int BLUE_CHANNEL;
     static const int ALPHA_CHANNEL;
 
-    Canvas(int width, int height);
+    Canvas();
     virtual ~Canvas();
 
-    void setPixel(int row, int column, const Color  &color);
+    void drawImage(Image *image);
+    void clear();
 
 protected:
 
     virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 
+    void setPixel(int row, int column, const Color  &color);
+
 private:
 
-    Glib::RefPtr<Gdk::Pixbuf> image;
+    Glib::RefPtr<Gdk::Pixbuf> canvas;
 
     int width;
     int height;

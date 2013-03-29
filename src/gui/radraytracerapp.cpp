@@ -10,6 +10,8 @@
 #include "scene.h"
 
 #include <fstream>
+#include <gtkmm/filechooserdialog.h>
+#include <gtkmm/stock.h>
 
 #define LMAX    1000
 #define LDMAX   100
@@ -26,97 +28,141 @@ namespace RadRt
 {
 
 RadRaytracerApp::RadRaytracerApp() : box(Gtk::ORIENTATION_VERTICAL),
-                                     canvas(nullptr),
-                                     image(nullptr)
+                                     image(nullptr),
+                                     scene(nullptr)
 {
+    canvas = new Canvas();
     init();
 }
 
 RadRaytracerApp::~RadRaytracerApp()
 {
     if (canvas != nullptr)
-    {
         delete canvas;
-    }
+
+    if (scene != nullptr)
+        delete scene;
+
+    if (image != nullptr)
+        delete image;
 }
 
 void RadRaytracerApp::init()
 {
-    file_menu.set_label("File");
+
     edit_menu.set_label("Edit");
     help_menu.set_label("Help");
 
-    quit_menu.set_label("Quit");
     about_menu.set_label("About");
+
+    file_menu.set_label("File");
+
+    open_scene_menu.set_label("Open Scene...");
+    open_scene_menu.signal_activate().connect(sigc::mem_fun(*this,
+              &RadRaytracerApp::on_open_scene_clicked));
+
+    quit_menu.set_label("Quit");
+    quit_menu.signal_activate().connect(sigc::mem_fun(*this,
+              &RadRaytracerApp::on_quit_clicked));
+    file_submenu.append(open_scene_menu);
+    file_submenu.append(quit_menu);
+    file_menu.set_submenu(file_submenu);
 
     help_submenu.append(about_menu);
     help_menu.set_submenu(help_submenu);
-
-    file_submenu.append(quit_menu);
-    file_menu.set_submenu(file_submenu);
 
     main_menu_bar.append( file_menu );
     main_menu_bar.append( edit_menu );
     main_menu_bar.append( help_menu );
 
+    btnClear.set_label("Clear Canvas");
+    btnClear.signal_clicked().connect(sigc::mem_fun(*this,
+              &RadRaytracerApp::on_clear_clicked));
+
     //about_menu.signal_activate().connect(sigc::ptr_fun(&on_about_activated));
     //quit_menu.signal_activate().connect(sigc::ptr_fun(&Gtk::Main::quit));
 
-    Scene *scene = new RadRt::Scene();
-    open_scene("/home/thomas/Documents/git/rad-raytracing/scenes/whitted.json", scene);
+    open_scene("/home/thomas/Documents/git/rad-raytracing/scenes/whitted.json");
 
-    int width = scene->getWidth();
-    int height = scene->getHeight();
-    RadRt::Canvas *canvas = new RadRt::Canvas(width, height);
-/*
-    for (int column = 0; column < width; ++column)
-    {
-        for (int row = 0; row < height; ++row)
-        {
-            ((column & 0x40) && (row & 0x40)) ||
-            (!(column & 0x40) && !(row & 0x40)) ?
-            canvas->setPixel(row, column, RadRt::Color::BLACK) :
-            canvas->setPixel(row, column, RadRt::Color::WHITE);
-        }
-    }
-*/
-    run_raytracer(scene);
-
-    // Iterate over the pixels and render them.
-    for (int row = 0; row < scene->getHeight(); ++row)
-    {
-        for (int column = 0; column < scene->getWidth(); ++column)
-        {
-            canvas->setPixel(height - row - 1, column, *image->getPixel(row, column));
-        }
-    }
-
-    delete image;
-    delete scene;
+    render_scene();
 
     box.pack_start(main_menu_bar, Gtk::PACK_SHRINK);
+    box.pack_start(btnClear, Gtk::PACK_SHRINK);
     box.pack_start(*canvas);
     add(box);
 
     set_title("Rad-Raytracing - version 1.0");
-    set_default_size(width, height);
+    set_default_size(1200, 700);
 
     show_all_children();
 }
 
-void RadRaytracerApp::save_scene(const char *filename, const RadRt::Scene &scene)
+void RadRaytracerApp::on_clear_clicked()
+{
+    canvas->clear();
+}
+
+void RadRaytracerApp::on_quit_clicked()
+{
+    hide();
+}
+
+void RadRaytracerApp::render_scene()
+{
+    if (scene == nullptr)
+        return;
+
+    run_raytracer();
+    canvas->drawImage(image);
+}
+
+void RadRaytracerApp::save_scene(const char *filename)
 {
     std::filebuf file_buffer;
     file_buffer.open(filename, std::ios::out);
     std::ostream os(&file_buffer);
-    Json::Value root = scene.serialize();
+    Json::Value root = scene->serialize();
     os << root << std::endl;
     file_buffer.close();
 }
 
-void RadRaytracerApp::open_scene(const char *filename, RadRt::Scene *scene)
+void RadRaytracerApp::on_open_scene_clicked()
 {
-    Json::Value root;   // will contains the root value after parsing.
+    Gtk::FileChooserDialog dialog("Please choose a scene file",
+                                  Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*this);
+
+    //Add response buttons the the dialog:
+    dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+    dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+
+    //Add filters, so that only certain file types can be selected:
+    Glib::RefPtr<Gtk::FileFilter> filter_json = Gtk::FileFilter::create();
+    filter_json->set_name("JSON Files");
+    filter_json->add_pattern("*.json");
+    dialog.add_filter(filter_json);
+
+    //Show the dialog and wait for a user response:
+    int result = dialog.run();
+
+    //Handle the response:
+    switch(result)
+    {
+        case(Gtk::RESPONSE_OK):
+        {
+            std::string filename = dialog.get_filename();
+            open_scene(filename.c_str());
+            render_scene();
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+void RadRaytracerApp::open_scene(const char *filename)
+{
+    Json::Value root;
     Json::Reader reader;
     std::string file_contents;
     std::ifstream in(filename, std::ios::in | std::ios::binary);
@@ -132,16 +178,20 @@ void RadRaytracerApp::open_scene(const char *filename, RadRt::Scene *scene)
     bool parsingSuccessful = reader.parse(file_contents, root);
     if (!parsingSuccessful)
     {
-        // report to the user the failure and their locations in the document.
         std::cerr  << "Failed to parse configuration\n"
                    << reader.getFormattedErrorMessages();
         return;
     }
 
+    if (scene != nullptr)
+    {
+        delete scene;
+    }
+    scene = new Scene();
     scene->deserialize(root);
 }
 
-void RadRaytracerApp::run_raytracer(RadRt::Scene * scene)
+void RadRaytracerApp::run_raytracer()
 {
     // Create the raytracer
     RadRt::Raytracer raytracer;

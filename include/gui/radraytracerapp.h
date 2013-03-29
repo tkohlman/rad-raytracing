@@ -9,6 +9,7 @@
 #include "canvas.h"
 #include "image.h"
 
+#include <gtkmm/button.h>
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>
 #include <gtkmm/menu.h>
@@ -28,16 +29,26 @@ public:
 
     void setCanvas(Canvas *canvas);
 
-    void save_scene(const char *filename, const RadRt::Scene &scene);
-    void open_scene(const char *filename, RadRt::Scene *scene);
+    void save_scene(const char *filename);
+    void open_scene(const char *filename);
 
-    void run_raytracer(RadRt::Scene * scene);
+    void run_raytracer();
+
+protected:
+
+    void on_open_scene_clicked();
+    void on_clear_clicked();
+    void on_quit_clicked();
 
 private:
 
     void init();
 
+    void render_scene();
+
     Gtk::Box box;
+
+    Gtk::Button btnClear;
 
     Gtk::MenuBar main_menu_bar;
     Gtk::Menu main_menu;
@@ -49,12 +60,15 @@ private:
     Gtk::MenuItem edit_menu;
     Gtk::MenuItem help_menu;
 
+    Gtk::MenuItem open_scene_menu;
+
     Gtk::MenuItem quit_menu;
     Gtk::MenuItem about_menu;
 
     Canvas *canvas;
 
     RadRt::Image *image;
+    RadRt::Scene *scene;
 
 };
 
