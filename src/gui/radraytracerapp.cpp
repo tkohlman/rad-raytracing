@@ -82,11 +82,16 @@ void RadRaytracerApp::init()
     //about_menu.signal_activate().connect(sigc::ptr_fun(&on_about_activated));
     //quit_menu.signal_activate().connect(sigc::ptr_fun(&Gtk::Main::quit));
 
-    open_scene("/home/thomas/Documents/git/rad-raytracing/scenes/whitted.json");
+    std::string filename =
+        "/home/thomas/Documents/git/rad-raytracing/scenes/whitted.json";
+    open_scene(filename.c_str());
 
     render_scene();
 
+    lblSceneName.set_text(filename);
+
     box.pack_start(main_menu_bar, Gtk::PACK_SHRINK);
+    box.pack_start(lblSceneName, Gtk::PACK_SHRINK);
     box.pack_start(btnClear, Gtk::PACK_SHRINK);
     box.pack_start(*canvas);
     add(box);
@@ -142,16 +147,15 @@ void RadRaytracerApp::on_open_scene_clicked()
     filter_json->add_pattern("*.json");
     dialog.add_filter(filter_json);
 
-    //Show the dialog and wait for a user response:
     int result = dialog.run();
 
-    //Handle the response:
     switch(result)
     {
         case(Gtk::RESPONSE_OK):
         {
             std::string filename = dialog.get_filename();
             open_scene(filename.c_str());
+            lblSceneName.set_text(filename);
             render_scene();
             break;
         }

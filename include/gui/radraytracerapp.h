@@ -12,6 +12,7 @@
 #include <gtkmm/button.h>
 #include <gtkmm/window.h>
 #include <gtkmm/box.h>
+#include <gtkmm/label.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/menubar.h>
 
@@ -64,6 +65,8 @@ private:
 
     Gtk::MenuItem quit_menu;
     Gtk::MenuItem about_menu;
+
+    Gtk::Label lblSceneName;
 
     Canvas *canvas;
 
