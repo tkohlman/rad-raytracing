@@ -16,7 +16,9 @@ class Image
 {
 public:
 
-    Image(int width, int height): width(width), height(height)
+    Image(int width, int height):
+        width(width),
+        height(height)
     {
         pixels = new std::vector<Color>(width * height, Color::BLACK);
     };

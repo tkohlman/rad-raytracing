@@ -9,9 +9,6 @@
 namespace RadRt
 {
 
-//
-// Destructor
-//
 Shape::~Shape()
 {
     if (shader != nullptr)

@@ -8,10 +8,10 @@
 namespace RadRt
 {
 
-Light::Light(Point position, Color color)
+Light::Light(Point position, Color color):
+    mPosition(position),
+    mColor(color)
 {
-    mPosition = position;
-    mColor = color;
 }
 
 Json::Value Light::serialize() const
@@ -29,4 +29,3 @@ void Light::deserialize(const Json::Value &root)
 }
 
 }   // namespace RadRt
-

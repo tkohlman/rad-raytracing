@@ -18,8 +18,8 @@ void Rectangle::init()
     _normal = normalize(crossProduct(v2, v1));
 }
 
-Ray *Rectangle::intersect(const Ray &ray) {
-
+Ray *Rectangle::intersect(const Ray &ray)
+{
     // Check if vector is parallel to plane (no intercept)
     if (dotProduct(ray.getDirection(), _normal) == 0)
     {

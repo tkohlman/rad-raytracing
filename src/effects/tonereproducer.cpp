@@ -11,20 +11,19 @@ namespace RadRt
 #define SIGMA 0.01
 #define ALPHA 0.16
 
-//
-// Constructor
-//
-ToneReproducer::ToneReproducer( int lmax, int ldmax, int height, int width ) :
-    mLmax(lmax), mLdmax(ldmax), mHeight(height), mWidth(width) {
+ToneReproducer::ToneReproducer(int lmax, int ldmax, int height, int width):
+    mLmax(lmax),
+    mLdmax(ldmax),
+    mHeight(height),
+    mWidth(width)
+{
 }
 
-//
-// Destructor
-//
-ToneReproducer::~ToneReproducer( void ) {
+ToneReproducer::~ToneReproducer()
+{
 }
 
-void ToneReproducer::run( Image *image, int algorithm )
+void ToneReproducer::run(Image *image, int algorithm)
 {
     prepHDR(image);
 
@@ -37,11 +36,9 @@ void ToneReproducer::run( Image *image, int algorithm )
     {
         reinhardsTR(image);
     }
-
-    return;
 }
 
-void ToneReproducer::prepHDR( Image *image )
+void ToneReproducer::prepHDR(Image *image)
 {
     // Iterate through each pixel and scale by mLmax
     for (int h(0); h < mHeight; ++h)
@@ -53,10 +50,7 @@ void ToneReproducer::prepHDR( Image *image )
     }
 }
 
-//
-// ApplyDevice
-//
-void ToneReproducer::applyDevice( Image *image )
+void ToneReproducer::applyDevice(Image *image)
 {
     // Iterate through each pixel and scale by 1/mLdmax
     for (int h(0); h < mHeight; ++h)
@@ -68,10 +62,7 @@ void ToneReproducer::applyDevice( Image *image )
     }
 }
 
-//
-// CalcAvgLum
-//
-float ToneReproducer::calcAvgLum( Image *image )
+float ToneReproducer::calcAvgLum(Image *image)
 {
     float sum = 0;
     int n = mHeight * mWidth;
@@ -88,9 +79,6 @@ float ToneReproducer::calcAvgLum( Image *image )
     return exp(sum/n);
 }
 
-//
-// WardsTR
-//
 void ToneReproducer::wardsTR( Image *image )
 {
     float lavg = calcAvgLum(image);
@@ -108,9 +96,6 @@ void ToneReproducer::wardsTR( Image *image )
     }
 }
 
-//
-// ReinhardsTR
-//
 void ToneReproducer::reinhardsTR( Image *image )
 {
     float sf = ALPHA/calcAvgLum(image);
@@ -126,4 +111,3 @@ void ToneReproducer::reinhardsTR( Image *image )
 }
 
 }   // namespace RadRt
-

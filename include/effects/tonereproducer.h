@@ -40,7 +40,7 @@ public:
     /// @description
     /// 	Destructor
     ///
-    ~ToneReproducer( void );
+    ~ToneReproducer();
 
     ///
     /// @name ToneReproducer
@@ -52,7 +52,7 @@ public:
     ///                 pointers that each point to mWidth color values.
     /// @param algorithm - the TR algorithm to run (either Ward's or Reinhard's)
     ///
-    void run( Image *image, int algorithm );
+    void run(Image *image, int algorithm);
 
 private:
 
@@ -65,7 +65,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void prepHDR( Image *image );
+    void prepHDR(Image *image);
 
     ///
     /// @name CalcAbsLum
@@ -77,7 +77,7 @@ private:
     /// @param color - a single RGB value
     /// @return - absolute illuminace for this RGB value.
     ///
-    inline float calcAbsLum( Color color );
+    inline float calcAbsLum(Color color);
 
     ///
     /// @name ApplyDevice
@@ -89,7 +89,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void applyDevice( Image *image );
+    void applyDevice(Image *image);
 
     ///
     /// @name CalcAvgLum
@@ -101,7 +101,7 @@ private:
     ///                 pointers that each point to mWidth color values.
     /// @return - the average log luminance of the scene.
     ///
-    float calcAvgLum( Image *image );
+    float calcAvgLum(Image *image);
 
     /// @name WardsTR
     ///
@@ -111,7 +111,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void wardsTR( Image *image );
+    void wardsTR(Image *image);
 
     /// @name ReinhardsTR
     ///
@@ -121,7 +121,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void reinhardsTR( Image *image );
+    void reinhardsTR(Image *image);
 
     ///
     /// @name mLmax
@@ -158,9 +158,6 @@ private:
 
 };  // class ToneReproducer
 
-//
-// CalcAbsLum
-//
 inline float ToneReproducer::calcAbsLum( Color color )
 {
     return (0.27 * color.getR()) +

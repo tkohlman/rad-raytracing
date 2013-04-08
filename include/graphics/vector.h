@@ -73,7 +73,6 @@ public:
     /// @param x - x-axis component of this vector
     /// @param y - y-axis component of this vector
     /// @param z - z-axis component of this vector
-    /// @return - void
     ///
     Vector(float x, float y, float z);
 
@@ -83,8 +82,6 @@ public:
     /// @description
     /// 	Default constructor
     ///
-    /// @return - void
-    ///
     Vector();
 
     ///
@@ -92,8 +89,6 @@ public:
     ///
     /// @description
     /// 	Destructor
-    ///
-    /// @return - void
     ///
     ~Vector() {};
 
@@ -106,15 +101,12 @@ public:
 
 private:
 
-    // XYZ Components
     float _x;
     float _y;
     float _z;
-
 
 };  // class Vector
 
 }   // namespace RadRt
 
 #endif
-

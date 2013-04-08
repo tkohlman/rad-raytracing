@@ -25,8 +25,6 @@ public:
     /// @description
     /// 	Destructor
     ///
-    /// @return - void
-    ///
     ~Cylinder();
 
     Json::Value serialize() const;

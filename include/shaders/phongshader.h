@@ -26,7 +26,3 @@ public:
 }   // namespace RadRt
 
 #endif
-
-
-
-

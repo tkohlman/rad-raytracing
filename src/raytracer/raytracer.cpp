@@ -14,7 +14,10 @@ namespace RadRt
 const int DEFAULT_MAX_DEPTH = 1;
 const int INITIAL_DEPTH = 0;
 
-Raytracer::Raytracer(): mMaxDepth(DEFAULT_MAX_DEPTH) {}
+Raytracer::Raytracer():
+    mMaxDepth(DEFAULT_MAX_DEPTH)
+{
+}
 
 Ray Raytracer::makeReflectionRay(const Vector &normal,
                                  const Ray &ray,
@@ -149,22 +152,20 @@ Image *Raytracer::traceScene(Scene *scene)
     int width = scene->getWidth();
 
     // Calculations to map locations to pixels
-    float ratio = float(width)/height;
-    float dx = 2.0 * ratio / width;
+    float dx = 2.0 / height;
     float dy = 2.0 / height;
-    float xc = -ratio;
+    float xc = -float(width)/height;
     float yc = -1;
+
+    std::cout << "dx = " << dx << std::endl;
+    std::cout << "dy = " << dy << std::endl;
 
     Image *image = new Image(width, height);
 
-    //PixelBuffer2D *pixels = new PixelBuffer2D(height);
-
     // Fire rays for every pixel
-    for (int row = dy/2; row < height; ++row)
+    for (int row = 0; row < height; ++row)
     {
-        //pixels->at(row) = new PixelBuffer(width);
-
-        for (int column = dx/2; column < width; ++column)
+        for (int column = 0; column < width; ++column)
         {
             // Generate the ray
             Ray ray(scene->getCamera().getLocation(),
@@ -173,7 +174,6 @@ Image *Raytracer::traceScene(Scene *scene)
 
             // Set the color
             image->setPixel(row, column, pixel);
-            //pixels->at(row)->at(column) = pixel;
         }
     }
 

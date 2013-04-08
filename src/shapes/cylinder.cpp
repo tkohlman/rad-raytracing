@@ -18,8 +18,8 @@ void Cylinder::init()
     _orient = scalarMultiply(displacementVector(_cp1, _cp2), 1.0/height);
 }
 
-// ~Cylinder
-Cylinder::~Cylinder() {
+Cylinder::~Cylinder()
+{
 }
 
 Ray *Cylinder::intersect(const Ray &ray)
@@ -57,7 +57,8 @@ Ray *Cylinder::intersect(const Ray &ray)
     float t1 = -1;
     float t2 = -1;
 
-    if (discriminant >= 0) {
+    if (discriminant >= 0)
+    {
         // Find all possible side intersections
         t1 = ( -B + sqrt(discriminant) ) / (2 * A); // side intersection
         t2 = ( -B - sqrt(discriminant) ) / (2 * A); // side intersection
@@ -72,7 +73,8 @@ Ray *Cylinder::intersect(const Ray &ray)
     float t4 = -1;
 
     // Find intercepts with both planes
-    if (dotProduct(ray.getDirection(), _orient) != 0) {
+    if (dotProduct(ray.getDirection(), _orient) != 0)
+    {
         t3 = dotProduct(displacementVector(_cp1, ray.getVertex()), _orient) /
              dotProduct(ray.getDirection(), _orient);
         t4 = dotProduct(displacementVector(_cp2, ray.getVertex()), _orient) /
@@ -88,23 +90,26 @@ Ray *Cylinder::intersect(const Ray &ray)
     Point *i4 = nullptr;
 
     // Eliminate points with negative t-values
-    if (t1 >= 0) {
-        i1 = new Point(
-                       ray.getVertex().getX() + t1 * ray.getDirection().getX(),
+    if (t1 >= 0)
+    {
+        i1 = new Point(ray.getVertex().getX() + t1 * ray.getDirection().getX(),
                        ray.getVertex().getY() + t1 * ray.getDirection().getY(),
                        ray.getVertex().getZ() + t1 * ray.getDirection().getZ());
     }
-    if (t2 >= 0) {
+    if (t2 >= 0)
+    {
         i2 = new Point(ray.getVertex().getX() + t2 * ray.getDirection().getX(),
                        ray.getVertex().getY() + t2 * ray.getDirection().getY(),
                        ray.getVertex().getZ() + t2 * ray.getDirection().getZ());
     }
-    if (t3 >= 0) {
+    if (t3 >= 0)
+    {
         i3 = new Point(ray.getVertex().getX() + t3 * ray.getDirection().getX(),
                        ray.getVertex().getY() + t3 * ray.getDirection().getY(),
                        ray.getVertex().getZ() + t3 * ray.getDirection().getZ());
     }
-    if (t4 >= 0) {
+    if (t4 >= 0)
+    {
         i4 = new Point(ray.getVertex().getX() + t4 * ray.getDirection().getX(),
                        ray.getVertex().getY() + t4 * ray.getDirection().getY(),
                        ray.getVertex().getZ() + t4 * ray.getDirection().getZ());
@@ -115,28 +120,32 @@ Ray *Cylinder::intersect(const Ray &ray)
     // contained in the endcaps.
     if ((i1 != nullptr) &&
         ((dotProduct(_orient, displacementVector(*i1, _cp1)) > 0) ||
-         (dotProduct(_orient, displacementVector(*i1, _cp2)) < 0))) {
+         (dotProduct(_orient, displacementVector(*i1, _cp2)) < 0)))
+    {
         delete i1;
         i1 = nullptr;
     }
 
     if ((i2 != nullptr) &&
         ((dotProduct(_orient, displacementVector(*i2, _cp1)) > 0) ||
-         (dotProduct(_orient, displacementVector(*i2, _cp2)) < 0))) {
+         (dotProduct(_orient, displacementVector(*i2, _cp2)) < 0)))
+    {
         delete i2;
         i2 = nullptr;
     }
 
     if ((i3 != nullptr) &&
         (dotProduct(displacementVector(*i3, _cp1),
-                    displacementVector(*i3, _cp1)) >= (_radius * _radius))) {
+                    displacementVector(*i3, _cp1)) >= (_radius * _radius)))
+    {
         delete i3;
         i3 = nullptr;
     }
 
     if ((i4 != nullptr) &&
         (dotProduct(displacementVector(*i4, _cp2),
-                    displacementVector(*i4, _cp2)) >= (_radius * _radius))) {
+                    displacementVector(*i4, _cp2)) >= (_radius * _radius)))
+    {
         delete i4;
         i4 = nullptr;
     }
@@ -144,19 +153,23 @@ Ray *Cylinder::intersect(const Ray &ray)
     // Take the closest remaining point.
     Point* intersect = nullptr;
     float t = 1000000;
-    if (i1 != nullptr && t1 < t) {
+    if (i1 != nullptr && t1 < t)
+    {
         intersect = i1;
         t = t1;
     }
-    if (i2 != nullptr && t2 < t) {
+    if (i2 != nullptr && t2 < t)
+    {
         intersect = i2;
         t = t2;
     }
-    if (i3 != nullptr && t3 < t) {
+    if (i3 != nullptr && t3 < t)
+    {
         intersect = i3;
         t = t3;
     }
-    if (i4 != nullptr && t4 < t) {
+    if (i4 != nullptr && t4 < t)
+    {
         intersect = i4;
         t = t4;
     }

@@ -8,8 +8,11 @@
 namespace RadRt
 {
 
-CheckedShader::CheckedShader( Point a, Point b, Point c, Point d ):
-    a(a), b(b), c(c), d(d)
+CheckedShader::CheckedShader(Point a, Point b, Point c, Point d):
+    a(a),
+    b(b),
+    c(c),
+    d(d)
 {
 }
 
@@ -63,4 +66,3 @@ void CheckedShader::deserialize(const Json::Value &root)
 }
 
 }   // namespace RadRt
-

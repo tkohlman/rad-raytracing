@@ -19,7 +19,9 @@ const int Canvas::GREEN_CHANNEL = 1;
 const int Canvas::BLUE_CHANNEL = 2;
 const int Canvas::ALPHA_CHANNEL = 3;
 
-Canvas::Canvas(): width(0), height(0)
+Canvas::Canvas():
+    width(0),
+    height(0)
 {
 }
 
@@ -32,8 +34,11 @@ void Canvas::drawImage(Image *image)
     width = image->getWidth();
     height = image->getHeight();
 
-    canvas = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, HAS_ALPHA, BITS_PER_SAMPLE,
-                                width, height);
+    canvas = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB,
+                                 HAS_ALPHA,
+                                 BITS_PER_SAMPLE,
+                                 width,
+                                 height);
 
     // Iterate over the pixels and render them.
     for (int row = 0; row < height; ++row)
@@ -73,7 +78,9 @@ void Canvas::clear()
 void Canvas::setPixel(int row, int column, const Color &color)
 {
     if (canvas == false)
+    {
         return;
+    }
 
     guchar *pixels, *offset;
 

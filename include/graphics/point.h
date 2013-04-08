@@ -30,7 +30,6 @@ class Point
         return Vector(p1._x - p2._x, p1._y - p2._y, p1._z - p2._z);
     }
 
-
 public:
 
     ///
@@ -42,7 +41,6 @@ public:
     /// @param x - x-axis component of constructed point
     /// @param y - y-axis component of constructed point
     /// @param z - z-axis component of constructed point
-    /// @return - void
     ///
     Point(float x, float y, float z);
 
@@ -55,7 +53,6 @@ public:
     /// @param p - starting point
     /// @param v - direction vector
     /// @param distance - distance along direction vector
-    /// @return - void
     ///
     Point(const Point& p, const Vector& v, const float& distance);
 
@@ -66,7 +63,6 @@ public:
     /// 	Copy Constructor
     ///
     /// @param other - Point object to copy
-    /// @return - void
     ///
     Point(const Point& other);
 
@@ -75,8 +71,6 @@ public:
     ///
     /// @description
     /// 	Default Constructor
-    ///
-    /// @return - void
     ///
     Point();
 
@@ -91,7 +85,6 @@ public:
 
 private:
 
-    // X, Y, Z Components
     float _x;
     float _y;
     float _z;
@@ -101,4 +94,3 @@ private:
 }   // namespace RadRt
 
 #endif
-

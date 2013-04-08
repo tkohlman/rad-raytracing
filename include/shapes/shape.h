@@ -164,9 +164,6 @@ private:
 
 };  // class Shape
 
-//
-// GetAmbientColor
-//
 inline Color Shape::getAmbientColor(Point p)
 {
     if (shader == nullptr)
@@ -175,9 +172,6 @@ inline Color Shape::getAmbientColor(Point p)
         return shader->shade(p);
 }
 
-//
-// GetDiffuseColor
-//
 inline Color Shape::getDiffuseColor(Point p)
 {
     if (shader == nullptr)
@@ -199,6 +193,3 @@ inline void Shape::setProceduralShader( ProceduralShader *newShader )
 }   // namespace RadRt
 
 #endif
-
-
-

@@ -8,18 +8,18 @@
 namespace RadRt
 {
 
-Point::Point(float x, float y, float z)
+Point::Point(float x, float y, float z):
+    _x(x),
+    _y(y),
+    _z(z)
 {
-    _x = x;
-    _y = y;
-    _z = z;
 }
 
-Point::Point(const Point& other)
+Point::Point(const Point& other):
+    _x(other._x),
+    _y(other._y),
+    _z(other._z)
 {
-    _x = other._x;
-    _y = other._y;
-    _z = other._z;
 }
 
 Point::Point(const Point& p, const Vector& v, const float& distance)

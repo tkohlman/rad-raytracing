@@ -13,11 +13,11 @@ namespace RadRt
 const int DEFAULT_WIDTH = 500;
 const int DEFAULT_HEIGHT = 500;
 
-Scene::Scene()
+Scene::Scene():
+    width(DEFAULT_WIDTH),
+    height(DEFAULT_WIDTH),
+    background(Color::BLACK)
 {
-    width = DEFAULT_WIDTH;
-    height = DEFAULT_HEIGHT;
-    background = Color::BLACK;
     shapes = new ShapeVector();
     lights = new LightVector();
 }

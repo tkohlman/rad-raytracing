@@ -5,21 +5,21 @@
 
 #include "vector.h"
 
-#include <iostream>
-
 namespace RadRt
 {
 
-Vector::Vector(float x, float y, float z)
+Vector::Vector(float x, float y, float z):
+    _x(x),
+    _y(y),
+    _z(z)
 {
-    _x = x;
-    _y = y;
-    _z = z;
 }
 
-Vector::Vector()
+Vector::Vector():
+    _x(0),
+    _y(0),
+    _z(0)
 {
-    _x = _y = _z = 0;
 }
 
 Json::Value Vector::serialize() const
@@ -39,4 +39,3 @@ void Vector::deserialize(const Json::Value &root)
 }
 
 }   // namespace RadRt
-

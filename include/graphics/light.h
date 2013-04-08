@@ -15,7 +15,6 @@ namespace RadRt
 
 class Light : IJsonSerializable
 {
-
 public:
 
     ///
@@ -26,7 +25,6 @@ public:
     ///
     /// @param position - the position of the light source
     /// @param color - the color of the light source
-    /// @return - void
     ///
     Light(Point position, Color color);
 
@@ -37,8 +35,6 @@ public:
     ///
     /// @description
     /// 	Destructor
-    ///
-    /// @return - void
     ///
     ~Light() {};
 
@@ -71,6 +67,3 @@ private:
 }   // namespace RadRt
 
 #endif
-
-
-

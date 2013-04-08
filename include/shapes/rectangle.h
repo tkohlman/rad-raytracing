@@ -78,5 +78,3 @@ private:
 }   // namespace RadRt
 
 #endif
-
-

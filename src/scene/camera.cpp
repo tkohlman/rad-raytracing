@@ -8,13 +8,16 @@
 namespace RadRt
 {
 
+// Default camera is at the origin
+// View vector is negative z-axis
+// Up vector is positive y-axis
+// Focal point is 1 unit along view vector
 Camera::Camera():
-    location(0,0,0), focus(1.0), view(0,0,-1), upVector(0,1,0)
+    location(0,0,0),
+    focus(1.0),
+    view(0,0,-1),
+    upVector(0,1,0)
 {
-    // Default camera is at the origin
-    // View vector is negative z-axis
-    // Up vector is positive y-axis
-    // Focal point is 1 unit along view vector
 }
 
 Json::Value Camera::serialize() const

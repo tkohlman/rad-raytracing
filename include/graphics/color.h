@@ -26,7 +26,6 @@ public:
     /// @param r - the red component of the constructed color
     /// @param g - the green component of the constructed color
     /// @param b - the blue component of the constructed color
-    /// @return <returns>
     ///
     Color(float r, float g, float b);
 
@@ -37,7 +36,6 @@ public:
     /// 	Copy constructor
     ///
     /// @param other - Color object to copy
-    /// @return - void
     ///
     Color(const Color& other);
 
@@ -47,8 +45,6 @@ public:
     /// @description
     /// 	Default constructor
     ///
-    /// @return - void
-    ///
     Color();
 
     ///
@@ -56,8 +52,6 @@ public:
     ///
     /// @description
     /// 	Destructor
-    ///
-    /// @return - void
     ///
     ~Color() {};
 
@@ -102,47 +96,36 @@ private:
 
 };  // class Color
 
-//
-// operator*
-//
-inline Color Color::operator*(const Color& other) {
+inline Color Color::operator*(const Color& other)
+{
     return Color(_r * other._r, _g * other._g, _b * other._b);
 }
 
-//
-// operator*
-//
-inline Color Color::operator*(float scalar) {
+inline Color Color::operator*(float scalar)
+{
     return Color(_r * scalar, _g * scalar, _b * scalar);
 }
 
-//
-// operator*=
-//
-inline Color& Color::operator*=(float scalar) {
+inline Color& Color::operator*=(float scalar)
+{
     _r *= scalar;
     _g *= scalar;
     _b *= scalar;
     return *this;
 }
 
-//
-// operator/
-//
-inline Color Color::operator/(float scalar) {
-
+inline Color Color::operator/(float scalar)
+{
     if (scalar != 0)
         return Color(_r / scalar, _g / scalar, _b / scalar);
     else
         return Color(_r, _g, _b);
 }
 
-//
-// operator/=
-//
-inline Color& Color::operator/=(float scalar) {
-
-    if (scalar != 0) {
+inline Color& Color::operator/=(float scalar)
+{
+    if (scalar != 0)
+    {
         _r /= scalar;
         _g /= scalar;
         _b /= scalar;
@@ -150,34 +133,31 @@ inline Color& Color::operator/=(float scalar) {
     return *this;
 }
 
-//
-// operator+
-//
-inline Color Color::operator+(const Color& other) {
+inline Color Color::operator+(const Color& other)
+{
     return Color(_r + other._r, _g + other._g, _b + other._b);
 }
 
-//
-// operator+=
-//
-inline Color& Color::operator+=(const Color& other) {
+inline Color& Color::operator+=(const Color& other)
+{
     _r += other._r;
     _g += other._g;
     _b += other._b;
     return *this;
 }
 
-//
-// Clamp
-//
-inline void Color::clamp() {
-    if (_r > 1.0) {
+inline void Color::clamp()
+{
+    if (_r > 1.0)
+    {
         _r = 1.0;
     }
-    if (_g > 1.0) {
+    if (_g > 1.0)
+    {
         _g = 1.0;
     }
-    if (_b > 1.0) {
+    if (_b > 1.0)
+    {
         _b = 1.0;
     }
 }
@@ -185,6 +165,3 @@ inline void Color::clamp() {
 }   // namespace RadRt
 
 #endif
-
-
-

@@ -16,7 +16,6 @@
 #define LMAX    1000
 #define LDMAX   100
 
-
 int lmax = 0;
 int algo = 0;
 int depth = 3;
@@ -27,9 +26,10 @@ int lflag = 0;      /* specify lmax value for tone reproduction */
 namespace RadRt
 {
 
-RadRaytracerApp::RadRaytracerApp() : box(Gtk::ORIENTATION_VERTICAL),
-                                     image(nullptr),
-                                     scene(nullptr)
+RadRaytracerApp::RadRaytracerApp():
+    box(Gtk::ORIENTATION_VERTICAL),
+    image(nullptr),
+    scene(nullptr)
 {
     canvas = new Canvas();
     init();

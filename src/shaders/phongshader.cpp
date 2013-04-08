@@ -33,8 +33,8 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
 
     ShapeVector *shapes = scene->getShapes();
 
-    for (; light != lights->end(); ++light) {
-
+    for (; light != lights->end(); ++light)
+    {
         // Generate the shadow ray
         Ray shadow_ray(point,
                        normalize(displacementVector((*light)->getPosition(),
@@ -87,8 +87,8 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
             // if the angle is more than 90 degrees.
             float shadow_dot_normal = dotProduct(shadow_ray.getDirection(),
                                                  normal);
-            if (shadow_dot_normal >= 0) {
-
+            if (shadow_dot_normal >= 0)
+            {
                 // Add in the diffuse component
                 Kd += oKd * lC * shadow_dot_normal;
 
@@ -103,7 +103,8 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
                 // Clamp to zero if the angle is more than 90 degrees.
                 float reflection_dot_view = -dotProduct(R, V);
 
-                if (reflection_dot_view > 0) {
+                if (reflection_dot_view > 0)
+                {
                     // Add in the specular component
                     Ks += oKs * lC * pow(reflection_dot_view, exp);
                 }
@@ -123,7 +124,3 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
 }
 
 }   // namespace RadRt
-
-
-
-

@@ -17,11 +17,14 @@ class Intersection
 {
 public:
 
-    Intersection(Point intersectionPoint, Vector normal,
+    Intersection(Point intersectionPoint,
+                 Vector normal,
                  Shape *intersectedShape):
         intersectionPoint(intersectionPoint),
         normal(normal),
-        intersectedShape(intersectedShape) {}
+        intersectedShape(intersectedShape)
+    {
+    }
 
     Point getIntersectionPoint() const { return this->intersectionPoint; };
     Vector getNormal() const { return this->normal; };
