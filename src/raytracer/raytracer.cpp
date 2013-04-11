@@ -149,30 +149,67 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
 
 Image *Raytracer::trace_scene(Scene *scene)
 {
-    int height = scene->height();
-    int width = scene->width();
+    int scene_height = scene->height();
+    int scene_width = scene->width();
 
-    // Calculations to map locations to pixels
-    float dx = 2.0 / height;
-    float dy = 2.0 / height;
-    float xc = -float(width)/height;
-    float yc = -1;
+    const float PI = 3.1415926;
 
-    Image *image = new Image(width, height);
+    std::cout << "scene width: " << scene_width << std::endl;
+    std::cout << "scene height: " << scene_height << std::endl;
 
-    // Fire rays for every pixel
-    for (int row = 0; row < height; ++row)
+    Camera camera = scene->camera();
+
+    float aspect_ratio = float(scene_height) / scene_width;
+
+    std::cout << "aspect ratio: " << aspect_ratio << std::endl;
+    std::cout << "focal length: " << camera.focal_length() << std::endl;
+
+    float horizontal_spread = camera.horizontal_spread();
+    float vertical_spread = horizontal_spread * aspect_ratio;
+
+    std::cout << "horizontal spread: " << horizontal_spread << std::endl;
+    std::cout << "vertical spread: " << vertical_spread << std::endl;
+
+    float projection_width = 2 * camera.focal_length() * tan(horizontal_spread / 180.0 * PI);
+    float projection_height = 2 * camera.focal_length() * tan(vertical_spread / 180.0 * PI);
+
+    std::cout << "projection width: " << projection_width << std::endl;
+    std::cout << "projection_height: " << projection_height << std::endl;
+
+    float pixel_width = projection_width / scene_width;
+    float pixel_height = projection_height / scene_height;
+
+    std::cout << "pixel_width: " << pixel_width << std::endl;
+    std::cout << "pixel_height: " << pixel_height << std::endl;
+
+    float pixel_x_0 = (-projection_width / 2) + (pixel_width / 2);
+    float pixel_y_0 = (-projection_height / 2) + (pixel_height / 2);
+
+    float current_pixel_x = pixel_x_0;
+    float current_pixel_y = pixel_y_0;
+
+    Image *image = new Image(scene_width, scene_height);
+
+    for (int width = 0; width < scene_width; ++width)
     {
-        for (int column = 0; column < width; ++column)
-        {
+    	current_pixel_y = pixel_y_0;
+
+    	for (int height = 0; height < scene_height; ++height)
+    	{
             // Generate the ray
             Ray ray(scene->camera().location(),
-                    normalize(Vector((dx * column + xc), (dy * row + yc), -1)));
+                    normalize(Vector(current_pixel_x, current_pixel_y,
+                    		-camera.focal_length())));
             Color pixel = trace(scene, ray, INITIAL_DEPTH);
 
             // Set the color
-            image->set_pixel(row, column, pixel);
-        }
+            image->set_pixel(height, width, pixel);
+
+
+    		current_pixel_y += pixel_height;
+    	}
+
+    	current_pixel_x += pixel_width;
     }
 
     return image;
