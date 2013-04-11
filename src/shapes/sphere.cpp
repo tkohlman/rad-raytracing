@@ -60,11 +60,7 @@ Ray *Sphere::intersect(const Ray &ray)
     }
 
     // From the t-value, calculate the intersect point
-    float x = ray.vertex().x_coord() + t * ray.direction().x_component();
-    float y = ray.vertex().y_coord() + t * ray.direction().y_component();
-    float z = ray.vertex().z_coord() + t * ray.direction().z_component();
-
-    Point intersection(x, y, z);
+    Point intersection(ray.vertex(), ray.direction(), t);
 
     Vector normal = normalize(displacement_vector(intersection, m_center));
 

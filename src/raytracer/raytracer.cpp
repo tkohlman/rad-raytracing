@@ -15,7 +15,8 @@ const int DEFAULT_MAX_DEPTH = 1;
 const int INITIAL_DEPTH = 0;
 
 Raytracer::Raytracer():
-    m_max_depth(DEFAULT_MAX_DEPTH)
+    m_max_depth(DEFAULT_MAX_DEPTH),
+    m_intersection(nullptr)
 {
 }
 
@@ -35,7 +36,7 @@ Intersection *Raytracer::get_closest_intersection(Scene *scene, const Ray &ray)
 {
     ShapeVector *shapes = scene->shapes();
     ShapeIterator iter = shapes->begin();
-    Intersection *closestIntersection = nullptr;
+    Intersection *closest_intersection = nullptr;
 
     for (; iter != shapes->end(); ++iter)
     {
@@ -45,17 +46,17 @@ Intersection *Raytracer::get_closest_intersection(Scene *scene, const Ray &ray)
         if (intersection != nullptr)
         {
             // Check if this intersection is closer
-            if ((closestIntersection == nullptr) ||
+            if ((closest_intersection == nullptr) ||
                 (distance_between(ray.vertex(),
                                  intersection->vertex()) <
                  distance_between(ray.vertex(),
-                                 closestIntersection->intersection_point())))
+                                 closest_intersection->intersection_point())))
             {
                 // Latest intersection is closer
-                if (closestIntersection != nullptr)
-                    delete closestIntersection;
+                if (closest_intersection != nullptr)
+                    delete closest_intersection;
 
-                closestIntersection = new Intersection(
+                closest_intersection = new Intersection(
                                             intersection->vertex(),
                                             intersection->direction(),
                                             *iter);
@@ -65,7 +66,7 @@ Intersection *Raytracer::get_closest_intersection(Scene *scene, const Ray &ray)
         }
     }
 
-    return closestIntersection;
+    return closest_intersection;
 }
 
 Color Raytracer::trace(Scene *scene, Ray ray, int depth)
@@ -119,9 +120,9 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
         float discriminant = 1.0 + ( (alpha * alpha) *
             ((cosine * cosine) - 1.0) );
 
-        bool totalInternalReflection = (discriminant < 0);
+        bool total_internal_reflection = (discriminant < 0);
 
-        if (totalInternalReflection)
+        if (total_internal_reflection)
         {
             // use the reflection ray with the kt value
             Ray reflection = make_reflection_ray(intersection->normal(), ray,
@@ -156,9 +157,6 @@ Image *Raytracer::trace_scene(Scene *scene)
     float dy = 2.0 / height;
     float xc = -float(width)/height;
     float yc = -1;
-
-    std::cout << "dx = " << dx << std::endl;
-    std::cout << "dy = " << dy << std::endl;
 
     Image *image = new Image(width, height);
 

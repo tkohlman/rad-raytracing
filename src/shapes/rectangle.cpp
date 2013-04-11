@@ -37,11 +37,7 @@ Ray *Rectangle::intersect(const Ray &ray)
     }
 
     // From the distance, calculate the intersect point
-    float x = ray.vertex().x_coord() + distance * ray.direction().x_component();
-    float y = ray.vertex().y_coord() + distance * ray.direction().y_component();
-    float z = ray.vertex().z_coord() + distance * ray.direction().z_component();
-
-    Point intersection(x, y, z);
+    Point intersection(ray.vertex(), ray.direction(), distance);
 
     // Test to see if the point is inside the rectangle
     Vector CI = displacement_vector(intersection, m_c);

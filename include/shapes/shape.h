@@ -21,7 +21,7 @@ class Shape : public IJsonSerializable
 {
 public:
 
-    Shape() : m_shader(nullptr) {};
+    Shape(): m_shader(nullptr) {};
 
     ///
     /// @name ~Shape

@@ -11,10 +11,7 @@ namespace RadRt
 
 void Cylinder::init()
 {
-    float height =
-        sqrt((m_center_point_1.x_coord() - m_center_point_2.x_coord()) * (m_center_point_1.x_coord() - m_center_point_2.x_coord()) +
-             (m_center_point_1.y_coord() - m_center_point_2.y_coord()) * (m_center_point_1.y_coord() - m_center_point_2.y_coord()) +
-             (m_center_point_1.z_coord() - m_center_point_2.z_coord()) * (m_center_point_1.z_coord() - m_center_point_2.z_coord()));
+    float height = distance_between(m_center_point_1, m_center_point_2);
     m_orientation = scalar_multiply(displacement_vector(m_center_point_1, m_center_point_2), 1.0/height);
 }
 
@@ -92,27 +89,19 @@ Ray *Cylinder::intersect(const Ray &ray)
     // Eliminate points with negative t-values
     if (t1 >= 0)
     {
-        i1 = new Point(ray.vertex().x_coord() + t1 * ray.direction().x_component(),
-                       ray.vertex().y_coord() + t1 * ray.direction().y_component(),
-                       ray.vertex().z_coord() + t1 * ray.direction().z_component());
+    	i1 = new Point(ray.vertex(), ray.direction(), t1);
     }
     if (t2 >= 0)
     {
-        i2 = new Point(ray.vertex().x_coord() + t2 * ray.direction().x_component(),
-                       ray.vertex().y_coord() + t2 * ray.direction().y_component(),
-                       ray.vertex().z_coord() + t2 * ray.direction().z_component());
+    	i2 = new Point(ray.vertex(), ray.direction(), t2);
     }
     if (t3 >= 0)
     {
-        i3 = new Point(ray.vertex().x_coord() + t3 * ray.direction().x_component(),
-                       ray.vertex().y_coord() + t3 * ray.direction().y_component(),
-                       ray.vertex().z_coord() + t3 * ray.direction().z_component());
+        i3 = new Point(ray.vertex(), ray.direction(), t3);
     }
     if (t4 >= 0)
     {
-        i4 = new Point(ray.vertex().x_coord() + t4 * ray.direction().x_component(),
-                       ray.vertex().y_coord() + t4 * ray.direction().y_component(),
-                       ray.vertex().z_coord() + t4 * ray.direction().z_component());
+        i4 = new Point(ray.vertex(), ray.direction(), t4);
     }
 
     // Check that the points lie within their respective boundaries.

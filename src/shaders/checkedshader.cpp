@@ -18,17 +18,17 @@ CheckedShader::CheckedShader(Point a, Point b, Point c, Point d):
 
 Color CheckedShader::shade( const Point &p )
 {
-    Vector AP = displacement_vector(p, m_a);
-    Vector AD = displacement_vector(m_d, m_a);
-    Vector AB = displacement_vector(m_b, m_a);
+    Vector a_to_p = displacement_vector(p, m_a);
+    Vector a_to_d = displacement_vector(m_d, m_a);
+    Vector a_to_b = displacement_vector(m_b, m_a);
 
-    float AdistanceP = length(AP);
-    AP = normalize(AP);
-    AD = normalize(AD);
-    AB = normalize(AB);
+    float AdistanceP = length(a_to_p);
+    a_to_p = normalize(a_to_p);
+    a_to_d = normalize(a_to_d);
+    a_to_b = normalize(a_to_b);
 
-    float u = AdistanceP * dot_product(AP, AD);
-    float v = AdistanceP * dot_product(AP, AB);
+    float u = AdistanceP * dot_product(a_to_p, a_to_d);
+    float v = AdistanceP * dot_product(a_to_p, a_to_b);
 
     int U = int(u / 3);
     int V = int(v / 3);

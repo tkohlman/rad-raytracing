@@ -15,7 +15,6 @@ class Sphere : public Shape
 {
 public:
 
-    Sphere() {};
     ~Sphere() {};
 
     Json::Value serialize() const;

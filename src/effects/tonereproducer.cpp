@@ -79,7 +79,7 @@ float ToneReproducer::calc_avg_lum(Image *image)
     return exp(sum/n);
 }
 
-void ToneReproducer::apply_wards_algorithm( Image *image )
+void ToneReproducer::apply_wards_algorithm(Image *image)
 {
     float lavg = calc_avg_lum(image);
     float sf = 1.219 + powf(m_ldmax/2.0, 0.4);
@@ -96,7 +96,7 @@ void ToneReproducer::apply_wards_algorithm( Image *image )
     }
 }
 
-void ToneReproducer::apply_reinhards_algorithm( Image *image )
+void ToneReproducer::apply_reinhards_algorithm(Image *image)
 {
     float sf = ALPHA/calc_avg_lum(image);
 

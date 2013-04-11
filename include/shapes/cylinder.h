@@ -15,8 +15,6 @@ class Cylinder : public Shape
 {
 public:
 
-    Cylinder() {};
-
     void init();
 
     ///
