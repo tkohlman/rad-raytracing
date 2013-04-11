@@ -25,53 +25,19 @@ public:
 
     Ray *intersect(const Ray &ray);
 
-    const Point &getA() const { return _a; };
-    const Point &getB() const { return _b; };
-    const Point &getC() const { return _c; };
-    const Point &getD() const { return _d; };
+    const Point &a() const { return m_a; };
+    const Point &b() const { return m_b; };
+    const Point &c() const { return m_c; };
+    const Point &d() const { return m_d; };
 
 private:
 
-    ///
-    /// @name _a
-    ///
-    /// @description
-    ///		The first point of the rectangle.
-    ///
-    Point _a;
+    Point m_a;
+    Point m_b;
+    Point m_c;
+    Point m_d;
 
-
-    ///
-    /// @name _b
-    ///
-    /// @description
-    ///		The second point of the rectangle.
-    ///
-    Point _b;
-
-    ///
-    /// @name _c
-    ///
-    /// @description
-    ///		The third point of the rectangle.
-    ///
-    Point _c;
-
-    ///
-    /// @name _d
-    ///
-    /// @description
-    ///		The fourth point of the rectangle.
-    ///
-    Point _d;
-
-    ///
-    /// @name _normal
-    ///
-    /// @description
-    ///		The vector normal to the plane formed by the rectangle.
-    ///
-    Vector _normal;
+    Vector m_normal;
 
 };  // class Rectangle
 

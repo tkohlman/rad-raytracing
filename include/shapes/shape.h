@@ -21,7 +21,7 @@ class Shape : public IJsonSerializable
 {
 public:
 
-    Shape() : shader(nullptr) {};
+    Shape() : m_shader(nullptr) {};
 
     ///
     /// @name ~Shape
@@ -43,7 +43,7 @@ public:
     /// @param - point on surface for color calculation
     /// @return - the ambient light component of this object
     ///
-    virtual Color getAmbientColor(Point p);
+    virtual Color ambient_color(Point p);
 
     ///
     /// @name GetDiffuseColor
@@ -54,7 +54,7 @@ public:
     /// @param - point on surface for color calculation
     /// @return - the diffuse light component of this object
     ///
-    virtual Color getDiffuseColor(Point p);
+    virtual Color diffuse_color(Point p);
 
     ///
     /// @name GetSpecularColor
@@ -64,130 +64,61 @@ public:
     ///
     /// @return - the specular light component of this object
     ///
-    Color getSpecularColor() const { return mSpecularColor; };
+    Color specular_color() const { return m_specular_color; };
 
-    float getAmbientConstant() const { return mAmbientConstant; };
-    float getDiffuseConstant() const { return mDiffuseConstant; };
-    float getSpecularConstant() const { return mSpecularConstant; };
-    int getSpecularExponent() const { return mSpecularExponent; };
-    float getReflectiveConstant() const { return mReflectionValue; };
-    float getTransmissiveConstant() const { return mTransmissionValue; };
-    float getRefractionIndex() const { return mRefractionIndex; };
+    float ambient_constant() const { return m_ambient_constant; };
+    float diffuse_constant() const { return m_diffuse_constant; };
+    float specular_constant() const { return m_specular_constant; };
+    int specular_exponent() const { return m_specular_exponent; };
+    float reflective_constant() const { return m_reflection_constant; };
+    float transmissive_constant() const { return m_transmission_constant; };
+    float refraction_index() const { return m_refraction_index; };
 
     virtual Ray *intersect(const Ray &ray) = 0;
 
-    void setProceduralShader( ProceduralShader *newShader );
+    void set_shader( ProceduralShader *newShader );
 
 private:
 
-    ///
-    /// @name mAmbientColor
-    ///
-    /// @description
-    ///		Ambient light component for this object.
-    ///
-    Color mAmbientColor;
+    Color m_ambient_color;
+    Color m_diffuse_color;
+    Color m_specular_color;
+    float m_ambient_constant;
+    float m_diffuse_constant;
+    float m_specular_constant;
+    int m_specular_exponent;
+    float m_reflection_constant;
+    float m_transmission_constant;
+    float m_refraction_index;
 
-    ///
-    /// @name mDiffuseColor
-    ///
-    /// @description
-    ///		Diffuse light component for this object.
-    ///
-    Color mDiffuseColor;
-
-    ///
-    /// @name mSpecularColor
-    ///
-    /// @description
-    ///		Specular light component for this object.
-    ///
-    Color mSpecularColor;
-
-    ///
-    /// @name mAmbientConstant
-    ///
-    /// @description
-    ///		Ambient contribution to local illumination.
-    ///
-    float mAmbientConstant;
-
-    ///
-    /// @name mDiffuseExponent
-    ///
-    /// @description
-    ///		Diffuse contribution to local illumination.
-    ///
-    float mDiffuseConstant;
-
-    ///
-    /// @name mSpecularExponent
-    ///
-    /// @description
-    ///		Specular contribution to local illumination.
-    ///
-    float mSpecularConstant;
-
-    ///
-    /// @name mSpecularExponent
-    ///
-    /// @description
-    ///		Property that controls the size of specular highlight.
-    ///
-    int mSpecularExponent;
-
-    ///
-    /// @name mReflectionConstant
-    ///
-    /// @description
-    ///		Reflection constant of this object.
-    ///
-    float mReflectionValue;
-
-    ///
-    /// @name mTransmissionConstant
-    ///
-    /// @description
-    ///		Transmission constant of this object.
-    ///
-    float mTransmissionValue;
-
-    ///
-    /// @name mRefractionIndex
-    ///
-    /// @description
-    ///		Index of refraction of this object.
-    ///
-    float mRefractionIndex;
-
-    ProceduralShader *shader;
+    ProceduralShader *m_shader;
 
 };  // class Shape
 
-inline Color Shape::getAmbientColor(Point p)
+inline Color Shape::ambient_color(Point p)
 {
-    if (shader == nullptr)
-        return mAmbientColor;
+    if (m_shader == nullptr)
+        return m_ambient_color;
     else
-        return shader->shade(p);
+        return m_shader->shade(p);
 }
 
-inline Color Shape::getDiffuseColor(Point p)
+inline Color Shape::diffuse_color(Point p)
 {
-    if (shader == nullptr)
-        return mDiffuseColor;
+    if (m_shader == nullptr)
+        return m_diffuse_color;
     else
-        return shader->shade(p);
+        return m_shader->shade(p);
 }
 
-inline void Shape::setProceduralShader( ProceduralShader *newShader )
+inline void Shape::set_shader( ProceduralShader *shader )
 {
-    if (shader != nullptr)
+    if (m_shader != nullptr)
     {
-        delete shader;
+        delete m_shader;
     }
 
-    shader = newShader;
+    m_shader = shader;
 }
 
 }   // namespace RadRt

@@ -20,8 +20,8 @@ const int Canvas::BLUE_CHANNEL = 2;
 const int Canvas::ALPHA_CHANNEL = 3;
 
 Canvas::Canvas():
-    width(0),
-    height(0)
+    m_width(0),
+    m_height(0)
 {
 }
 
@@ -29,23 +29,23 @@ Canvas::~Canvas()
 {
 }
 
-void Canvas::drawImage(Image *image)
+void Canvas::draw_image(Image *image)
 {
-    width = image->getWidth();
-    height = image->getHeight();
+    m_width = image->width();
+    m_height = image->height();
 
-    canvas = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB,
+    m_canvas = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB,
                                  HAS_ALPHA,
                                  BITS_PER_SAMPLE,
-                                 width,
-                                 height);
+                                 m_width,
+                                 m_height);
 
     // Iterate over the pixels and render them.
-    for (int row = 0; row < height; ++row)
+    for (int row = 0; row < m_height; ++row)
     {
-        for (int column = 0; column < width; ++column)
+        for (int column = 0; column < m_width; ++column)
         {
-            setPixel(height - row - 1, column, *image->getPixel(row, column));
+            set_pixel(m_height - row - 1, column, *image->get_pixel(row, column));
         }
     }
 
@@ -55,19 +55,19 @@ void Canvas::drawImage(Image *image)
 void Canvas::clear()
 {
     Gtk::Allocation allocation = get_allocation();
-    width  = allocation.get_width();
-    height = allocation.get_height();
+    m_width  = allocation.get_width();
+    m_height = allocation.get_height();
 
-    canvas = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, HAS_ALPHA, BITS_PER_SAMPLE,
-                            width, height);
-    for (int column = 0; column < width; ++column)
+    m_canvas = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, HAS_ALPHA, BITS_PER_SAMPLE,
+                            m_width, m_height);
+    for (int column = 0; column < m_width; ++column)
     {
-        for (int row = 0; row < height; ++row)
+        for (int row = 0; row < m_height; ++row)
         {
             ((column & 0x40) && (row & 0x40)) ||
             (!(column & 0x40) && !(row & 0x40)) ?
-            setPixel(row, column, RadRt::Color::BLACK) :
-            setPixel(row, column, RadRt::Color::WHITE);
+            set_pixel(row, column, RadRt::Color::BLACK) :
+            set_pixel(row, column, RadRt::Color::WHITE);
         }
     }
 
@@ -75,45 +75,45 @@ void Canvas::clear()
 }
 
 
-void Canvas::setPixel(int row, int column, const Color &color)
+void Canvas::set_pixel(int row, int column, const Color &color)
 {
-    if (canvas == false)
+    if (m_canvas == false)
     {
         return;
     }
 
     guchar *pixels, *offset;
 
-    const int n_channels = canvas->get_n_channels();
-    const int rowstride = canvas->get_rowstride();
+    const int n_channels = m_canvas->get_n_channels();
+    const int rowstride = m_canvas->get_rowstride();
 
     unsigned char red, green, blue, alpha;
     red = green = blue = alpha = 0xFF;
 
-    if (color.getR() < 1)
+    if (color.red() < 1)
     {
-        red *= color.getR();
+        red *= color.red();
     }
 
-    if (color.getG() < 1)
+    if (color.green() < 1)
     {
-        green *= color.getG();
+        green *= color.green();
     }
 
-    if (color.getB() < 1)
+    if (color.blue() < 1)
     {
-        blue *= color.getB();
+        blue *= color.blue();
     }
 
-    g_assert (canvas->get_colorspace() == Gdk::COLORSPACE_RGB);
-    g_assert (canvas->get_bits_per_sample() == BITS_PER_SAMPLE);
-    g_assert (canvas->get_has_alpha());
+    g_assert (m_canvas->get_colorspace() == Gdk::COLORSPACE_RGB);
+    g_assert (m_canvas->get_bits_per_sample() == BITS_PER_SAMPLE);
+    g_assert (m_canvas->get_has_alpha());
     g_assert (n_channels == 4);
 
-    g_assert (column >= 0 && column < width);
-    g_assert (row >= 0 && row < height);
+    g_assert (column >= 0 && column < m_width);
+    g_assert (row >= 0 && row < m_height);
 
-    pixels = canvas->get_pixels();
+    pixels = m_canvas->get_pixels();
 
     offset = pixels + row * rowstride + column * n_channels;
     offset[RED_CHANNEL]   = red;
@@ -124,7 +124,7 @@ void Canvas::setPixel(int row, int column, const Color &color)
 
 bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
 {
-    if (canvas == false)
+    if (m_canvas == false)
     {
         return false;
     }
@@ -135,8 +135,8 @@ bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
 
     // Attempt to draw the canvas in the center of the drawing area. If the
     // canvas is larger than the drawing area, draw the center of the canvas.
-    Gdk::Cairo::set_source_pixbuf(context, canvas, (allocated_width - width)/2,
-                                  (allocated_height - height)/2);
+    Gdk::Cairo::set_source_pixbuf(context, m_canvas, (allocated_width - m_width)/2,
+                                  (allocated_height - m_height)/2);
     context->paint();
 
     return true;

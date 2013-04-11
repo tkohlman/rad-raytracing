@@ -75,8 +75,8 @@ void RadRaytracerApp::init()
     main_menu_bar.append( edit_menu );
     main_menu_bar.append( help_menu );
 
-    btnClear.set_label("Clear Canvas");
-    btnClear.signal_clicked().connect(sigc::mem_fun(*this,
+    btn_clear.set_label("Clear Canvas");
+    btn_clear.signal_clicked().connect(sigc::mem_fun(*this,
               &RadRaytracerApp::on_clear_clicked));
 
     //about_menu.signal_activate().connect(sigc::ptr_fun(&on_about_activated));
@@ -88,11 +88,11 @@ void RadRaytracerApp::init()
 
     render_scene();
 
-    lblSceneName.set_text(filename);
+    lbl_scene_name.set_text(filename);
 
     box.pack_start(main_menu_bar, Gtk::PACK_SHRINK);
-    box.pack_start(lblSceneName, Gtk::PACK_SHRINK);
-    box.pack_start(btnClear, Gtk::PACK_SHRINK);
+    box.pack_start(lbl_scene_name, Gtk::PACK_SHRINK);
+    box.pack_start(btn_clear, Gtk::PACK_SHRINK);
     box.pack_start(*canvas);
     add(box);
 
@@ -118,7 +118,7 @@ void RadRaytracerApp::render_scene()
         return;
 
     run_raytracer();
-    canvas->drawImage(image);
+    canvas->draw_image(image);
 }
 
 void RadRaytracerApp::save_scene(const char *filename)
@@ -155,7 +155,7 @@ void RadRaytracerApp::on_open_scene_clicked()
         {
             std::string filename = dialog.get_filename();
             open_scene(filename.c_str());
-            lblSceneName.set_text(filename);
+            lbl_scene_name.set_text(filename);
             render_scene();
             break;
         }
@@ -199,14 +199,14 @@ void RadRaytracerApp::run_raytracer()
 {
     // Create the raytracer
     RadRt::Raytracer raytracer;
-    raytracer.setMaxDepth(depth);
+    raytracer.set_max_depth(depth);
 
-    image = raytracer.traceScene(scene);
+    image = raytracer.trace_scene(scene);
 
     if (aflag && lflag)
     {
         // Tone Reproduction Steps
-        RadRt::ToneReproducer tr(lmax, LDMAX, scene->getHeight(), scene->getWidth());
+        RadRt::ToneReproducer tr(lmax, LDMAX, scene->height(), scene->width());
         tr.run(image, algo);
     }
 }

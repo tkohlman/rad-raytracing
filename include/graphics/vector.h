@@ -6,7 +6,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <cmath>
+#include <math.h>
 #include <iostream>
 
 #include "ijsonserializable.h"
@@ -17,49 +17,60 @@ namespace RadRt
 class Vector : public IJsonSerializable
 {
 
-    friend inline Vector vectorAdd(const Vector &a, const Vector &b)
+    friend inline Vector vector_add(const Vector &a, const Vector &b)
     {
-        return Vector(a._x + b._x, a._y + b._y, a._z + b._z);
+        return Vector(a.m_x_component + b.m_x_component,
+        		      a.m_y_component + b.m_y_component,
+        		      a.m_z_component + b.m_z_component);
     }
 
     friend inline Vector normalize(const Vector &v)
     {
-        double s = 1.0 / (double) sqrt(v._x * v._x + v._y * v._y + v._z * v._z);
-        return Vector(v._x * s, v._y * s, v._z * s);
+        double s = 1.0 / length(v);
+        return Vector(v.m_x_component * s,
+        		      v.m_y_component * s,
+        		      v.m_z_component * s);
     }
 
     friend inline float length(const Vector &v)
     {
-        return (float) sqrt(v._x * v._x + v._y * v._y + v._z * v._z);
+        return (float) sqrt(v.m_x_component * v.m_x_component +
+        		            v.m_y_component * v.m_y_component +
+        		            v.m_z_component * v.m_z_component);
     }
 
-    friend inline Vector scalarMultiply( const Vector &v, const float scalar )
+    friend inline Vector scalar_multiply(const Vector &v, const float scalar)
     {
-        return Vector(v._x * scalar, v._y * scalar, v._z * scalar);
+        return Vector(v.m_x_component * scalar,
+        			  v.m_y_component * scalar,
+        			  v.m_z_component * scalar);
     }
 
-    friend inline float dotProduct( const Vector &v1, const Vector &v2 )
+    friend inline float dot_product(const Vector &v1, const Vector &v2)
     {
-        return ((v1._x * v2._x) +
-                (v1._y * v2._y) +
-                (v1._z * v2._z));
+        return ((v1.m_x_component * v2.m_x_component) +
+                (v1.m_y_component * v2.m_y_component) +
+                (v1.m_z_component * v2.m_z_component));
     }
 
-    friend inline Vector crossProduct( const Vector &v1, const Vector &v2 )
+    friend inline Vector cross_product(const Vector &v1, const Vector &v2)
     {
-        return Vector(v1._y * v2._z - v1._z * v2._y,
-                      v1._z * v2._x - v1._x * v2._z,
-                      v1._x * v2._y - v1._y * v2._x);
+        return Vector(v1.m_y_component * v2.m_z_component -
+        		      v1.m_z_component * v2.m_y_component,
+                      v1.m_z_component * v2.m_x_component -
+                      v1.m_x_component * v2.m_z_component,
+                      v1.m_x_component * v2.m_y_component -
+                      v1.m_y_component * v2.m_x_component);
     }
 
-    friend inline Vector vectorSubtract( const Vector &v1, const Vector &v2 )
+    friend inline Vector vector_subtract(const Vector &v1, const Vector &v2)
     {
-        return Vector(v1._x - v2._x, v1._y - v2._y, v1._z - v2._z);
+        return Vector(v1.m_x_component - v2.m_x_component, v1.m_y_component - v2.m_y_component, v1.m_z_component - v2.m_z_component);
     }
 
-    friend inline Vector negateVector( const Vector &v )
+    friend inline Vector negate_vector(const Vector &v)
     {
-        return Vector(-v._x, -v._y, -v._z);
+        return Vector(-v.m_x_component, -v.m_y_component, -v.m_z_component);
     }
 
 public:
@@ -95,15 +106,15 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    inline float getX() const { return _x; };
-    inline float getY() const { return _y; };
-    inline float getZ() const { return _z; };
+    inline float x_component() const { return m_x_component; };
+    inline float y_component() const { return m_y_component; };
+    inline float z_component() const { return m_z_component; };
 
 private:
 
-    float _x;
-    float _y;
-    float _z;
+    float m_x_component;
+    float m_y_component;
+    float m_z_component;
 
 };  // class Vector
 

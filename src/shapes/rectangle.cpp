@@ -12,24 +12,24 @@ namespace RadRt
 void Rectangle::init()
 {
     // calculate the normal vector
-    Vector v1 = displacementVector(_b, _a);
-    Vector v2 = displacementVector(_d, _a);
+    Vector v1 = displacement_vector(m_b, m_a);
+    Vector v2 = displacement_vector(m_d, m_a);
 
-    _normal = normalize(crossProduct(v2, v1));
+    m_normal = normalize(cross_product(v2, v1));
 }
 
 Ray *Rectangle::intersect(const Ray &ray)
 {
     // Check if vector is parallel to plane (no intercept)
-    if (dotProduct(ray.getDirection(), _normal) == 0)
+    if (dot_product(ray.direction(), m_normal) == 0)
     {
         return nullptr;
     }
 
     // Find the distance from the ray origin to the intersect point
-    float distance = dotProduct(displacementVector(_a, ray.getVertex()),
-                                 _normal) /
-                     dotProduct(ray.getDirection(), _normal);
+    float distance = dot_product(displacement_vector(m_a, ray.vertex()),
+                                 m_normal) /
+                     dot_product(ray.direction(), m_normal);
 
     if (distance < 0)
     {
@@ -37,53 +37,51 @@ Ray *Rectangle::intersect(const Ray &ray)
     }
 
     // From the distance, calculate the intersect point
-    float x = ray.getVertex().getX() + distance * ray.getDirection().getX();
-    float y = ray.getVertex().getY() + distance * ray.getDirection().getY();
-    float z = ray.getVertex().getZ() + distance * ray.getDirection().getZ();
+    float x = ray.vertex().x_coord() + distance * ray.direction().x_component();
+    float y = ray.vertex().y_coord() + distance * ray.direction().y_component();
+    float z = ray.vertex().z_coord() + distance * ray.direction().z_component();
 
     Point intersection(x, y, z);
 
     // Test to see if the point is inside the rectangle
-    Vector CI = displacementVector(intersection, _c);
-    Vector CB = displacementVector(_b, _c);
-    Vector CD = displacementVector(_d, _c);
+    Vector CI = displacement_vector(intersection, m_c);
+    Vector CB = displacement_vector(m_b, m_c);
+    Vector CD = displacement_vector(m_d, m_c);
 
-    if (distanceBetween(intersection, ray.getVertex()) < 0.1)
+    if (distance_between(intersection, ray.vertex()) < 0.1)
     {
         return nullptr;
     }
-    else if ( (0 <= dotProduct(CI, CB)) &&
-              (dotProduct(CI, CB) < dotProduct(CB, CB)) &&
-              (0 <= dotProduct(CI, CD)) &&
-              (dotProduct(CI, CD) < dotProduct(CD, CD)))
+    else if ( (0 <= dot_product(CI, CB)) &&
+              (dot_product(CI, CB) < dot_product(CB, CB)) &&
+              (0 <= dot_product(CI, CD)) &&
+              (dot_product(CI, CD) < dot_product(CD, CD)))
     {
-        return new Ray(intersection, _normal);;
+        return new Ray(intersection, m_normal);;
     }
-    else
-    {
-        // does not intersect plane within the rectangle
-        return nullptr;
-    }
+
+	// does not intersect plane within the rectangle
+	return nullptr;
 }
 
 Json::Value Rectangle::serialize() const
 {
     Json::Value root = Shape::serialize();
     root["type"] = "rectangle";
-    root["a"] = _a.serialize();
-    root["b"] = _b.serialize();
-    root["c"] = _c.serialize();
-    root["d"] = _d.serialize();
+    root["a"] = m_a.serialize();
+    root["b"] = m_b.serialize();
+    root["c"] = m_c.serialize();
+    root["d"] = m_d.serialize();
     return root;
 }
 
 void Rectangle::deserialize(const Json::Value &root)
 {
     Shape::deserialize(root);
-    _a.deserialize(root["a"]);
-    _b.deserialize(root["b"]);
-    _c.deserialize(root["c"]);
-    _d.deserialize(root["d"]);
+    m_a.deserialize(root["a"]);
+    m_b.deserialize(root["b"]);
+    m_c.deserialize(root["c"]);
+    m_d.deserialize(root["d"]);
     init();
 }
 

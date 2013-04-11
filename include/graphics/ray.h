@@ -17,18 +17,18 @@ class Ray
 public:
 
     Ray(Point vertex, Vector direction):
-        vertex(vertex), direction(direction) {}
+        m_vertex(vertex), m_direction(direction) {}
 
-    Point getVertex() const { return vertex; };
-    Vector getDirection() const { return direction; };
+    Point vertex() const { return m_vertex; };
+    Vector direction() const { return m_direction; };
 
-    void setVertex(Point vertex) { this->vertex = vertex; };
-    void setDirection(Vector direction) { this->direction = direction; };
+    void set_vertex(Point vertex) { this->m_vertex = vertex; };
+    void set_direction(Vector direction) { this->m_direction = direction; };
 
 private:
 
-    Point vertex;
-    Vector direction;
+    Point m_vertex;
+    Vector m_direction;
 };
 
 }   // namespace RadRt

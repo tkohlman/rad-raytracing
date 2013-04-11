@@ -31,36 +31,35 @@ public:
     ~Scene();
 
     // Accessors
-    int getWidth() const { return width; };
-    int getHeight() const { return height; };
-    Camera getCamera() const { return camera; };
-    Color getBackground() const { return background; };
-    ShapeVector *getShapes() const { return shapes; };
-    LightVector *getLights() const { return lights; };
+    int width() const { return m_width; };
+    int height() const { return m_height; };
+    Camera camera() const { return m_camera; };
+    Color background() const { return m_background; };
+    ShapeVector *shapes() const { return s_shapes; };
+    LightVector *lights() const { return m_lights; };
 
     // Mutators
-    void setWidth( int width ) { this->width = width; };
-    void setHeight( int height ) { this->height = height; };
-    void setCamera(const Camera &camera) { this->camera = camera; };
-    void setBackground(const Color &color) { this->background = color; };
-    void addShape(Shape *shape) { shapes->push_back(shape); };
-    void addLight(Light *light) { lights->push_back(light); };
+    void set_width( int width ) { this->m_width = width; };
+    void set_height( int height ) { this->m_height = height; };
+    void set_camera(const Camera &camera) { this->m_camera = camera; };
+    void set_background(const Color &color) { this->m_background = color; };
+    void add_shape(Shape *shape) { s_shapes->push_back(shape); };
+    void add_light(Light *light) { m_lights->push_back(light); };
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
 private:
 
-    int width;
-    int height;
+    int m_width;
+    int m_height;
 
-    Camera camera;
+    Camera m_camera;
 
-    Color background;
+    Color m_background;
 
-    ShapeVector *shapes;
-    LightVector *lights;
-
+    ShapeVector *s_shapes;
+    LightVector *m_lights;
 };
 
 }   // namespace RadRt

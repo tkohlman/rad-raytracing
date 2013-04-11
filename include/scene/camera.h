@@ -19,25 +19,36 @@ public:
 
     Camera();
 
-    Point getLocation() const { return location; };
-    Vector getView() const { return view; };
-    Vector getUpVector() const { return upVector; };
+    Point location() const { return m_location; };
+    Vector view_vector() const { return m_view_vector; };
+    Vector up_vector() const { return m_up_vector; };
 
-    void setLocation(const Point &location) { this->location = location; };
-    void setView(const Vector &view) { this->view = view; };
-    void setUpVector(const Vector &upVector) { this->upVector = upVector; };
+    void set_location(const Point &location)
+    {
+    	this->m_location = location;
+    };
+
+    void set_view_vector(const Vector &view_vector)
+    {
+    	this->m_view_vector = view_vector;
+    };
+
+    void set_up_vector(const Vector &up_vector)
+    {
+    	this->m_up_vector = up_vector;
+    };
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
 private:
 
-    Point location;
+    Point m_location;
 
-    float focus;
+    float m_focal_length;
 
-    Vector view;
-    Vector upVector;
+    Vector m_view_vector;
+    Vector m_up_vector;
 };
 
 }   // namespace RadRt

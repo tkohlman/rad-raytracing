@@ -16,18 +16,20 @@ namespace RadRt
 
 class Point
 {
-    friend inline float distanceBetween( const Point &p1, const Point &p2 )
+    friend inline float distance_between(const Point &p1, const Point &p2)
     {
-        float dx = p1._x - p2._x;
-        float dy = p1._y - p2._y;
-        float dz = p1._z - p2._z;
+        float dx = p1.m_x_coord - p2.m_x_coord;
+        float dy = p1.m_y_coord - p2.m_y_coord;
+        float dz = p1.m_z_coord - p2.m_z_coord;
 
         return sqrt((dx*dx) + (dy*dy) + (dz*dz));
     }
 
-    friend inline Vector displacementVector( const Point &p1, const Point &p2 )
+    friend inline Vector displacement_vector(const Point &p1, const Point &p2)
     {
-        return Vector(p1._x - p2._x, p1._y - p2._y, p1._z - p2._z);
+        return Vector(p1.m_x_coord - p2.m_x_coord,
+        		      p1.m_y_coord - p2.m_y_coord,
+        		      p1.m_z_coord - p2.m_z_coord);
     }
 
 public:
@@ -76,18 +78,18 @@ public:
 
     ~Point() {};
 
-    float getX() const { return _x; };
-    float getY() const { return _y; };
-    float getZ() const { return _z; };
+    float x_coord() const { return m_x_coord; };
+    float y_coord() const { return m_y_coord; };
+    float z_coord() const { return m_z_coord; };
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
 private:
 
-    float _x;
-    float _y;
-    float _z;
+    float m_x_coord;
+    float m_y_coord;
+    float m_z_coord;
 
 };  // class Point
 

@@ -12,10 +12,10 @@ namespace RadRt
 void Cylinder::init()
 {
     float height =
-        sqrt((_cp1.getX() - _cp2.getX()) * (_cp1.getX() - _cp2.getX()) +
-             (_cp1.getY() - _cp2.getY()) * (_cp1.getY() - _cp2.getY()) +
-             (_cp1.getZ() - _cp2.getZ()) * (_cp1.getZ() - _cp2.getZ()));
-    _orient = scalarMultiply(displacementVector(_cp1, _cp2), 1.0/height);
+        sqrt((m_center_point_1.x_coord() - m_center_point_2.x_coord()) * (m_center_point_1.x_coord() - m_center_point_2.x_coord()) +
+             (m_center_point_1.y_coord() - m_center_point_2.y_coord()) * (m_center_point_1.y_coord() - m_center_point_2.y_coord()) +
+             (m_center_point_1.z_coord() - m_center_point_2.z_coord()) * (m_center_point_1.z_coord() - m_center_point_2.z_coord()));
+    m_orientation = scalar_multiply(displacement_vector(m_center_point_1, m_center_point_2), 1.0/height);
 }
 
 Cylinder::~Cylinder()
@@ -35,17 +35,17 @@ Ray *Cylinder::intersect(const Ray &ray)
     // orientation is (_cp1 - _cp2)
     // delta_p is (o - _cp1)
 
-    Vector delta_p = displacementVector(ray.getVertex(), _cp1);
+    Vector delta_p = displacement_vector(ray.vertex(), m_center_point_1);
 
-    Vector common1 = vectorSubtract(ray.getDirection(),
-                        scalarMultiply(_orient,
-                            dotProduct(ray.getDirection(), _orient)));
-    Vector common2 = vectorSubtract(delta_p,
-                        scalarMultiply(_orient, dotProduct(delta_p, _orient)));
+    Vector common1 = vector_subtract(ray.direction(),
+                        scalar_multiply(m_orientation,
+                            dot_product(ray.direction(), m_orientation)));
+    Vector common2 = vector_subtract(delta_p,
+                        scalar_multiply(m_orientation, dot_product(delta_p, m_orientation)));
 
-    float A = dotProduct(common1, common1);
-    float B = 2 * dotProduct(common1, common2);
-    float C = dotProduct(common2, common2) - (_radius * _radius);
+    float A = dot_product(common1, common1);
+    float B = 2 * dot_product(common1, common2);
+    float C = dot_product(common2, common2) - (m_radius * m_radius);
 
     // The quadratic roots are found using:
     // roots = (-B +- sqrt(B^2 - 4*A*C))/ (2*A)
@@ -73,12 +73,12 @@ Ray *Cylinder::intersect(const Ray &ray)
     float t4 = -1;
 
     // Find intercepts with both planes
-    if (dotProduct(ray.getDirection(), _orient) != 0)
+    if (dot_product(ray.direction(), m_orientation) != 0)
     {
-        t3 = dotProduct(displacementVector(_cp1, ray.getVertex()), _orient) /
-             dotProduct(ray.getDirection(), _orient);
-        t4 = dotProduct(displacementVector(_cp2, ray.getVertex()), _orient) /
-             dotProduct(ray.getDirection(), _orient);
+        t3 = dot_product(displacement_vector(m_center_point_1, ray.vertex()), m_orientation) /
+             dot_product(ray.direction(), m_orientation);
+        t4 = dot_product(displacement_vector(m_center_point_2, ray.vertex()), m_orientation) /
+             dot_product(ray.direction(), m_orientation);
     }
     //-------------------------------------------------------------------------
 
@@ -92,59 +92,59 @@ Ray *Cylinder::intersect(const Ray &ray)
     // Eliminate points with negative t-values
     if (t1 >= 0)
     {
-        i1 = new Point(ray.getVertex().getX() + t1 * ray.getDirection().getX(),
-                       ray.getVertex().getY() + t1 * ray.getDirection().getY(),
-                       ray.getVertex().getZ() + t1 * ray.getDirection().getZ());
+        i1 = new Point(ray.vertex().x_coord() + t1 * ray.direction().x_component(),
+                       ray.vertex().y_coord() + t1 * ray.direction().y_component(),
+                       ray.vertex().z_coord() + t1 * ray.direction().z_component());
     }
     if (t2 >= 0)
     {
-        i2 = new Point(ray.getVertex().getX() + t2 * ray.getDirection().getX(),
-                       ray.getVertex().getY() + t2 * ray.getDirection().getY(),
-                       ray.getVertex().getZ() + t2 * ray.getDirection().getZ());
+        i2 = new Point(ray.vertex().x_coord() + t2 * ray.direction().x_component(),
+                       ray.vertex().y_coord() + t2 * ray.direction().y_component(),
+                       ray.vertex().z_coord() + t2 * ray.direction().z_component());
     }
     if (t3 >= 0)
     {
-        i3 = new Point(ray.getVertex().getX() + t3 * ray.getDirection().getX(),
-                       ray.getVertex().getY() + t3 * ray.getDirection().getY(),
-                       ray.getVertex().getZ() + t3 * ray.getDirection().getZ());
+        i3 = new Point(ray.vertex().x_coord() + t3 * ray.direction().x_component(),
+                       ray.vertex().y_coord() + t3 * ray.direction().y_component(),
+                       ray.vertex().z_coord() + t3 * ray.direction().z_component());
     }
     if (t4 >= 0)
     {
-        i4 = new Point(ray.getVertex().getX() + t4 * ray.getDirection().getX(),
-                       ray.getVertex().getY() + t4 * ray.getDirection().getY(),
-                       ray.getVertex().getZ() + t4 * ray.getDirection().getZ());
+        i4 = new Point(ray.vertex().x_coord() + t4 * ray.direction().x_component(),
+                       ray.vertex().y_coord() + t4 * ray.direction().y_component(),
+                       ray.vertex().z_coord() + t4 * ray.direction().z_component());
     }
 
     // Check that the points lie within their respective boundaries.
     // i1 and i2 must be between the two endcaps. i3 and i4 must be
     // contained in the endcaps.
     if ((i1 != nullptr) &&
-        ((dotProduct(_orient, displacementVector(*i1, _cp1)) > 0) ||
-         (dotProduct(_orient, displacementVector(*i1, _cp2)) < 0)))
+        ((dot_product(m_orientation, displacement_vector(*i1, m_center_point_1)) > 0) ||
+         (dot_product(m_orientation, displacement_vector(*i1, m_center_point_2)) < 0)))
     {
         delete i1;
         i1 = nullptr;
     }
 
     if ((i2 != nullptr) &&
-        ((dotProduct(_orient, displacementVector(*i2, _cp1)) > 0) ||
-         (dotProduct(_orient, displacementVector(*i2, _cp2)) < 0)))
+        ((dot_product(m_orientation, displacement_vector(*i2, m_center_point_1)) > 0) ||
+         (dot_product(m_orientation, displacement_vector(*i2, m_center_point_2)) < 0)))
     {
         delete i2;
         i2 = nullptr;
     }
 
     if ((i3 != nullptr) &&
-        (dotProduct(displacementVector(*i3, _cp1),
-                    displacementVector(*i3, _cp1)) >= (_radius * _radius)))
+        (dot_product(displacement_vector(*i3, m_center_point_1),
+                    displacement_vector(*i3, m_center_point_1)) >= (m_radius * m_radius)))
     {
         delete i3;
         i3 = nullptr;
     }
 
     if ((i4 != nullptr) &&
-        (dotProduct(displacementVector(*i4, _cp2),
-                    displacementVector(*i4, _cp2)) >= (_radius * _radius)))
+        (dot_product(displacement_vector(*i4, m_center_point_2),
+                    displacement_vector(*i4, m_center_point_2)) >= (m_radius * m_radius)))
     {
         delete i4;
         i4 = nullptr;
@@ -182,7 +182,7 @@ Ray *Cylinder::intersect(const Ray &ray)
 
     if (intersect != nullptr)
     {
-        Ray *rv = new Ray(*intersect, _orient);
+        Ray *rv = new Ray(*intersect, m_orientation);
         delete intersect;
         return rv;
     }
@@ -193,18 +193,18 @@ Json::Value Cylinder::serialize() const
 {
     Json::Value root = Shape::serialize();
     root["type"] = "cylinder";
-    root["center_1"] = _cp1.serialize();
-    root["center_2"] = _cp2.serialize();
-    root["radius"] = _radius;
+    root["center_1"] = m_center_point_1.serialize();
+    root["center_2"] = m_center_point_2.serialize();
+    root["radius"] = m_radius;
     return root;
 }
 
 void Cylinder::deserialize(const Json::Value &root)
 {
     Shape::deserialize(root);
-    _cp1.deserialize(root["center_1"]);
-    _cp2.deserialize(root["center_2"]);
-    _radius = root["radius"].asFloat();
+    m_center_point_1.deserialize(root["center_1"]);
+    m_center_point_2.deserialize(root["center_2"]);
+    m_radius = root["radius"].asFloat();
     init();
 }
 

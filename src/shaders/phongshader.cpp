@@ -18,26 +18,26 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
     Color Ks;
 
     // Compute the ambient component
-    Ka = intersection->getIntersectedShape()->getAmbientColor(
-            intersection->getIntersectionPoint());
+    Ka = intersection->intersected_shape()->ambient_color(
+            intersection->intersection_point());
 
-    Point point = intersection->getIntersectionPoint();
-    Shape *shape = intersection->getIntersectedShape();
-    Vector normal = intersection->getNormal();
+    Point point = intersection->intersection_point();
+    Shape *shape = intersection->intersected_shape();
+    Vector normal = intersection->normal();
 
     float Kt = 1;
 
     // For each light source
-    LightVector *lights = scene->getLights();
+    LightVector *lights = scene->lights();
     LightIterator light = lights->begin();
 
-    ShapeVector *shapes = scene->getShapes();
+    ShapeVector *shapes = scene->shapes();
 
     for (; light != lights->end(); ++light)
     {
         // Generate the shadow ray
         Ray shadow_ray(point,
-                       normalize(displacementVector((*light)->getPosition(),
+                       normalize(displacement_vector((*light)->getPosition(),
                             point)));
         // Determine if there is direct line of sight to the intersect point
         ShapeIterator shape_iter = shapes->begin();
@@ -57,14 +57,14 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
             // If this point is closer than the closest known point,
             // there is no line of sight.
             if ((intersected != nullptr) &&
-                (distanceBetween(intersected->getVertex(), (*light)->getPosition()) <
-                 distanceBetween(point, (*light)->getPosition())))
+                (distance_between(intersected->vertex(), (*light)->getPosition()) <
+                 distance_between(point, (*light)->getPosition())))
             {
                 delete intersected;
 
-                if ((*shape_iter)->getTransmissiveConstant() > 0)
+                if ((*shape_iter)->transmissive_constant() > 0)
                 {
-                    Kt *= (*shape_iter)->getTransmissiveConstant();
+                    Kt *= (*shape_iter)->transmissive_constant();
                     continue;
                 }
 
@@ -78,30 +78,30 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
 
         if (los)
         {
-            Color oKd = shape->getDiffuseColor(point);
-            Color oKs = shape->getSpecularColor();
+            Color oKd = shape->diffuse_color(point);
+            Color oKs = shape->specular_color();
             Color lC = (*light)->getColor();
-            float exp = shape->getSpecularExponent();
+            float exp = shape->specular_exponent();
 
             // Compute dot product between shadow and normal. Clamp to zero
             // if the angle is more than 90 degrees.
-            float shadow_dot_normal = dotProduct(shadow_ray.getDirection(),
+            float shadow_dot_normal = dot_product(shadow_ray.direction(),
                                                  normal);
             if (shadow_dot_normal >= 0)
             {
                 // Add in the diffuse component
                 Kd += oKd * lC * shadow_dot_normal;
 
-                Vector R = normalize(vectorSubtract(shadow_ray.getDirection(),
-                                scalarMultiply(normal, 2 * shadow_dot_normal)));
+                Vector R = normalize(vector_subtract(shadow_ray.direction(),
+                                scalar_multiply(normal, 2 * shadow_dot_normal)));
 
-                Vector V = normalize(displacementVector(
-                                scene->getCamera().getLocation(),
-                                    intersection->getIntersectionPoint()));
+                Vector V = normalize(displacement_vector(
+                                scene->camera().location(),
+                                    intersection->intersection_point()));
 
                 // Compute dot product between reflection ray and viewing ray.
                 // Clamp to zero if the angle is more than 90 degrees.
-                float reflection_dot_view = -dotProduct(R, V);
+                float reflection_dot_view = -dot_product(R, V);
 
                 if (reflection_dot_view > 0)
                 {
@@ -112,9 +112,9 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
         }
     }
 
-    Ka = Ka * Kt * shape->getAmbientConstant();
-    Kd = Kd * Kt * shape->getDiffuseConstant();
-    Ks = Ks * Kt * shape->getSpecularConstant();
+    Ka = Ka * Kt * shape->ambient_constant();
+    Kd = Kd * Kt * shape->diffuse_constant();
+    Ks = Ks * Kt * shape->specular_constant();
 
     Color rv = Ka + Kd + Ks;
 

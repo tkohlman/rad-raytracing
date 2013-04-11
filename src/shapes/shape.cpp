@@ -11,51 +11,51 @@ namespace RadRt
 
 Shape::~Shape()
 {
-    if (shader != nullptr)
+    if (m_shader != nullptr)
     {
-        delete shader;
+        delete m_shader;
     }
 }
 
 Json::Value Shape::serialize() const
 {
     Json::Value root;
-    root["ambient_color"] = mAmbientColor.serialize();
-    root["diffuse_color"] = mDiffuseColor.serialize();
-    root["specular_color"] = mSpecularColor.serialize();
-    root["ambient_constant"] = mAmbientConstant;
-    root["diffuse_constant"] = mDiffuseConstant;
-    root["specular_constant"] = mSpecularConstant;
-    root["specular_exponent"] = mSpecularExponent;
-    root["reflective_value"] = mReflectionValue;
-    root["transmissive_value"] = mTransmissionValue;
-    root["refraction_index"] = mRefractionIndex;
+    root["ambient_color"] = m_ambient_color.serialize();
+    root["diffuse_color"] = m_diffuse_color.serialize();
+    root["specular_color"] = m_specular_color.serialize();
+    root["ambient_constant"] = m_ambient_constant;
+    root["diffuse_constant"] = m_diffuse_constant;
+    root["specular_constant"] = m_specular_constant;
+    root["specular_exponent"] = m_specular_exponent;
+    root["reflective_value"] = m_reflection_constant;
+    root["transmissive_value"] = m_transmission_constant;
+    root["refraction_index"] = m_refraction_index;
 
-    if (shader != nullptr)
+    if (m_shader != nullptr)
     {
-        root["shader"] = shader->serialize();
+        root["shader"] = m_shader->serialize();
     }
     return root;
 }
 
 void Shape::deserialize(const Json::Value &root)
 {
-    mAmbientColor.deserialize(root["ambient_color"]);
-    mDiffuseColor.deserialize(root["diffuse_color"]);
-    mSpecularColor.deserialize(root["specular_color"]);
-    mAmbientConstant = root["ambient_constant"].asFloat();
-    mDiffuseConstant = root["diffuse_constant"].asFloat();
-    mSpecularConstant = root["specular_constant"].asFloat();
-    mSpecularExponent = root["specular_exponent"].asInt();
-    mReflectionValue = root["reflective_value"].asFloat();
-    mTransmissionValue = root["transmissive_value"].asFloat();
-    mRefractionIndex = root["refraction_index"].asFloat();
+    m_ambient_color.deserialize(root["ambient_color"]);
+    m_diffuse_color.deserialize(root["diffuse_color"]);
+    m_specular_color.deserialize(root["specular_color"]);
+    m_ambient_constant = root["ambient_constant"].asFloat();
+    m_diffuse_constant = root["diffuse_constant"].asFloat();
+    m_specular_constant = root["specular_constant"].asFloat();
+    m_specular_exponent = root["specular_exponent"].asInt();
+    m_reflection_constant = root["reflective_value"].asFloat();
+    m_transmission_constant = root["transmissive_value"].asFloat();
+    m_refraction_index = root["refraction_index"].asFloat();
 
     if (root.isMember("shader"))
     {
         ProceduralShaderFactory factory;
-        shader = factory.create(root["shader"]["type"].asString());
-        shader->deserialize(root["shader"]);
+        m_shader = factory.create(root["shader"]["type"].asString());
+        m_shader->deserialize(root["shader"]);
     }
 }
 

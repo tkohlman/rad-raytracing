@@ -17,11 +17,11 @@ Ray *Sphere::intersect(const Ray &ray)
     // B is 2(o-_center) * d
     // C is (o-c)(0-c) * _radius^2
 
-    Vector origin_center = displacementVector(ray.getVertex(), _center);
+    Vector origin_center = displacement_vector(ray.vertex(), m_center);
 
-    float A = dotProduct(ray.getDirection(), ray.getDirection());
-    float B = dotProduct(origin_center, ray.getDirection()) * 2.0;
-    float C = dotProduct(origin_center, origin_center) - _radius * _radius;
+    float A = dot_product(ray.direction(), ray.direction());
+    float B = dot_product(origin_center, ray.direction()) * 2.0;
+    float C = dot_product(origin_center, origin_center) - m_radius * m_radius;
 
     // The quadratic roots are found using:
     // roots = (-B +- sqrt(B^2 - 4*A*C))/ (2*A)
@@ -60,13 +60,13 @@ Ray *Sphere::intersect(const Ray &ray)
     }
 
     // From the t-value, calculate the intersect point
-    float x = ray.getVertex().getX() + t * ray.getDirection().getX();
-    float y = ray.getVertex().getY() + t * ray.getDirection().getY();
-    float z = ray.getVertex().getZ() + t * ray.getDirection().getZ();
+    float x = ray.vertex().x_coord() + t * ray.direction().x_component();
+    float y = ray.vertex().y_coord() + t * ray.direction().y_component();
+    float z = ray.vertex().z_coord() + t * ray.direction().z_component();
 
     Point intersection(x, y, z);
 
-    Vector normal = normalize(displacementVector(intersection, _center));
+    Vector normal = normalize(displacement_vector(intersection, m_center));
 
     return new Ray(intersection, normal);
 }
@@ -75,16 +75,16 @@ Json::Value Sphere::serialize() const
 {
     Json::Value root = Shape::serialize();
     root["type"] = "sphere";
-    root["center"] = _center.serialize();
-    root["radius"] = _radius;
+    root["center"] = m_center.serialize();
+    root["radius"] = m_radius;
     return root;
 }
 
 void Sphere::deserialize(const Json::Value &root)
 {
     Shape::deserialize(root);
-    _center.deserialize(root["center"]);
-    _radius = root["radius"].asFloat();
+    m_center.deserialize(root["center"]);
+    m_radius = root["radius"].asFloat();
 }
 
 }   // namespace RadRt

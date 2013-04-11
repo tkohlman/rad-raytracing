@@ -17,26 +17,26 @@ class Intersection
 {
 public:
 
-    Intersection(Point intersectionPoint,
+    Intersection(Point intersection_point,
                  Vector normal,
-                 Shape *intersectedShape):
-        intersectionPoint(intersectionPoint),
-        normal(normal),
-        intersectedShape(intersectedShape)
+                 Shape *intersected_shape):
+        m_intersection_point(intersection_point),
+        m_normal(normal),
+        m_intersected_shape(intersected_shape)
     {
     }
 
-    Point getIntersectionPoint() const { return this->intersectionPoint; };
-    Vector getNormal() const { return this->normal; };
-    Shape *getIntersectedShape() const { return this->intersectedShape; };
+    Point intersection_point() const { return this->m_intersection_point; };
+    Vector normal() const { return this->m_normal; };
+    Shape *intersected_shape() const { return this->m_intersected_shape; };
 
-    void setNormal(Vector normal) { this->normal = normal; };
+    void set_normal(Vector normal) { this->m_normal = normal; };
 
 private:
 
-    Point intersectionPoint;
-    Vector normal;
-    Shape *intersectedShape;
+    Point m_intersection_point;
+    Vector m_normal;
+    Shape *m_intersected_shape;
 };
 
 }

@@ -17,41 +17,41 @@ const Color Color::PURPLE(1,0,1);
 const Color Color::YELLOW(1,1,0);
 const Color Color::WHITE(1,1,1);
 
-Color::Color(float r, float g, float b):
-    _r(r),
-    _g(g),
-    _b(b)
+Color::Color(float red, float green, float blue):
+    m_red(red),
+    m_green(green),
+    m_blue(blue)
 {
 }
 
 Color::Color(const Color& other):
-    _r(other._r),
-    _g(other._g),
-    _b(other._b)
+    m_red(other.m_red),
+    m_green(other.m_green),
+    m_blue(other.m_blue)
 {
 }
 
 Color::Color():
-    _r(0),
-    _g(0),
-    _b(0)
+    m_red(0),
+    m_green(0),
+    m_blue(0)
 {
 }
 
 Json::Value Color::serialize() const
 {
     Json::Value root;
-    root["r"] = _r;
-    root["g"] = _g;
-    root["b"] = _b;
+    root["r"] = m_red;
+    root["g"] = m_green;
+    root["b"] = m_blue;
     return root;
 }
 
 void Color::deserialize(const Json::Value &root)
 {
-    _r = root["r"].asFloat();
-    _g = root["g"].asFloat();
-    _b = root["b"].asFloat();
+    m_red = root["r"].asFloat();
+    m_green = root["g"].asFloat();
+    m_blue = root["b"].asFloat();
 }
 
 }   // namespace RadRt

@@ -28,7 +28,7 @@ public:
     Raytracer();
     ~Raytracer() {};
 
-    void setMaxDepth(int depth) { mMaxDepth = depth; };
+    void set_max_depth(int max_depth) { m_max_depth = max_depth; };
 
     ///
     /// @name Trace
@@ -43,14 +43,14 @@ public:
     ///
     Color trace(Scene *scene, Ray ray, int depth);
 
-    Image *traceScene(Scene *scene);
+    Image *trace_scene(Scene *scene);
 
 private:
 
-    Ray makeReflectionRay(const Vector &normal, const Ray &ray,
-                          const Point &intersection);
+    Ray make_reflection_ray(const Vector &normal, const Ray &ray,
+                            const Point &intersection);
 
-    Intersection *getClosestIntersection(Scene *scene, const Ray &ray);
+    Intersection *get_closest_intersection(Scene *scene, const Ray &ray);
 
     ///
     /// @name mMaxDepth
@@ -58,7 +58,7 @@ private:
     /// @description
     ///		Maximum depth for recursion.
     ///
-    int mMaxDepth;
+    int m_max_depth;
 
     ///
     /// @name mPhongShader
@@ -66,9 +66,9 @@ private:
     /// @description
     ///		Shader to use for local illumination.
     ///
-    PhongShader mPhongShader;
+    PhongShader m_phong_shader;
 
-    Point *mIntersection;
+    Point *m_intersection;
 
 };  // class Raytracer
 

@@ -57,7 +57,7 @@ public:
 private:
 
     ///
-    /// @name PrepHDR
+    /// @name prep_hdr
     ///
     /// @description
     /// 	Prepares the HDR image by scaling each RGB value by mLmax.
@@ -65,10 +65,10 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void prepHDR(Image *image);
+    void prep_hdr(Image *image);
 
     ///
-    /// @name CalcAbsLum
+    /// @name calc_abs_lum
     ///
     /// @description
     /// 	Calculates a rought estimate of the absolute illuminance of a
@@ -77,22 +77,22 @@ private:
     /// @param color - a single RGB value
     /// @return - absolute illuminace for this RGB value.
     ///
-    inline float calcAbsLum(Color color);
+    inline float calc_abs_lum(Color color);
 
     ///
-    /// @name ApplyDevice
+    /// @name apply_device
     ///
     /// @description
     /// 	Scales each pixel in the scene to the range [0, 1], where 1 is
     ///     represented by mLdmax.
     ///
-    /// @param pixels - 2D vector of pixels. The array must contain mHeight
+    /// @param image - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void applyDevice(Image *image);
+    void apply_device(Image *image);
 
     ///
-    /// @name CalcAvgLum
+    /// @name calc_avg_lum
     ///
     /// @description
     /// 	Calculates the log average luminance over all pixels in the scene.
@@ -101,9 +101,9 @@ private:
     ///                 pointers that each point to mWidth color values.
     /// @return - the average log luminance of the scene.
     ///
-    float calcAvgLum(Image *image);
+    float calc_avg_lum(Image *image);
 
-    /// @name WardsTR
+    /// @name apply_wards_algorithm
     ///
     /// @description
     /// 	Runs Ward's tone reproduction algorithm.
@@ -111,9 +111,9 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void wardsTR(Image *image);
+    void apply_wards_algorithm(Image *image);
 
-    /// @name ReinhardsTR
+    /// @name apply_reinhards_algorithm
     ///
     /// @description
     /// 	Runs Reinhard's tone reproduction algorithm.
@@ -121,7 +121,7 @@ private:
     /// @param pixels - 2D vector of pixels. The array must contain mHeight
     ///                 pointers that each point to mWidth color values.
     ///
-    void reinhardsTR(Image *image);
+    void apply_reinhards_algorithm(Image *image);
 
     ///
     /// @name mLmax
@@ -129,7 +129,7 @@ private:
     /// @description
     ///		Maximum illuminance of the scene.
     ///
-    int mLmax;
+    int m_lmax;
 
     ///
     /// @name mLdmax
@@ -137,7 +137,7 @@ private:
     /// @description
     ///		Maximum illuminance of the display.
     ///
-    int mLdmax;
+    int m_ldmax;
 
     ///
     /// @name mHeight
@@ -145,7 +145,7 @@ private:
     /// @description
     ///		Height of the scene, in pixels.
     ///
-    int mHeight;
+    int m_height;
 
     ///
     /// @name mWidth
@@ -153,16 +153,16 @@ private:
     /// @description
     ///		Width of the scene, in pixels.
     ///
-    int mWidth;
+    int m_width;
 
 
 };  // class ToneReproducer
 
-inline float ToneReproducer::calcAbsLum( Color color )
+inline float ToneReproducer::calc_abs_lum( Color color )
 {
-    return (0.27 * color.getR()) +
-           (0.67 * color.getG()) +
-           (0.06 * color.getB());
+    return (0.27 * color.red()) +
+           (0.67 * color.green()) +
+           (0.06 * color.blue());
 }
 
 }   // namespace RadRt

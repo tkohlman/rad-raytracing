@@ -49,7 +49,7 @@ private:
 
     Gtk::Box box;
 
-    Gtk::Button btnClear;
+    Gtk::Button btn_clear;
 
     Gtk::MenuBar main_menu_bar;
     Gtk::Menu main_menu;
@@ -66,13 +66,12 @@ private:
     Gtk::MenuItem quit_menu;
     Gtk::MenuItem about_menu;
 
-    Gtk::Label lblSceneName;
+    Gtk::Label lbl_scene_name;
 
     Canvas *canvas;
 
     RadRt::Image *image;
     RadRt::Scene *scene;
-
 };
 
 }   // namespace RadRt

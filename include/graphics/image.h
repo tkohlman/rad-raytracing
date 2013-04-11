@@ -17,38 +17,38 @@ class Image
 public:
 
     Image(int width, int height):
-        width(width),
-        height(height)
+        m_width(width),
+        m_height(height)
     {
-        pixels = new std::vector<Color>(width * height, Color::BLACK);
+        m_pixels = new std::vector<Color>(width * height, Color::BLACK);
     };
 
     virtual ~Image()
     {
-        delete pixels;
+        delete m_pixels;
     }
 
-    int getWidth() const { return width; };
-    int getHeight() const { return height; };
+    int width() const { return m_width; };
+    int height() const { return m_height; };
 
-    Color *getPixel(int row, int column) const
+    Color *get_pixel(int row, int column) const
     {
-        int index = row * width + column;
-        return &pixels->at(index);
+        int index = row * m_width + column;
+        return &m_pixels->at(index);
     }
 
-    void setPixel(int row, int column, const Color &color) const
+    void set_pixel(int row, int column, const Color &color) const
     {
-        int index = row * width + column;
-        pixels->at(index) = color;
+        int index = row * m_width + column;
+        m_pixels->at(index) = color;
     }
 
 private:
 
-    int width;
-    int height;
+    int m_width;
+    int m_height;
 
-    std::vector<Color> *pixels;
+    std::vector<Color> *m_pixels;
 };
 
 }   // namespace RadRt

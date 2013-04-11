@@ -27,7 +27,7 @@ public:
     /// @param g - the green component of the constructed color
     /// @param b - the blue component of the constructed color
     ///
-    Color(float r, float g, float b);
+    Color(float red, float green, float blue);
 
     ///
     /// @name Color
@@ -58,9 +58,9 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    float getR() const { return _r; };
-    float getG() const { return _g; };
-    float getB() const { return _b; };
+    float red() const { return m_red; };
+    float green() const { return m_green; };
+    float blue() const { return m_blue; };
 
     inline void clamp();
 
@@ -90,75 +90,79 @@ public:
 private:
 
     // RGB Components
-    float _r;
-    float _g;
-    float _b;
+    float m_red;
+    float m_green;
+    float m_blue;
 
 };  // class Color
 
 inline Color Color::operator*(const Color& other)
 {
-    return Color(_r * other._r, _g * other._g, _b * other._b);
+    return Color(m_red   * other.m_red,
+    			 m_green * other.m_green,
+    			 m_blue  * other.m_blue);
 }
 
 inline Color Color::operator*(float scalar)
 {
-    return Color(_r * scalar, _g * scalar, _b * scalar);
+    return Color(m_red * scalar, m_green * scalar, m_blue * scalar);
 }
 
 inline Color& Color::operator*=(float scalar)
 {
-    _r *= scalar;
-    _g *= scalar;
-    _b *= scalar;
+    m_red *= scalar;
+    m_green *= scalar;
+    m_blue *= scalar;
     return *this;
 }
 
 inline Color Color::operator/(float scalar)
 {
     if (scalar != 0)
-        return Color(_r / scalar, _g / scalar, _b / scalar);
+        return Color(m_red / scalar, m_green / scalar, m_blue / scalar);
     else
-        return Color(_r, _g, _b);
+        return Color(m_red, m_green, m_blue);
 }
 
 inline Color& Color::operator/=(float scalar)
 {
     if (scalar != 0)
     {
-        _r /= scalar;
-        _g /= scalar;
-        _b /= scalar;
+        m_red /= scalar;
+        m_green /= scalar;
+        m_blue /= scalar;
     }
     return *this;
 }
 
 inline Color Color::operator+(const Color& other)
 {
-    return Color(_r + other._r, _g + other._g, _b + other._b);
+    return Color(m_red   + other.m_red,
+    			 m_green + other.m_green,
+    			 m_blue  + other.m_blue);
 }
 
 inline Color& Color::operator+=(const Color& other)
 {
-    _r += other._r;
-    _g += other._g;
-    _b += other._b;
+    m_red += other.m_red;
+    m_green += other.m_green;
+    m_blue += other.m_blue;
     return *this;
 }
 
 inline void Color::clamp()
 {
-    if (_r > 1.0)
+    if (m_red > 1.0)
     {
-        _r = 1.0;
+        m_red = 1.0;
     }
-    if (_g > 1.0)
+    if (m_green > 1.0)
     {
-        _g = 1.0;
+        m_green = 1.0;
     }
-    if (_b > 1.0)
+    if (m_blue > 1.0)
     {
-        _b = 1.0;
+        m_blue = 1.0;
     }
 }
 

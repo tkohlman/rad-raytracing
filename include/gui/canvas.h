@@ -29,21 +29,21 @@ public:
     Canvas();
     virtual ~Canvas();
 
-    void drawImage(Image *image);
+    void draw_image(Image *image);
     void clear();
 
 protected:
 
     virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 
-    void setPixel(int row, int column, const Color  &color);
+    void set_pixel(int row, int column, const Color  &color);
 
 private:
 
-    Glib::RefPtr<Gdk::Pixbuf> canvas;
+    Glib::RefPtr<Gdk::Pixbuf> m_canvas;
 
-    int width;
-    int height;
+    int m_width;
+    int m_height;
 };
 
 }   // namespace RadRt

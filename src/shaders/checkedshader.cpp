@@ -9,26 +9,26 @@ namespace RadRt
 {
 
 CheckedShader::CheckedShader(Point a, Point b, Point c, Point d):
-    a(a),
-    b(b),
-    c(c),
-    d(d)
+    m_a(a),
+    m_b(b),
+    m_c(c),
+    m_d(d)
 {
 }
 
 Color CheckedShader::shade( const Point &p )
 {
-    Vector AP = displacementVector(p, a);
-    Vector AD = displacementVector(d, a);
-    Vector AB = displacementVector(b, a);
+    Vector AP = displacement_vector(p, m_a);
+    Vector AD = displacement_vector(m_d, m_a);
+    Vector AB = displacement_vector(m_b, m_a);
 
     float AdistanceP = length(AP);
     AP = normalize(AP);
     AD = normalize(AD);
     AB = normalize(AB);
 
-    float u = AdistanceP * dotProduct(AP, AD);
-    float v = AdistanceP * dotProduct(AP, AB);
+    float u = AdistanceP * dot_product(AP, AD);
+    float v = AdistanceP * dot_product(AP, AB);
 
     int U = int(u / 3);
     int V = int(v / 3);
@@ -50,19 +50,19 @@ Json::Value CheckedShader::serialize() const
 {
     Json::Value root;
     root["type"] = "checked_shader";
-    root["a"] = a.serialize();
-    root["b"] = b.serialize();
-    root["c"] = c.serialize();
-    root["d"] = d.serialize();
+    root["a"] = m_a.serialize();
+    root["b"] = m_b.serialize();
+    root["c"] = m_c.serialize();
+    root["d"] = m_d.serialize();
     return root;
 }
 
 void CheckedShader::deserialize(const Json::Value &root)
 {
-    a.deserialize(root["a"]);
-    b.deserialize(root["b"]);
-    c.deserialize(root["c"]);
-    d.deserialize(root["d"]);
+    m_a.deserialize(root["a"]);
+    m_b.deserialize(root["b"]);
+    m_c.deserialize(root["c"]);
+    m_d.deserialize(root["d"]);
 }
 
 }   // namespace RadRt

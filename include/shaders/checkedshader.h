@@ -27,10 +27,10 @@ public:
 
 private:
 
-    Point a;
-    Point b;
-    Point c;
-    Point d;
+    Point m_a;
+    Point m_b;
+    Point m_c;
+    Point m_d;
 };
 
 }   // namespace RadRt

@@ -41,26 +41,15 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    Point getPosition() const { return mPosition; };
-    Color getColor() const { return mColor; };
+    Point getPosition() const { return m_position; };
+    Color getColor() const { return m_color; };
 
 private:
 
-    ///
-    /// @name mPosition
-    ///
-    /// @description
-    ///		The position of the light source.
-    ///
-    Point mPosition;
 
-    ///
-    /// @name mColor
-    ///
-    /// @description
-    ///	    The color of the light source.
-    ///
-    Color mColor;
+    Point m_position;
+
+    Color m_color;
 
 };  // class Light
 

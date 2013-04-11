@@ -14,54 +14,54 @@ const int DEFAULT_WIDTH = 500;
 const int DEFAULT_HEIGHT = 500;
 
 Scene::Scene():
-    width(DEFAULT_WIDTH),
-    height(DEFAULT_WIDTH),
-    background(Color::BLACK)
+    m_width(DEFAULT_WIDTH),
+    m_height(DEFAULT_WIDTH),
+    m_background(Color::BLACK)
 {
-    shapes = new ShapeVector();
-    lights = new LightVector();
+    s_shapes = new ShapeVector();
+    m_lights = new LightVector();
 }
 
 Scene::~Scene()
 {
-    ShapeIterator shape_iter = shapes->begin();
-    while(shape_iter != shapes->end())
+    ShapeIterator shape_iter = s_shapes->begin();
+    while(shape_iter != s_shapes->end())
     {
         delete *shape_iter;
         ++shape_iter;
     }
 
-    LightIterator light_iter = lights->begin();
-    while(light_iter != lights->end())
+    LightIterator light_iter = m_lights->begin();
+    while(light_iter != m_lights->end())
     {
         delete *light_iter;
         ++light_iter;
     }
 
-    shapes->clear();
-    lights->clear();
+    s_shapes->clear();
+    m_lights->clear();
 
-    delete shapes;
-    delete lights;
+    delete s_shapes;
+    delete m_lights;
 
-    shapes = nullptr;
-    lights = nullptr;
+    s_shapes = nullptr;
+    m_lights = nullptr;
 }
 
 Json::Value Scene::serialize() const
 {
     Json::Value scene;
 
-    scene["dimensions"]["width"] = width;
-    scene["dimensions"]["height"] = height;
+    scene["dimensions"]["width"] = m_width;
+    scene["dimensions"]["height"] = m_height;
 
-    scene["camera"] = camera.serialize();
+    scene["camera"] = m_camera.serialize();
 
-    scene["background_color"] = background.serialize();
+    scene["background_color"] = m_background.serialize();
 
     Json::Value json_shapes;
-    ShapeConstIterator shape_iter = shapes->begin();
-    while(shape_iter != shapes->end())
+    ShapeConstIterator shape_iter = s_shapes->begin();
+    while(shape_iter != s_shapes->end())
     {
         json_shapes.append((*shape_iter)->serialize());
         ++shape_iter;
@@ -69,8 +69,8 @@ Json::Value Scene::serialize() const
     scene["shapes"] = json_shapes;
 
     Json::Value json_lights;
-    LightConstIterator light_iter = lights->begin();
-    while(light_iter != lights->end())
+    LightConstIterator light_iter = m_lights->begin();
+    while(light_iter != m_lights->end())
     {
         json_lights.append((*light_iter)->serialize());
         ++light_iter;
@@ -82,12 +82,12 @@ Json::Value Scene::serialize() const
 
 void Scene::deserialize(const Json::Value &root)
 {
-    width = root["dimensions"]["width"].asInt();
-    height = root["dimensions"]["height"].asInt();
+    m_width = root["dimensions"]["width"].asInt();
+    m_height = root["dimensions"]["height"].asInt();
 
-    camera.deserialize(root["camera"]);
+    m_camera.deserialize(root["camera"]);
 
-    background.deserialize(root["background_color"]);
+    m_background.deserialize(root["background_color"]);
 
     Json::Value json_shapes = root["shapes"];
     ShapeFactory factory;
@@ -95,7 +95,7 @@ void Scene::deserialize(const Json::Value &root)
     {
         Shape *shape = factory.create(json_shapes[index]["type"].asString());
         shape->deserialize(json_shapes[index]);
-        shapes->push_back(shape);
+        s_shapes->push_back(shape);
     }
 
     Json::Value json_lights = root["lights"];
@@ -103,7 +103,7 @@ void Scene::deserialize(const Json::Value &root)
     {
         Light *light = new Light();
         light->deserialize(json_lights[index]);
-        lights->push_back(light);
+        m_lights->push_back(light);
     }
 }
 

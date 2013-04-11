@@ -34,37 +34,12 @@ public:
 
 private:
 
-    ///
-    /// @name _cp1
-    ///
-    /// @description
-    ///		The center point of the first base of the cylinder.
-    ///
-    Point _cp1;
+    Point m_center_point_1;
+    Point m_center_point_2;
 
-    ///
-    /// @name _cp2
-    ///
-    /// @description
-    ///		The center point of the second base of the cylinder.
-    ///
-    Point _cp2;
+    float m_radius;
 
-    ///
-    /// @name _radius
-    ///
-    /// @description
-    ///		The radius of the cylinder.
-    ///
-    float _radius;
-
-    ///
-    /// @name _orient
-    ///
-    /// @description
-    ///		The vector (orientation) formed by the two center points.
-    ///
-    Vector _orient;
+    Vector m_orientation;
 
 };  // class Cylinder
 

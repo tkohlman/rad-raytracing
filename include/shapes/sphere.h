@@ -25,21 +25,8 @@ public:
 
 private:
 
-    ///
-    /// @name _center
-    ///
-    /// @description
-    ///		The center point of the sphere.
-    ///
-    Point _center;
-
-    ///
-    /// @name _radius
-    ///
-    /// @description
-    ///		The radius of the sphere.
-    ///
-    float _radius;
+    Point m_center;
+    float m_radius;
 
 };  // class Sphere
 

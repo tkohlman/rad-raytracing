@@ -15,25 +15,25 @@ const int DEFAULT_MAX_DEPTH = 1;
 const int INITIAL_DEPTH = 0;
 
 Raytracer::Raytracer():
-    mMaxDepth(DEFAULT_MAX_DEPTH)
+    m_max_depth(DEFAULT_MAX_DEPTH)
 {
 }
 
-Ray Raytracer::makeReflectionRay(const Vector &normal,
+Ray Raytracer::make_reflection_ray(const Vector &normal,
                                  const Ray &ray,
                                  const Point &intersection)
 {
     Ray reflection(intersection,
                    normalize(
-                       vectorSubtract(ray.getDirection(),
-                           scalarMultiply(normal,
-                               2 * dotProduct(ray.getDirection(), normal)))));
+                       vector_subtract(ray.direction(),
+                           scalar_multiply(normal,
+                               2 * dot_product(ray.direction(), normal)))));
      return reflection;
 }
 
-Intersection *Raytracer::getClosestIntersection(Scene *scene, const Ray &ray)
+Intersection *Raytracer::get_closest_intersection(Scene *scene, const Ray &ray)
 {
-    ShapeVector *shapes = scene->getShapes();
+    ShapeVector *shapes = scene->shapes();
     ShapeIterator iter = shapes->begin();
     Intersection *closestIntersection = nullptr;
 
@@ -46,18 +46,18 @@ Intersection *Raytracer::getClosestIntersection(Scene *scene, const Ray &ray)
         {
             // Check if this intersection is closer
             if ((closestIntersection == nullptr) ||
-                (distanceBetween(ray.getVertex(),
-                                 intersection->getVertex()) <
-                 distanceBetween(ray.getVertex(),
-                                 closestIntersection->getIntersectionPoint())))
+                (distance_between(ray.vertex(),
+                                 intersection->vertex()) <
+                 distance_between(ray.vertex(),
+                                 closestIntersection->intersection_point())))
             {
                 // Latest intersection is closer
                 if (closestIntersection != nullptr)
                     delete closestIntersection;
 
                 closestIntersection = new Intersection(
-                                            intersection->getVertex(),
-                                            intersection->getDirection(),
+                                            intersection->vertex(),
+                                            intersection->direction(),
                                             *iter);
             }
             delete intersection;
@@ -70,30 +70,30 @@ Intersection *Raytracer::getClosestIntersection(Scene *scene, const Ray &ray)
 
 Color Raytracer::trace(Scene *scene, Ray ray, int depth)
 {
-    if (depth >= mMaxDepth)
+    if (depth >= m_max_depth)
     {
-        return scene->getBackground();
+        return scene->background();
     }
 
-    Intersection *intersection = getClosestIntersection(scene, ray);
+    Intersection *intersection = get_closest_intersection(scene, ray);
 
     // If this ray hits nothing, return the background color
     if (intersection == nullptr)
     {
-        return scene->getBackground();
+        return scene->background();
     }
 
     // local illumination
-    Color rv = mPhongShader.shade(scene, intersection);
+    Color rv = m_phong_shader.shade(scene, intersection);
 
-    float kr = intersection->getIntersectedShape()->getReflectiveConstant();
-    float kt = intersection->getIntersectedShape()->getTransmissiveConstant();
+    float kr = intersection->intersected_shape()->reflective_constant();
+    float kt = intersection->intersected_shape()->transmissive_constant();
 
     // spawn reflection ray
     if (kr > 0)
     {
-        Ray reflection = makeReflectionRay(intersection->getNormal(), ray,
-                                           intersection->getIntersectionPoint());
+        Ray reflection = make_reflection_ray(intersection->normal(), ray,
+                                           intersection->intersection_point());
         rv += trace(scene, reflection, depth + 1) * kr;
     }
 
@@ -102,19 +102,19 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
     {
         float alpha;
         bool insideShape =
-            (dotProduct(negateVector(ray.getDirection()), intersection->getNormal()) < 0);
+            (dot_product(negate_vector(ray.direction()), intersection->normal()) < 0);
 
         if (insideShape)
         {
-            intersection->setNormal(negateVector(intersection->getNormal()));
-            alpha = intersection->getIntersectedShape()->getRefractionIndex();
+            intersection->set_normal(negate_vector(intersection->normal()));
+            alpha = intersection->intersected_shape()->refraction_index();
         }
         else
         {
-            alpha = 1.0 / intersection->getIntersectedShape()->getRefractionIndex();
+            alpha = 1.0 / intersection->intersected_shape()->refraction_index();
         }
 
-        float cosine = dotProduct(negateVector(ray.getDirection()), intersection->getNormal());
+        float cosine = dot_product(negate_vector(ray.direction()), intersection->normal());
 
         float discriminant = 1.0 + ( (alpha * alpha) *
             ((cosine * cosine) - 1.0) );
@@ -124,17 +124,17 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
         if (totalInternalReflection)
         {
             // use the reflection ray with the kt value
-            Ray reflection = makeReflectionRay(intersection->getNormal(), ray,
-                                               intersection->getIntersectionPoint());
+            Ray reflection = make_reflection_ray(intersection->normal(), ray,
+                                               intersection->intersection_point());
             rv += trace(scene, reflection, depth + 1) * kt;
         }
         else
         {
             // spawn a transmission ray
-            Ray transmission(intersection->getIntersectionPoint(),
+            Ray transmission(intersection->intersection_point(),
                              normalize(
-                                vectorAdd(scalarMultiply(ray.getDirection(), alpha),
-                                    scalarMultiply(intersection->getNormal(),
+                                vector_add(scalar_multiply(ray.direction(), alpha),
+                                    scalar_multiply(intersection->normal(),
                                         (alpha * cosine) -
                                             sqrt(discriminant)))));
 
@@ -146,10 +146,10 @@ Color Raytracer::trace(Scene *scene, Ray ray, int depth)
     return rv;
 }
 
-Image *Raytracer::traceScene(Scene *scene)
+Image *Raytracer::trace_scene(Scene *scene)
 {
-    int height = scene->getHeight();
-    int width = scene->getWidth();
+    int height = scene->height();
+    int width = scene->width();
 
     // Calculations to map locations to pixels
     float dx = 2.0 / height;
@@ -168,12 +168,12 @@ Image *Raytracer::traceScene(Scene *scene)
         for (int column = 0; column < width; ++column)
         {
             // Generate the ray
-            Ray ray(scene->getCamera().getLocation(),
+            Ray ray(scene->camera().location(),
                     normalize(Vector((dx * column + xc), (dy * row + yc), -1)));
             Color pixel = trace(scene, ray, INITIAL_DEPTH);
 
             // Set the color
-            image->setPixel(row, column, pixel);
+            image->set_pixel(row, column, pixel);
         }
     }
 
