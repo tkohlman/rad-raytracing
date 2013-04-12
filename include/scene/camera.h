@@ -20,23 +20,23 @@ public:
     Camera();
 
     float focal_length() const { return m_focal_length; };
-    Point location() const { return m_location; };
-    Vector view_vector() const { return m_view_vector; };
-    Vector up_vector() const { return m_up_vector; };
+    Point3d location() const { return m_location; };
+    Vector3d view_vector() const { return m_view_vector; };
+    Vector3d up_vector() const { return m_up_vector; };
 
     float horizontal_spread() const { return m_horizontal_spread; };
 
-    void set_location(const Point &location)
+    void set_location(const Point3d &location)
     {
     	m_location = location;
     };
 
-    void set_view_vector(const Vector &view_vector)
+    void set_view_vector(const Vector3d &view_vector)
     {
     	m_view_vector = view_vector;
     };
 
-    void set_up_vector(const Vector &up_vector)
+    void set_up_vector(const Vector3d &up_vector)
     {
     	m_up_vector = up_vector;
     };
@@ -48,12 +48,12 @@ private:
 
     void calculate_projection();
 
-    Point m_location;
+    Point3d m_location;
 
     float m_focal_length;
 
-    Vector m_view_vector;
-    Vector m_up_vector;
+    Vector3d m_view_vector;
+    Vector3d m_up_vector;
 
     float m_horizontal_spread;
 };

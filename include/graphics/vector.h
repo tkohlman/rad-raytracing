@@ -14,48 +14,48 @@
 namespace RadRt
 {
 
-class Vector : public IJsonSerializable
+class Vector3d : public IJsonSerializable
 {
 
-    friend inline Vector vector_add(const Vector &a, const Vector &b)
+    friend inline Vector3d vector_add(const Vector3d &a, const Vector3d &b)
     {
-        return Vector(a.m_x_component + b.m_x_component,
+        return Vector3d(a.m_x_component + b.m_x_component,
         		      a.m_y_component + b.m_y_component,
         		      a.m_z_component + b.m_z_component);
     }
 
-    friend inline Vector normalize(const Vector &v)
+    friend inline Vector3d normalize(const Vector3d &v)
     {
         double s = 1.0 / length(v);
-        return Vector(v.m_x_component * s,
+        return Vector3d(v.m_x_component * s,
         		      v.m_y_component * s,
         		      v.m_z_component * s);
     }
 
-    friend inline float length(const Vector &v)
+    friend inline float length(const Vector3d &v)
     {
         return (float) sqrt(v.m_x_component * v.m_x_component +
         		            v.m_y_component * v.m_y_component +
         		            v.m_z_component * v.m_z_component);
     }
 
-    friend inline Vector scalar_multiply(const Vector &v, const float scalar)
+    friend inline Vector3d scalar_multiply(const Vector3d &v, const float scalar)
     {
-        return Vector(v.m_x_component * scalar,
+        return Vector3d(v.m_x_component * scalar,
         			  v.m_y_component * scalar,
         			  v.m_z_component * scalar);
     }
 
-    friend inline float dot_product(const Vector &v1, const Vector &v2)
+    friend inline float dot_product(const Vector3d &v1, const Vector3d &v2)
     {
         return ((v1.m_x_component * v2.m_x_component) +
                 (v1.m_y_component * v2.m_y_component) +
                 (v1.m_z_component * v2.m_z_component));
     }
 
-    friend inline Vector cross_product(const Vector &v1, const Vector &v2)
+    friend inline Vector3d cross_product(const Vector3d &v1, const Vector3d &v2)
     {
-        return Vector(v1.m_y_component * v2.m_z_component -
+        return Vector3d(v1.m_y_component * v2.m_z_component -
         		      v1.m_z_component * v2.m_y_component,
                       v1.m_z_component * v2.m_x_component -
                       v1.m_x_component * v2.m_z_component,
@@ -63,14 +63,14 @@ class Vector : public IJsonSerializable
                       v1.m_y_component * v2.m_x_component);
     }
 
-    friend inline Vector vector_subtract(const Vector &v1, const Vector &v2)
+    friend inline Vector3d vector_subtract(const Vector3d &v1, const Vector3d &v2)
     {
-        return Vector(v1.m_x_component - v2.m_x_component, v1.m_y_component - v2.m_y_component, v1.m_z_component - v2.m_z_component);
+        return Vector3d(v1.m_x_component - v2.m_x_component, v1.m_y_component - v2.m_y_component, v1.m_z_component - v2.m_z_component);
     }
 
-    friend inline Vector negate_vector(const Vector &v)
+    friend inline Vector3d negate_vector(const Vector3d &v)
     {
-        return Vector(-v.m_x_component, -v.m_y_component, -v.m_z_component);
+        return Vector3d(-v.m_x_component, -v.m_y_component, -v.m_z_component);
     }
 
 public:
@@ -85,7 +85,7 @@ public:
     /// @param y - y-axis component of this vector
     /// @param z - z-axis component of this vector
     ///
-    Vector(float x, float y, float z);
+    Vector3d(float x, float y, float z);
 
     ///
     /// @name Vector
@@ -93,7 +93,7 @@ public:
     /// @description
     /// 	Default constructor
     ///
-    Vector();
+    Vector3d();
 
     ///
     /// @name ~Vector
@@ -101,7 +101,7 @@ public:
     /// @description
     /// 	Destructor
     ///
-    ~Vector() {};
+    ~Vector3d() {};
 
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);

@@ -43,7 +43,7 @@ public:
     /// @param - point on surface for color calculation
     /// @return - the ambient light component of this object
     ///
-    virtual Color ambient_color(Point p);
+    virtual Color ambient_color(Point3d p);
 
     ///
     /// @name GetDiffuseColor
@@ -54,7 +54,7 @@ public:
     /// @param - point on surface for color calculation
     /// @return - the diffuse light component of this object
     ///
-    virtual Color diffuse_color(Point p);
+    virtual Color diffuse_color(Point3d p);
 
     ///
     /// @name GetSpecularColor
@@ -95,7 +95,7 @@ private:
 
 };  // class Shape
 
-inline Color Shape::ambient_color(Point p)
+inline Color Shape::ambient_color(Point3d p)
 {
     if (m_shader == nullptr)
         return m_ambient_color;
@@ -103,7 +103,7 @@ inline Color Shape::ambient_color(Point p)
         return m_shader->shade(p);
 }
 
-inline Color Shape::diffuse_color(Point p)
+inline Color Shape::diffuse_color(Point3d p)
 {
     if (m_shader == nullptr)
         return m_diffuse_color;

@@ -17,7 +17,7 @@ Ray *Sphere::intersect(const Ray &ray)
     // B is 2(o-_center) * d
     // C is (o-c)(0-c) * _radius^2
 
-    Vector origin_center = displacement_vector(ray.vertex(), m_center);
+    Vector3d origin_center = displacement_vector(ray.vertex(), m_center);
 
     float A = dot_product(ray.direction(), ray.direction());
     float B = dot_product(origin_center, ray.direction()) * 2.0;
@@ -60,9 +60,9 @@ Ray *Sphere::intersect(const Ray &ray)
     }
 
     // From the t-value, calculate the intersect point
-    Point intersection(ray.vertex(), ray.direction(), t);
+    Point3d intersection(ray.vertex(), ray.direction(), t);
 
-    Vector normal = normalize(displacement_vector(intersection, m_center));
+    Vector3d normal = normalize(displacement_vector(intersection, m_center));
 
     return new Ray(intersection, normal);
 }

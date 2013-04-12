@@ -26,7 +26,7 @@ public:
     /// @param position - the position of the light source
     /// @param color - the color of the light source
     ///
-    Light(Point position, Color color);
+    Light(Point3d position, Color color);
 
     Light() {};
 
@@ -41,13 +41,13 @@ public:
     Json::Value serialize() const;
     void deserialize(const Json::Value &root);
 
-    Point getPosition() const { return m_position; };
+    Point3d getPosition() const { return m_position; };
     Color getColor() const { return m_color; };
 
 private:
 
 
-    Point m_position;
+    Point3d m_position;
 
     Color m_color;
 

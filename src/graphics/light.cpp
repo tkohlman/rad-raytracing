@@ -8,7 +8,7 @@
 namespace RadRt
 {
 
-Light::Light(Point position, Color color):
+Light::Light(Point3d position, Color color):
     m_position(position),
     m_color(color)
 {

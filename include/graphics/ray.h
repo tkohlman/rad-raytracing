@@ -16,19 +16,19 @@ class Ray
 {
 public:
 
-    Ray(Point vertex, Vector direction):
+    Ray(Point3d vertex, Vector3d direction):
         m_vertex(vertex), m_direction(direction) {}
 
-    Point vertex() const { return m_vertex; };
-    Vector direction() const { return m_direction; };
+    Point3d vertex() const { return m_vertex; };
+    Vector3d direction() const { return m_direction; };
 
-    void set_vertex(Point vertex) { this->m_vertex = vertex; };
-    void set_direction(Vector direction) { this->m_direction = direction; };
+    void set_vertex(Point3d vertex) { this->m_vertex = vertex; };
+    void set_direction(Vector3d direction) { this->m_direction = direction; };
 
 private:
 
-    Point m_vertex;
-    Vector m_direction;
+    Point3d m_vertex;
+    Vector3d m_direction;
 };
 
 }   // namespace RadRt

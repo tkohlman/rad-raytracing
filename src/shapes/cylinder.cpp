@@ -32,12 +32,12 @@ Ray *Cylinder::intersect(const Ray &ray)
     // orientation is (_cp1 - _cp2)
     // delta_p is (o - _cp1)
 
-    Vector delta_p = displacement_vector(ray.vertex(), m_center_point_1);
+    Vector3d delta_p = displacement_vector(ray.vertex(), m_center_point_1);
 
-    Vector common1 = vector_subtract(ray.direction(),
+    Vector3d common1 = vector_subtract(ray.direction(),
                         scalar_multiply(m_orientation,
                             dot_product(ray.direction(), m_orientation)));
-    Vector common2 = vector_subtract(delta_p,
+    Vector3d common2 = vector_subtract(delta_p,
                         scalar_multiply(m_orientation, dot_product(delta_p, m_orientation)));
 
     float A = dot_product(common1, common1);
@@ -81,27 +81,27 @@ Ray *Cylinder::intersect(const Ray &ray)
 
 
     // Create the four intercept points.
-    Point *i1 = nullptr;
-    Point *i2 = nullptr;
-    Point *i3 = nullptr;
-    Point *i4 = nullptr;
+    Point3d *i1 = nullptr;
+    Point3d *i2 = nullptr;
+    Point3d *i3 = nullptr;
+    Point3d *i4 = nullptr;
 
     // Eliminate points with negative t-values
     if (t1 >= 0)
     {
-    	i1 = new Point(ray.vertex(), ray.direction(), t1);
+    	i1 = new Point3d(ray.vertex(), ray.direction(), t1);
     }
     if (t2 >= 0)
     {
-    	i2 = new Point(ray.vertex(), ray.direction(), t2);
+    	i2 = new Point3d(ray.vertex(), ray.direction(), t2);
     }
     if (t3 >= 0)
     {
-        i3 = new Point(ray.vertex(), ray.direction(), t3);
+        i3 = new Point3d(ray.vertex(), ray.direction(), t3);
     }
     if (t4 >= 0)
     {
-        i4 = new Point(ray.vertex(), ray.direction(), t4);
+        i4 = new Point3d(ray.vertex(), ray.direction(), t4);
     }
 
     // Check that the points lie within their respective boundaries.
@@ -140,7 +140,7 @@ Ray *Cylinder::intersect(const Ray &ray)
     }
 
     // Take the closest remaining point.
-    Point* intersect = nullptr;
+    Point3d* intersect = nullptr;
     float t = 1000000;
     if (i1 != nullptr && t1 < t)
     {

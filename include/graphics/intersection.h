@@ -17,8 +17,8 @@ class Intersection
 {
 public:
 
-    Intersection(Point intersection_point,
-                 Vector normal,
+    Intersection(Point3d intersection_point,
+                 Vector3d normal,
                  Shape *intersected_shape):
         m_intersection_point(intersection_point),
         m_normal(normal),
@@ -26,16 +26,16 @@ public:
     {
     }
 
-    Point intersection_point() const { return this->m_intersection_point; };
-    Vector normal() const { return this->m_normal; };
+    Point3d intersection_point() const { return this->m_intersection_point; };
+    Vector3d normal() const { return this->m_normal; };
     Shape *intersected_shape() const { return this->m_intersected_shape; };
 
-    void set_normal(Vector normal) { this->m_normal = normal; };
+    void set_normal(Vector3d normal) { this->m_normal = normal; };
 
 private:
 
-    Point m_intersection_point;
-    Vector m_normal;
+    Point3d m_intersection_point;
+    Vector3d m_normal;
     Shape *m_intersected_shape;
 };
 

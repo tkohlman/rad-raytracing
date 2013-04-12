@@ -12,8 +12,8 @@ namespace RadRt
 void Rectangle::init()
 {
     // calculate the normal vector
-    Vector v1 = displacement_vector(m_b, m_a);
-    Vector v2 = displacement_vector(m_d, m_a);
+    Vector3d v1 = displacement_vector(m_b, m_a);
+    Vector3d v2 = displacement_vector(m_d, m_a);
 
     m_normal = normalize(cross_product(v2, v1));
 }
@@ -37,12 +37,12 @@ Ray *Rectangle::intersect(const Ray &ray)
     }
 
     // From the distance, calculate the intersect point
-    Point intersection(ray.vertex(), ray.direction(), distance);
+    Point3d intersection(ray.vertex(), ray.direction(), distance);
 
     // Test to see if the point is inside the rectangle
-    Vector CI = displacement_vector(intersection, m_c);
-    Vector CB = displacement_vector(m_b, m_c);
-    Vector CD = displacement_vector(m_d, m_c);
+    Vector3d CI = displacement_vector(intersection, m_c);
+    Vector3d CB = displacement_vector(m_b, m_c);
+    Vector3d CD = displacement_vector(m_d, m_c);
 
     if (distance_between(intersection, ray.vertex()) < 0.1)
     {

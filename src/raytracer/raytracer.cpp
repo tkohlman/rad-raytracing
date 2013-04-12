@@ -20,9 +20,9 @@ Raytracer::Raytracer():
 {
 }
 
-Ray Raytracer::make_reflection_ray(const Vector &normal,
+Ray Raytracer::make_reflection_ray(const Vector3d &normal,
                                  const Ray &ray,
-                                 const Point &intersection)
+                                 const Point3d &intersection)
 {
     Ray reflection(intersection,
                    normalize(
@@ -198,7 +198,7 @@ Image *Raytracer::trace_scene(Scene *scene)
     	{
             // Generate the ray
             Ray ray(scene->camera().location(),
-                    normalize(Vector(current_pixel_x, current_pixel_y,
+                    normalize(Vector3d(current_pixel_x, current_pixel_y,
                     		-camera.focal_length())));
             Color pixel = trace(scene, ray, INITIAL_DEPTH);
 

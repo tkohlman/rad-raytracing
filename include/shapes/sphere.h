@@ -24,7 +24,7 @@ public:
 
 private:
 
-    Point m_center;
+    Point3d m_center;
     float m_radius;
 
 };  // class Sphere

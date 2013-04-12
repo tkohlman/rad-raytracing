@@ -25,19 +25,19 @@ public:
 
     Ray *intersect(const Ray &ray);
 
-    const Point &a() const { return m_a; };
-    const Point &b() const { return m_b; };
-    const Point &c() const { return m_c; };
-    const Point &d() const { return m_d; };
+    const Point3d &a() const { return m_a; };
+    const Point3d &b() const { return m_b; };
+    const Point3d &c() const { return m_c; };
+    const Point3d &d() const { return m_d; };
 
 private:
 
-    Point m_a;
-    Point m_b;
-    Point m_c;
-    Point m_d;
+    Point3d m_a;
+    Point3d m_b;
+    Point3d m_c;
+    Point3d m_d;
 
-    Vector m_normal;
+    Vector3d m_normal;
 
 };  // class Rectangle
 

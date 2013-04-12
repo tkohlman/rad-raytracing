@@ -14,9 +14,9 @@
 namespace RadRt
 {
 
-class Point
+class Point3d
 {
-    friend inline float distance_between(const Point &p1, const Point &p2)
+    friend inline float distance_between(const Point3d &p1, const Point3d &p2)
     {
         float dx = p1.m_x_coord - p2.m_x_coord;
         float dy = p1.m_y_coord - p2.m_y_coord;
@@ -25,9 +25,9 @@ class Point
         return sqrt((dx*dx) + (dy*dy) + (dz*dz));
     }
 
-    friend inline Vector displacement_vector(const Point &p1, const Point &p2)
+    friend inline Vector3d displacement_vector(const Point3d &p1, const Point3d &p2)
     {
-        return Vector(p1.m_x_coord - p2.m_x_coord,
+        return Vector3d(p1.m_x_coord - p2.m_x_coord,
         		      p1.m_y_coord - p2.m_y_coord,
         		      p1.m_z_coord - p2.m_z_coord);
     }
@@ -44,7 +44,7 @@ public:
     /// @param y - y-axis component of constructed point
     /// @param z - z-axis component of constructed point
     ///
-    Point(float x, float y, float z);
+    Point3d(float x, float y, float z);
 
     ///
     /// @name Point
@@ -56,7 +56,7 @@ public:
     /// @param v - direction vector
     /// @param distance - distance along direction vector
     ///
-    Point(const Point& p, const Vector& v, const float& distance);
+    Point3d(const Point3d& p, const Vector3d& v, const float& distance);
 
     ///
     /// @name Point
@@ -66,7 +66,7 @@ public:
     ///
     /// @param other - Point object to copy
     ///
-    Point(const Point& other);
+    Point3d(const Point3d& other);
 
     ///
     /// @name Point
@@ -74,9 +74,9 @@ public:
     /// @description
     /// 	Default Constructor
     ///
-    Point();
+    Point3d();
 
-    ~Point() {};
+    ~Point3d() {};
 
     float x_coord() const { return m_x_coord; };
     float y_coord() const { return m_y_coord; };

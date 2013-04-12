@@ -8,21 +8,21 @@
 namespace RadRt
 {
 
-Vector::Vector(float x, float y, float z):
+Vector3d::Vector3d(float x, float y, float z):
     m_x_component(x),
     m_y_component(y),
     m_z_component(z)
 {
 }
 
-Vector::Vector():
+Vector3d::Vector3d():
     m_x_component(0),
     m_y_component(0),
     m_z_component(0)
 {
 }
 
-Json::Value Vector::serialize() const
+Json::Value Vector3d::serialize() const
 {
     Json::Value root;
     root["x"] = m_x_component;
@@ -31,7 +31,7 @@ Json::Value Vector::serialize() const
     return root;
 }
 
-void Vector::deserialize(const Json::Value &root)
+void Vector3d::deserialize(const Json::Value &root)
 {
     m_x_component = root["x"].asFloat();
     m_y_component = root["y"].asFloat();

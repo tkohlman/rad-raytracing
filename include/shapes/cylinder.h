@@ -32,12 +32,12 @@ public:
 
 private:
 
-    Point m_center_point_1;
-    Point m_center_point_2;
+    Point3d m_center_point_1;
+    Point3d m_center_point_2;
 
     float m_radius;
 
-    Vector m_orientation;
+    Vector3d m_orientation;
 
 };  // class Cylinder
 

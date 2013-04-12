@@ -47,8 +47,8 @@ public:
 
 private:
 
-    Ray make_reflection_ray(const Vector &normal, const Ray &ray,
-                            const Point &intersection);
+    Ray make_reflection_ray(const Vector3d &normal, const Ray &ray,
+                            const Point3d &intersection);
 
     Intersection *get_closest_intersection(Scene *scene, const Ray &ray);
 
@@ -68,7 +68,7 @@ private:
     ///
     PhongShader m_phong_shader;
 
-    Point *m_intersection;
+    Point3d *m_intersection;
 
 };  // class Raytracer
 

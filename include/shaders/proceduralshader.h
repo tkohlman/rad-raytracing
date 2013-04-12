@@ -17,7 +17,7 @@ class ProceduralShader : public IJsonSerializable
 {
 public:
 
-    virtual Color shade( const Point &p ) = 0;
+    virtual Color shade( const Point3d &p ) = 0;
 };
 
 }   // namespace RadRt

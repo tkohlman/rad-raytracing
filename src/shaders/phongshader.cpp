@@ -21,9 +21,9 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
     Ka = intersection->intersected_shape()->ambient_color(
             intersection->intersection_point());
 
-    Point point = intersection->intersection_point();
+    Point3d point = intersection->intersection_point();
     Shape *shape = intersection->intersected_shape();
-    Vector normal = intersection->normal();
+    Vector3d normal = intersection->normal();
 
     float Kt = 1;
 
@@ -92,10 +92,10 @@ Color PhongShader::shade(Scene *scene, Intersection *intersection)
                 // Add in the diffuse component
                 Kd += oKd * lC * shadow_dot_normal;
 
-                Vector R = normalize(vector_subtract(shadow_ray.direction(),
+                Vector3d R = normalize(vector_subtract(shadow_ray.direction(),
                                 scalar_multiply(normal, 2 * shadow_dot_normal)));
 
-                Vector V = normalize(displacement_vector(
+                Vector3d V = normalize(displacement_vector(
                                 scene->camera().location(),
                                     intersection->intersection_point()));
 

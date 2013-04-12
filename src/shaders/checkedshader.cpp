@@ -8,7 +8,7 @@
 namespace RadRt
 {
 
-CheckedShader::CheckedShader(Point a, Point b, Point c, Point d):
+CheckedShader::CheckedShader(Point3d a, Point3d b, Point3d c, Point3d d):
     m_a(a),
     m_b(b),
     m_c(c),
@@ -16,11 +16,11 @@ CheckedShader::CheckedShader(Point a, Point b, Point c, Point d):
 {
 }
 
-Color CheckedShader::shade( const Point &p )
+Color CheckedShader::shade( const Point3d &p )
 {
-    Vector a_to_p = displacement_vector(p, m_a);
-    Vector a_to_d = displacement_vector(m_d, m_a);
-    Vector a_to_b = displacement_vector(m_b, m_a);
+    Vector3d a_to_p = displacement_vector(p, m_a);
+    Vector3d a_to_d = displacement_vector(m_d, m_a);
+    Vector3d a_to_b = displacement_vector(m_b, m_a);
 
     float AdistanceP = length(a_to_p);
     a_to_p = normalize(a_to_p);
