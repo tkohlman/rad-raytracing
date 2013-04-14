@@ -6,7 +6,7 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include "vector.h"
+#include "vector3d.h"
 #include "color.h"
 
 #include <ijsonserializable.h>

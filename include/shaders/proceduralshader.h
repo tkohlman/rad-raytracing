@@ -7,7 +7,7 @@
 #define PROCEDURALSHADER_H
 
 #include "color.h"
-#include "point.h"
+#include "point3d.h"
 #include "ijsonserializable.h"
 
 namespace RadRt

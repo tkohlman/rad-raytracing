@@ -6,9 +6,9 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
-#include "point.h"
+#include "point3d.h"
 #include "color.h"
-#include "vector.h"
+#include "vector3d.h"
 #include "proceduralshader.h"
 #include "ijsonserializable.h"
 

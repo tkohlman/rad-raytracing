@@ -3,7 +3,7 @@
  * See license.txt for copying permission.
  */
 
-#include "vector.h"
+#include "vector3d.h"
 
 namespace RadRt
 {

@@ -6,7 +6,7 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "point.h"
+#include "point3d.h"
 #include "color.h"
 #include "ijsonserializable.h"
 

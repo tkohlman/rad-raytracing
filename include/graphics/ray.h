@@ -6,8 +6,8 @@
 #ifndef RAY_H_INCLUDED
 #define RAY_H_INCLUDED
 
-#include "point.h"
-#include "vector.h"
+#include "point3d.h"
+#include "vector3d.h"
 
 namespace RadRt
 {

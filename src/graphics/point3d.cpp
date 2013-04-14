@@ -3,7 +3,7 @@
  * See license.txt for copying permission.
  */
 
-#include "point.h"
+#include "point3d.h"
 
 namespace RadRt
 {

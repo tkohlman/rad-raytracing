@@ -7,7 +7,7 @@
 #define PHONG_SHADER_H
 
 #include "shape.h"
-#include "point.h"
+#include "point3d.h"
 #include "scene.h"
 
 namespace RadRt

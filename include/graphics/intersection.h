@@ -6,9 +6,9 @@
 #ifndef INTERSECTION_H_INCLUDED
 #define INTERSECTION_H_INCLUDED
 
-#include "point.h"
+#include "point3d.h"
 #include "shape.h"
-#include "vector.h"
+#include "vector3d.h"
 
 namespace RadRt
 {

@@ -10,9 +10,9 @@
 
 #include "color.h"
 #include "phongshader.h"
-#include "point.h"
+#include "point3d.h"
 #include "shape.h"
-#include "vector.h"
+#include "vector3d.h"
 #include "image.h"
 
 namespace RadRt

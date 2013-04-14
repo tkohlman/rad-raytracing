@@ -6,8 +6,8 @@
 #ifndef CAMERA_H_INCLUDED
 #define CAMERA_H_INCLUDED
 
-#include "point.h"
-#include "vector.h"
+#include "point3d.h"
+#include "vector3d.h"
 #include "ijsonserializable.h"
 
 namespace RadRt
