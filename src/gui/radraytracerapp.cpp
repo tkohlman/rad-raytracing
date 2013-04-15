@@ -206,8 +206,15 @@ void RadRaytracerApp::run_raytracer()
     if (aflag && lflag)
     {
         // Tone Reproduction Steps
-        RadRt::ToneReproducer tr(lmax, LDMAX, scene->height(), scene->width());
-        tr.run(image, algo);
+        RadRt::ToneReproducer tr;
+        if (algo == 1)
+        {
+        	tr.apply_wards_algorithm(image, lmax, LDMAX);
+        }
+        else
+        {
+        	tr.apply_reinhards_algorithm(image, lmax);
+        }
     }
 }
 
