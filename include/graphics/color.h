@@ -1,6 +1,15 @@
-/*
+/**
+ * @file
+ * @author Thomas Kohlman
+ *
+ * @section LICENSE
+ *
  * Copyright (c) 2013 Thomas Kohlman
  * See license.txt for copying permission.
+ *
+ * @section DESCRIPTION
+ *
+ * Represents a color with red, green, and blue components.
  */
 
 #ifndef COLOR_H
@@ -17,65 +26,111 @@ class Color : public IJsonSerializable
 {
 public:
 
-    ///
-    /// @name Color
-    ///
-    /// @description
-    /// 	Constructor
-    ///
-    /// @param r - the red component of the constructed color
-    /// @param g - the green component of the constructed color
-    /// @param b - the blue component of the constructed color
-    ///
+	/**
+	 * Create a color from red, green, and blue components.
+	 *
+	 * @param red Red component of the color.
+	 * @param blue Blue component of the color.
+	 * @param green Green component of the color.
+	 */
     Color(float red, float green, float blue);
 
-    ///
-    /// @name Color
-    ///
-    /// @description
-    /// 	Copy constructor
-    ///
-    /// @param other - Color object to copy
-    ///
+    /**
+     * Copy constructor.
+     *
+     * @param other Color to copy.
+     */
     Color(const Color& other);
 
-    ///
-    /// @name Color
-    ///
-    /// @description
-    /// 	Default constructor
-    ///
+    /**
+     * Create a default color object with the color black.
+     */
     Color();
 
-    ///
-    /// @name ~Color
-    ///
-    /// @description
-    /// 	Destructor
-    ///
-    ~Color() {};
-
+    /**
+     * Serialize this object to JSON format.
+     */
     Json::Value serialize() const;
+
+    /**
+     * Deserialize this object from JSON format.
+     */
     void deserialize(const Json::Value &root);
 
+    /**
+     * Get the red component of this color.
+     */
     float red() const { return m_red; };
+
+    /**
+     * Get the green component of this color.
+     */
     float green() const { return m_green; };
+
+    /**
+     * Get the blue component of this color.
+     */
     float blue() const { return m_blue; };
 
+    /**
+     * Reduce each color component to its maximum value if it falls outside the
+     * acceptable range. For example, a blue componet value of 1.2 would be
+     * reduced to 1.
+     */
     inline void clamp();
 
+    /**
+     * Create a new color by multipling the componets of this color by the
+     * corresponding components of a second color.
+     *
+     * @param other Second color to use.
+     */
     inline Color operator*(const Color& other);
 
+    /**
+     * Create a new color by multipling the components of this color by a
+     * scalar constant.
+     *
+     * @param scalar Scalar constant to use in the multiplication.
+     */
     inline Color operator*(float scalar);
 
+    /**
+     * Multiply the components of this color by a scalar constant.
+     *
+     * @param scalar Scalar constant to use in the multiplication.
+     */
     inline Color& operator*=(float scalar);
 
+    /**
+     * Create a new color by dividing the components of this color by a scalar
+     * constant.
+     *
+     * @param scalar Scalar constant to use in the multiplication.
+     */
     inline Color operator/(float scalar);
 
+    /**
+     * Divide the components of this color by a scalar constant.
+     *
+     * @param scalar Scalar constant to use in the division.
+     */
     inline Color& operator/=(float scalar);
 
+    /**
+     * Create a new color by adding the components of this color to the
+     * corresponding components of a second color.
+     *
+     * @param other Second color to use in the addition.
+     */
     inline Color operator+(const Color& other);
 
+    /**
+     * Add the components of a second color to the corresponding components of
+     * this color.
+     *
+     * @param other Second color to use in the addition.
+     */
     inline Color& operator+=(const Color& other);
 
     const static Color BLACK;
@@ -89,7 +144,6 @@ public:
 
 private:
 
-    // RGB Components
     float m_red;
     float m_green;
     float m_blue;
